@@ -4,6 +4,7 @@
     </IfModule>
 
     RewriteEngine On
+    # Use only if an alias (in apache conf) is used to reach the app
     RewriteBase /outil-reservation
 
     # Handle Authorization Header
