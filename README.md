@@ -9,7 +9,7 @@
 
 ### Installation du projet
 
-Dans le dossier racine du server Web:
+Dans le dossier racine du serveur Web:
 
 ```
 git clone https://github.com/ESPE-Numerique-PF/outil-reservation.git
@@ -35,7 +35,7 @@ php artisan migrate
 
 ### En production
 
-Exécutez les commandes dans le répertoire du projet:
+Exécutez les commandes suivantes dans le répertoire du projet:
 
 ```
 composer install --optimize-autoloader --no-dev
@@ -50,3 +50,7 @@ sudo chgrp -R www-data <chemin/vers/le/projet>
 ```
 
 Assurez-vous qu'un alias redirige vers le répertoire public du projet.
+
+## README Laravel
+
+Lien vers le README de Laravel: [README](README_Laravel.md)
