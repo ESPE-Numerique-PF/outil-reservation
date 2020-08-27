@@ -14,10 +14,10 @@ Dans le dossier racine du serveur Web:
 ```
 git clone https://github.com/ESPE-Numerique-PF/outil-reservation.git
 cd ./outil-reservation
-php artisan key:generate
 composer install
 npm install
 npm run dev
+php artisan key:generate
 php artisan storage:link
 ```
 
@@ -41,6 +41,7 @@ Exécutez les commandes suivantes dans le répertoire du projet:
 composer install --optimize-autoloader --no-dev
 php artisan config:cache
 php artisan route:cache
+cp .env.example .env
 ```
 
 Assurez-vous que qu'Apache ait des accès en écriture dans le projet:
