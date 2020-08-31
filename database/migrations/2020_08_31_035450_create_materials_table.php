@@ -18,7 +18,7 @@ class CreateMaterialsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->text('note');
-            $table->string('image_path');
+            $table->string('image_path')->nullable;
             $table->timestamps();
         });
     }
