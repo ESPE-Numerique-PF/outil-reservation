@@ -35,28 +35,34 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @auth
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Réservation</a>
+                            <a href="#" class="nav-link">Réservations</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">Ressources</a>
                         </li>
+                        @if (Auth::user()->isAdmin())
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Administration
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url('material') }}">
+                                    Gestion du matériel
+                                </a>
+                            </div>
+                        </li>
+                        @endif
                     </ul>
+                    @endauth
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @guest
-                        <!-- <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Connexion') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Créer un compte') }}</a>
-                                </li>
-                            @endif -->
-                        @else
+                        @auth
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}
@@ -88,7 +94,7 @@
                                 </form>
                             </div>
                         </li>
-                        @endguest
+                        @endauth
                     </ul>
                 </div>
             </div>
