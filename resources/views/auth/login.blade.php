@@ -63,7 +63,7 @@
                                     {{ __('Connexion') }}
                                 </button>
 
-                                <a class="btn btn-success" href="{{ route('login') }}" role="button">
+                                <a class="btn btn-success" href="{{ route('register') }}" role="button">
                                     {{ __('Créer un compte') }}
                                 </a>
                             </div>
