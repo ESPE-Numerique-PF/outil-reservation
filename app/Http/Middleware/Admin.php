@@ -21,7 +21,7 @@ class Admin
         $user = Auth::user();
         
         if (!$user->isAdmin())
-            return redirect()->back();
+            return redirect(RouteServiceProvider::HOME);
 
         return $next($request);
     }
