@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Resources\User as UserResource;
+use App\Material;
+use App\User;
+use App\Http\Resources\Material as MaterialResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +18,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+/*
+|--------------------------------------------------------------------------
+|                               USER
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth.basic')->get('/users', function (Request $request) {
+    return UserResource::collection(User::all());
+});
+
+Route::middleware('auth.basic')->get('/users/{id}', function (Request $request) {
+    return new UserResource(User::find($request->id));
+});
+
+/*
+|--------------------------------------------------------------------------
+|                              MATERIAL
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth.basic')->get('/materials', function (Request $request) {
+    return MaterialResource::collection(Material::all());
+});
+
+Route::middleware('auth.basic')->get('/materials/{id}', function (Request $request) {
+    return new MaterialResource(Material::find($request->id));
 });
