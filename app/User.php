@@ -21,7 +21,7 @@ class User extends Authenticatable
         'phone_number',
         'email',
         'password',
-        'user_role_id',
+        'user_job_id',
     ];
 
     /**
@@ -44,6 +44,6 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return ($this->id === 1);
+        return ($this->user_role_id === 1);
     }
 }

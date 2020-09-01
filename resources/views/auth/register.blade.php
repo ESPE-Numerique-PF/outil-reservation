@@ -79,6 +79,20 @@
                             </div>
                         </div>
 
+                        <!-- User Job -->
+                        <div class="form-group row required">
+                            <label for="user_job_id" class="col-md-4 col-form-label text-md-right">Poste</label>
+
+                            <div class="col-md-6">
+                                <select class="custom-select" name="user_job_id" id="user_job_id" required>
+                                    <option value="">Sélectionner un poste</option>
+                                    @foreach($userJobs as $userJob)
+                                    <option value="{{ $userJob->id }}">{{ $userJob->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <!-- Phone Number -->
                         <div class="form-group row">
                             <label for="phone_number" class="col-md-4 col-form-label text-md-right">Téléphone</label>
@@ -94,24 +108,6 @@
                             </div>
                         </div>
 
-                        <!-- TODO User Job -->
-                        <div class="form-group row">
-                            <label for="phone_number" class="col-md-4 col-form-label text-md-right">Poste</label>
-
-                            <div class="col-md-6">
-                                <!-- <input id="phone_number" type="text" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" autocomplete="new-phone_number">
-
-                                @error('phone_number')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror -->
-
-                                <!-- @foreach ()
-                                $endforeach -->
-                            </div>
-                        </div>
-
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -119,6 +115,7 @@
                                 </button>
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>
