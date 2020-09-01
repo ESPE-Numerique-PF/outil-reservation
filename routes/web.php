@@ -22,9 +22,10 @@ Auth::routes();
 Route::middleware('auth')->group(function() {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/reservation', 'ReservationController@index');
+    Route::get('/material', 'MaterialController@index');
 });
 
 // Auth and Admin routes
 Route::middleware(['auth', 'admin'])->group(function() {
-    Route::get('/material', 'MaterialController@index');
+    Route::get('/admin/material', 'Admin\MaterialController@index');
 });
