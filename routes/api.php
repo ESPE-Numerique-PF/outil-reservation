@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth.basic')->get('/users', function (Request $request) {
-    return UserResource::collection(User::all());
+    return UserResource::collection(User::paginate());
 });
 
 Route::middleware('auth.basic')->get('/users/{id}', function (Request $request) {
@@ -43,7 +43,7 @@ Route::middleware('auth.basic')->get('/users/{id}', function (Request $request) 
 */
 
 Route::middleware('auth.basic')->get('/materials', function (Request $request) {
-    return MaterialResource::collection(Material::all());
+    return MaterialResource::collection(Material::paginate());
 });
 
 Route::middleware('auth.basic')->get('/materials/{id}', function (Request $request) {
