@@ -14,13 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/material', function() {
-    return view('admin/material');
+
+// Auth routes
+Route::middleware('auth')->group(function() {
+    Route::get('/', 'HomeController@index')->name('home');
+});
+
+// Auth and Admin routes
+Route::middleware(['auth', 'admin'])->group(function() {
+    Route::get('/material', 'MaterialController@index');
 });

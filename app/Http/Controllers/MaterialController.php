@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Material;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class MaterialController extends Controller
 {
@@ -14,7 +15,7 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.material');
     }
 
     /**
@@ -41,10 +42,10 @@ class MaterialController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Material  $material
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Material $material)
+    public function show($id)
     {
         //
     }
@@ -52,10 +53,10 @@ class MaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Material  $material
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Material $material)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +65,10 @@ class MaterialController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Material  $material
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Material $material)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +76,10 @@ class MaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Material  $material
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Material $material)
+    public function destroy($id)
     {
         //
     }
