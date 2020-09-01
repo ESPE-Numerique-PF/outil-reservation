@@ -21,6 +21,7 @@ Auth::routes();
 // Auth routes
 Route::middleware('auth')->group(function() {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/reservation', 'ReservationController@index');
 });
 
 // Auth and Admin routes

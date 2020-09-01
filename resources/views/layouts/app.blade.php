@@ -38,7 +38,7 @@
                     @auth
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Réservations</a>
+                            <a href="{{ url('reservation') }}" class="nav-link">Réservations</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">Ressources</a>
