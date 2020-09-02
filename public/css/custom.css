@@ -1,0 +1,8 @@
+/* 
+    Custom style file
+*/
+
+.form-group.required label::after {
+    content:"*";
+    color:red;
+}

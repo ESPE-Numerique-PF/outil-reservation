@@ -14,14 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-// Google connection
-Route::get('/redirect', 'SocialAuthGoogleController@redirect');
-Route::get('/callback', 'SocialAuthGoogleController@callback');
+// Auth routes
+Route::middleware('auth')->group(function() {
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/reservation', 'ReservationController@index');
+});
+
+// Auth and Admin routes
+Route::middleware(['auth', 'admin'])->group(function() {
+    Route::get('/material', 'MaterialController@index');
+});
