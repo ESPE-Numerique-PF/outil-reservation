@@ -41,7 +41,7 @@
                             <a href="{{ url('reservation') }}" class="nav-link">Réservations</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Ressources</a>
+                            <a href="{{ url('material') }}" class="nav-link">Ressources</a>
                         </li>
                         @if (Auth::user()->isAdmin())
                         <li class="nav-item dropdown">
@@ -50,7 +50,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url('material') }}">
+                                <a class="dropdown-item" href="{{ url('admin/material') }}">
                                     Gestion du matériel
                                 </a>
                             </div>
