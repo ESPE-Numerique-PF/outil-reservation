@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Category;
-use App\Material;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
-class MaterialController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,15 +14,7 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        $materials = Material::all();
-        return view(
-            'material',
-            [
-                'materials' => $materials,
-                'categories' => $categories,
-            ]
-        );
+        //
     }
 
     /**
@@ -35,7 +24,7 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category-add');
     }
 
     /**
@@ -46,7 +35,7 @@ class MaterialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
