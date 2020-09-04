@@ -3,6 +3,7 @@
 use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@upf.pf',
             'password' => Hash::make('azpoazpo'),
             'user_role_id' => 1,
+            'api_token' => Str::random(60),
         ]);
 
         // Enseignant
@@ -29,6 +31,7 @@ class UserSeeder extends Seeder
             'email' => 'enseignant@upf.pf',
             'password' => Hash::make('azpoazpo'),
             'user_job_id' => 1,
+            'api_token' => Str::random(60),
         ]);
 
         // Etudiant
@@ -38,6 +41,7 @@ class UserSeeder extends Seeder
             'email' => 'etudiant@upf.pf',
             'password' => Hash::make('azpoazpo'),
             'user_job_id' => 2,
+            'api_token' => Str::random(60),
         ]);
 
         // Autres
@@ -47,6 +51,7 @@ class UserSeeder extends Seeder
             'email' => 'autre@upf.pf',
             'password' => Hash::make('azpoazpo'),
             'user_job_id' => 3,
+            'api_token' => Str::random(60),
         ]);
     }
 }

@@ -9,6 +9,7 @@ use App\UserJob;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -84,6 +85,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'user_job_id' => $data['user_job_id'],
             'phone_number' => $data['phone_number'],
+            'api_token' => Str::random(60),
         ]);
     }
 }
