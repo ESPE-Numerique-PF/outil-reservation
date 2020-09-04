@@ -28,11 +28,11 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth.basic')->get('/users', function (Request $request) {
+Route::middleware(['auth.basic','admin:api'])->get('/users', function (Request $request) {
     return UserResource::collection(User::paginate());
 });
 
-Route::middleware('auth.basic')->get('/users/{id}', function (Request $request) {
+Route::middleware(['auth.basic','admin:api'])->get('/users/{id}', function (Request $request) {
     return new UserResource(User::find($request->id));
 });
 
