@@ -18,34 +18,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 /*
 |--------------------------------------------------------------------------
-|                               USER
+|                               ADMIN ROLE
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth.basic','admin:api'])->get('/users', function (Request $request) {
-    return UserResource::collection(User::paginate());
+Route::middleware(['auth.basic','admin:api'])->group(function () {
+    // User
+    Route::get('/users', function (Request $request) {
+        return UserResource::collection(User::paginate());
+    });
+    Route::get('/users/{id}', function (Request $request) {
+        return new UserResource(User::find($request->id));
+    });
 });
 
-Route::middleware(['auth.basic','admin:api'])->get('/users/{id}', function (Request $request) {
-    return new UserResource(User::find($request->id));
-});
 
 /*
 |--------------------------------------------------------------------------
-|                              MATERIAL
+|                              USER ROLE
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth.basic')->get('/materials', function (Request $request) {
-    return MaterialResource::collection(Material::paginate());
-});
-
-Route::middleware('auth.basic')->get('/materials/{id}', function (Request $request) {
-    return new MaterialResource(Material::find($request->id));
+Route::middleware('auth.basic')->group(function () {
+    // User
+    Route::get('/user', function (Request $request) {
+        return new UserResource(User::find($request->user()->id));
+    });
 });

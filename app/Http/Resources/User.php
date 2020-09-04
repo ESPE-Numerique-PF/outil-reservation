@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\UserJob;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class User extends JsonResource
@@ -14,6 +15,13 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $userJob = UserJob::find($this->user_job_id);
+        return [
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'email' => $this->email,
+            'phone_number' => $this->phone_number,
+            'job' => $userJob->name ?? null,
+        ];
     }
 }
