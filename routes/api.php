@@ -4,6 +4,7 @@ use App\Http\Resources\User as UserResource;
 use App\Http\Resources\Admin\User as AdminUserResource;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,11 @@ Route::middleware(['auth.basic','admin:api'])->group(function () {
     });
     Route::get('/users/{id}', function (Request $request) {
         return new AdminUserResource(User::find($request->id));
+    });
+
+    // Category
+    Route::post('/categories', function () {
+        return [Auth::user()];
     });
 });
 

@@ -6458,7 +6458,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['userId'],
+  methods: {
+    addCategory: function addCategory() {
+      axios.post('/outil-reservation/api/categories').then(function (response) {
+        return console.log(response);
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    }
+  },
   mounted: function mounted() {
     console.log("Component mounted.");
   }
@@ -42119,40 +42132,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("h1", [_vm._v("Gestion du matériel")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _vm._v("\n    User: " + _vm._s(_vm.userId) + "\n  ")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row my-3" }, [
+      _c("div", { staticClass: "col" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.addCategory } },
+          [
+            _c("span", { staticClass: "fas fa-plus" }),
+            _vm._v(" Ajouter une catégorie\n      ")
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _vm._m(0)
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("h1", [_vm._v("Gestion du matériel")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row my-3" }, [
-        _c("div", { staticClass: "col" }, [
-          _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
-            _c("span", { staticClass: "fas fa-plus" }),
-            _vm._v(" Ajouter une catégorie\n      ")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row my-3" }, [
-        _c("div", { staticClass: "col" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Catégories de matériel")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("ul", [
-                _c("li", [_vm._v("Catégorie 1")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Catégorie 2")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Catégorie 3")])
-              ])
+    return _c("div", { staticClass: "row my-3" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v("Catégories de matériel")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("ul", [
+              _c("li", [_vm._v("Catégorie 1")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Catégorie 2")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Catégorie 3")])
             ])
           ])
         ])

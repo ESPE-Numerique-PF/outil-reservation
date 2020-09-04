@@ -1,11 +1,14 @@
 <template>
   <div class="container">
     <h1>Gestion du matériel</h1>
+    <div class="row">
+      User: {{ userId }}
+    </div>
     <div class="row my-3">
       <div class="col">
-        <a href="#" class="btn btn-primary">
+        <button class="btn btn-primary" v-on:click="addCategory">
           <span class="fas fa-plus"></span> Ajouter une catégorie
-        </a>
+        </button>
       </div>
     </div>
 
@@ -30,6 +33,16 @@
 
 <script>
 export default {
+  props: ['userId'],
+  
+  methods: {
+    addCategory() {
+      axios.post('/outil-reservation/api/categories')
+        .then(response => console.log(response))
+        .catch(error => console.error(error))
+    }
+  },
+  
   mounted() {
     console.log("Component mounted.");
   },
