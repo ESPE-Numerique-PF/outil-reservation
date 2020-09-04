@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Resources\User as UserResource;
-use App\Material;
+use App\Http\Resources\Admin\User as AdminUserResource;
 use App\User;
-use App\Http\Resources\Material as MaterialResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,34 +17,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 /*
 |--------------------------------------------------------------------------
-|                               USER
+|                               ADMIN ROLE
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth.basic')->get('/users', function (Request $request) {
-    return UserResource::collection(User::paginate());
+Route::middleware(['auth.basic','admin:api'])->group(function () {
+    // User
+    Route::get('/users', function (Request $request) {
+        return AdminUserResource::collection(User::paginate());
+    });
+    Route::get('/users/{id}', function (Request $request) {
+        return new AdminUserResource(User::find($request->id));
+    });
 });
 
-Route::middleware('auth.basic')->get('/users/{id}', function (Request $request) {
-    return new UserResource(User::find($request->id));
-});
 
 /*
 |--------------------------------------------------------------------------
-|                              MATERIAL
+|                              USER ROLE
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth.basic')->get('/materials', function (Request $request) {
-    return MaterialResource::collection(Material::paginate());
-});
-
-Route::middleware('auth.basic')->get('/materials/{id}', function (Request $request) {
-    return new MaterialResource(Material::find($request->id));
+Route::middleware('auth.basic')->group(function () {
+    // User
+    Route::get('/user', function (Request $request) {
+        return new UserResource(User::find($request->user()->id));
+    });
 });

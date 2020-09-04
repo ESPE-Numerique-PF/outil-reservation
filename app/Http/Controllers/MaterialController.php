@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -15,7 +17,13 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        return view('material');
+        $materials = Material::all();
+        return view(
+            'material',
+            [
+                'materials' => $materials,
+            ]
+        );
     }
 
     /**

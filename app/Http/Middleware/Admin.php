@@ -16,12 +16,18 @@ class Admin
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $group = null)
     {
+        /**  @var App\User */
         $user = Auth::user();
         
         if (!$user->isAdmin())
-            return redirect(RouteServiceProvider::HOME);
+        {
+            if ($group === 'api')
+                return response('Unauthorized', 401);
+            else
+                return redirect(RouteServiceProvider::HOME);
+        }
 
         return $next($request);
     }
