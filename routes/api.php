@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Resources\User as UserResource;
-use App\Material;
+use App\Http\Resources\Admin\User as AdminUserResource;
 use App\User;
-use App\Http\Resources\Material as MaterialResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,10 +26,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth.basic','admin:api'])->group(function () {
     // User
     Route::get('/users', function (Request $request) {
-        return UserResource::collection(User::paginate());
+        return AdminUserResource::collection(User::paginate());
     });
     Route::get('/users/{id}', function (Request $request) {
-        return new UserResource(User::find($request->id));
+        return new AdminUserResource(User::find($request->id));
     });
 });
 
