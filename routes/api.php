@@ -6,6 +6,7 @@ use App\Http\Resources\Category as CategoryResource;
 use App\Category;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,10 @@ Route::middleware(['auth.basic','admin:api'])->group(function () {
         return new AdminUserResource(User::find($id));
     });
 
+    // Category
+    Route::post('/categories', function () {
+        return [Auth::user()];
+    });
 });
 
 
