@@ -1,9 +1,6 @@
 <template>
   <div class="container">
     <h1>Matériel</h1>
-    <div>
-      <b-table striped hover :items="items"></b-table>
-    </div>
     <!-- CATEGORIES -->
     <div class="row my-3">
       <div class="col">
@@ -12,9 +9,9 @@
 
           <div class="card-body">
             <ul>
-              <li>Catégorie 1</li>
-              <li>Catégorie 2</li>
-              <li>Catégorie 3</li>
+              <li v-for="category in categories" :key="category.id">
+                {{ category.name }}
+              </li>
             </ul>
           </div>
         </div>
@@ -45,14 +42,14 @@ export default {
   props: ["user"],
   data() {
     return {
-      items: [
-        { id: 1, name: 'Tehema'},
-        { id: 2, name: 'Ting'},
-      ],
-    };
+      categories: []
+    }
   },
   mounted() {
     console.log("Component mounted.");
+    axios.get('http://localhost/outil-reservation/resources/categories')
+      .then(response => this.categories = response.data)
+      .catch(error => console.log(error))
   },
 };
 </script>
