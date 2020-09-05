@@ -1,9 +1,6 @@
 <template>
   <div class="container">
     <h1>Gestion du matériel</h1>
-    <div class="row">
-      User: {{ userId }}
-    </div>
     <div class="row my-3">
       <div class="col">
         <button class="btn btn-primary" v-on:click="addCategory">
@@ -33,7 +30,6 @@
 
 <script>
 export default {
-  props: ['userId'],
   
   methods: {
     addCategory() {

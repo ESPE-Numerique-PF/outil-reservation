@@ -7,7 +7,11 @@
 require('./bootstrap');
 require('@fortawesome/fontawesome-free/js/all.js');
 
+import BootstrapVue from 'bootstrap-vue'
+
 window.Vue = require('vue');
+
+Vue.use(BootstrapVue)
 
 /**
  * The following block of code may be used to automatically register your

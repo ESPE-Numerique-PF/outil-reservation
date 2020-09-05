@@ -2,5 +2,5 @@
 
 @section('content')
 <!-- Vue component (resources/js/components/MaterialListComponent) -->
-<material-list-component></material-list-component>
+<material-list-component user="{{ Auth::user() }}"></material-list-component>
 @endsection
