@@ -20,16 +20,15 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 // Auth routes
-Route::middleware('auth')->group(function() {
-
+Route::middleware('auth')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/reservation', 'ReservationController@index');
-    Route::get('/material', 'MaterialController@index');
+    Route::get('/reservation', 'ReservationController@view');
+    Route::get('/material', 'MaterialController@view');
 });
 
 // Auth and Admin routes
-Route::middleware(['auth', 'admin'])->group(function() {
-    Route::get('/admin/material', 'Admin\MaterialController@index');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/material', 'MaterialController@adminView');
 });
 
 /*
@@ -43,10 +42,10 @@ Route::middleware(['auth', 'admin'])->group(function() {
 // Auth routes
 Route::prefix('resources')->middleware('auth')->group(function () {
     // user
-    Route::get('/me', function() {
+    Route::get('/me', function () {
         return Auth::user();
     });
-    
+
     // categories
     Route::get('/categories', function () {
         return Category::all();
@@ -60,5 +59,8 @@ Route::prefix('resources')->middleware('auth')->group(function () {
 
 // Auth and Admin routes
 Route::prefix('resources')->middleware(['auth', 'admin:api'])->group(function () {
-    
+    Route::apiResources([
+        'categories' => 'CategoryController',
+        'materials' => 'MaterialController',
+    ]);
 });

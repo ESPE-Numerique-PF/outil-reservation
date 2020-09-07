@@ -46,7 +46,6 @@ export default {
     }
   },
   mounted() {
-    console.log("Component mounted.");
     axios.get('http://localhost/outil-reservation/resources/categories')
       .then(response => this.categories = response.data)
       .catch(error => console.log(error))

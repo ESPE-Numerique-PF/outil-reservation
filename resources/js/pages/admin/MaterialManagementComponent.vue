@@ -1,13 +1,17 @@
 <template>
   <div class="container">
     <h1>Gestion du matériel</h1>
+
+    <!-- ADD CATEGORY -->
     <div class="row my-3">
       <div class="col">
-        <button class="btn btn-primary" v-on:click="addCategory">
+        <b-button class="btn btn-primary" v-b-modal.add-category-modal>
           <span class="fas fa-plus"></span> Ajouter une catégorie
-        </button>
+        </b-button>
       </div>
     </div>
+
+    <add-category-modal id="add-category-modal" />
 
     <!-- CATEGORIES -->
     <div class="row my-3">
@@ -17,9 +21,12 @@
 
           <div class="card-body">
             <ul>
-              <li>Catégorie 1</li>
-              <li>Catégorie 2</li>
-              <li>Catégorie 3</li>
+              <li v-for="category in categories" :key="category.id">
+                <b-row>
+                  <b-col class="pb-2">{{ category.name }}</b-col>
+                  <b-col class="pb-2"><b-button variant="danger" size="sm" @click="deleteCategory(category.id)">Supprimer</b-button></b-col>
+                </b-row>
+              </li>
             </ul>
           </div>
         </div>
@@ -29,18 +36,32 @@
 </template>
 
 <script>
+import AddCategoryModal from "../../components/category/AddCategoryModal.vue";
+
 export default {
-  
+  components: {
+    AddCategoryModal,
+  },
+  data() {
+    return {
+      categories: [],
+    };
+  },
   methods: {
-    addCategory() {
-      axios.post('/outil-reservation/api/categories')
+    getAllCategories() {
+      axios
+        .get("/categories")
+        .then((response) => (this.categories = response.data))
+        .catch((error) => console.log(error));
+    },
+    deleteCategory(id) {
+      axios.delete("/categories/" + id)
         .then(response => console.log(response))
-        .catch(error => console.error(error))
+        .catch(error => console.log(error))
     }
   },
-  
   mounted() {
-    console.log("Component mounted.");
+    this.getAllCategories();
   },
 };
 </script>
