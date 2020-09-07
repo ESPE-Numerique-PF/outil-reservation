@@ -52,7 +52,7 @@ export default {
 
     addCategory() {
       axios.post('/categories', this.form)
-        .then(response => console.log('added'))
+        .then(response => console.log(response.data))
         .catch(error => console.error(error))
     }
   }
