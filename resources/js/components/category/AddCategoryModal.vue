@@ -1,21 +1,34 @@
 <template>
   <div>
-    <b-modal 
+    <b-modal
       :id="id"
       ref="add-category-modal"
-      cancel-title="Annuler" 
+      cancel-title="Annuler"
       title="Nouvelle catégorie"
       hide-footer
-      >
-      <!-- FORM -->
-      <b-form @submit="onSubmit">
-          <b-form-input id="name" placeholder="Nom" v-model="form.name" required></b-form-input>
+    >
+      <!-- ERROR ALERT -->
+      <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
 
-          <!-- Buttons -->
-          <b-button type="submit" variant="primary">Ajouter</b-button>
-          <b-button @click="hideModal" variant="danger">Annuler</b-button>
+      <!-- FORM -->
+      <b-form @submit.prevent="onSubmit">
+        <b-form-group id="input-group">
+          <b-form-input id="name" placeholder="Nom" v-model="form.name" required></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-file-group">
+          <b-form-file
+            v-model="form.file"
+            :state="Boolean(form.file)"
+            placeholder="Rechercher une image ou déposer ici..."
+            accept="image/*"
+          ></b-form-file>
+        </b-form-group>
+
+        <!-- Buttons -->
+        <b-button type="submit" variant="primary">Ajouter</b-button>
+        <b-button @click="hideModal" variant="danger">Annuler</b-button>
       </b-form>
-      
     </b-modal>
   </div>
 </template>
@@ -23,38 +36,40 @@
 <script>
 export default {
   props: {
-    id: String
+    id: String,
+    add: Function,
   },
-  
+
   data() {
     return {
       form: {
-        name: ''
+        name: "",
+        file: null
       },
-      show: true
-    }
+      error: {
+        message: "",
+        show: false,
+      },
+    };
   },
 
   methods: {
     onSubmit(evt) {
-      evt.preventDefault()
-      this.addCategory()
+      this.add(this.form, this.hideModal, this.showError);
     },
     hideModal() {
-      this.resetForm()
-      this.$refs["add-category-modal"].hide()
+      this.resetForm();
+      this.$refs["add-category-modal"].hide();
+    },
+    showError(message) {
+      this.error.show = true;
+      this.error.message = message;
     },
     resetForm() {
       this.form = {
-        name: ''
-      }
+        name: "",
+      };
     },
-
-    addCategory() {
-      axios.post('/categories', this.form)
-        .then(response => console.log(response.data))
-        .catch(error => console.error(error))
-    }
-  }
+  },
 };
 </script>
