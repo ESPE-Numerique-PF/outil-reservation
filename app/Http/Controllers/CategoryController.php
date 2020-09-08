@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -25,14 +26,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // $path = $request->file('image')->store('public');
-        // return Category::create(
-        //     [
-        //         'image_path' => $path,
-        //         'name' => $request->name,
-        //     ]
-        // );
-        return response($request->all(), 400);
+        Log::channel('debug')->debug(json_encode($request->all()));
+        $path = $request->image->store('public');
+        return Category::create(
+            [
+                'image_path' => $path,
+                'name' => $request->name,
+            ]
+        );
     }
 
     /**

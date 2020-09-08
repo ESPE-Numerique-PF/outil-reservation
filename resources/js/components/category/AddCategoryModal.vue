@@ -55,7 +55,10 @@ export default {
 
   methods: {
     onSubmit(evt) {
-      this.add(this.form, this.hideModal, this.showError);
+      let formData = new FormData();
+      formData.append("name", this.form.name);
+      formData.append("image", this.form.image);
+      this.add(formData, this.hideModal, this.showError);
     },
     hideModal() {
       this.resetForm();
