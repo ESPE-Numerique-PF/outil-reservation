@@ -25,7 +25,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return Category::create($request->all());
+        // $path = $request->file('image')->store('public');
+        // return Category::create(
+        //     [
+        //         'image_path' => $path,
+        //         'name' => $request->name,
+        //     ]
+        // );
+        return response($request->all(), 400);
     }
 
     /**

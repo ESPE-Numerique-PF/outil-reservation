@@ -75,10 +75,10 @@ export default {
       axios
         .post("/categories", category)
         .then((response) => {
-          this.getAllCategories()
-          callbackOnSuccess()
+          this.getAllCategories();
+          callbackOnSuccess();
         })
-        .catch((error) => callbackOnError(error.data));
+        .catch((error) => callbackOnError(error));
     },
   },
   mounted() {

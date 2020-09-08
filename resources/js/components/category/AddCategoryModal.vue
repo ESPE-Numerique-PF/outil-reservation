@@ -18,8 +18,8 @@
 
         <b-form-group id="input-file-group">
           <b-form-file
-            v-model="form.file"
-            :state="Boolean(form.file)"
+            v-model="form.image"
+            :state="Boolean(form.image)"
             placeholder="Rechercher une image ou déposer ici..."
             accept="image/*"
           ></b-form-file>
@@ -44,7 +44,7 @@ export default {
     return {
       form: {
         name: "",
-        file: null
+        image: null,
       },
       error: {
         message: "",
@@ -61,13 +61,14 @@ export default {
       this.resetForm();
       this.$refs["add-category-modal"].hide();
     },
-    showError(message) {
+    showError(error) {
       this.error.show = true;
-      this.error.message = message;
+      this.error.message = error.response.data.message;
     },
     resetForm() {
       this.form = {
         name: "",
+        image: null,
       };
     },
   },
