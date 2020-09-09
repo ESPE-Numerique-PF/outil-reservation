@@ -24,7 +24,7 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.baseURL = 'http://localhost/outil-reservation/resources';
+window.axios.defaults.baseURL = process.env.MIX_APP_URL + '/resources';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

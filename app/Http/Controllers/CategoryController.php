@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Resources\Category as ResourcesCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::all();
+        return ResourcesCategory::collection(Category::all());
     }
 
     /**
@@ -26,8 +27,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Log::channel('debug')->debug(json_encode($request->all()));
-        $path = $request->image->store('public');
+        $path = $request->image->store('images');
         return Category::create(
             [
                 'image_path' => $path,
@@ -67,6 +67,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
+        $category = Category::find($id);
+        $imagePath = $category->image_path;
+        return $imagePath;
+        // Category::destroy($id);
     }
 }

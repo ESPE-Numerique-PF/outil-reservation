@@ -20,10 +20,13 @@
           <div class="card-header">Catégories de matériel</div>
 
           <div class="card-body">
-            <ul>
+            <category-item v-for="category in categories" :key="category.id"
+              v-bind:category="category"></category-item>
+            <!-- <ul>
               <li v-for="(category, idx) in categories" :key="category.id">
                 <b-row>
                   <b-col class="pb-2">{{ category.name }}</b-col>
+                  <b-col class="pb-2"><b-img :src="category.image_URI" alt=""/></b-col>
                   <b-col class="pb-2">
                     <b-button variant="danger" size="sm" @click="deleteCategory(category.id, idx)">
                       <i class="fas fa-trash"></i>
@@ -31,7 +34,7 @@
                   </b-col>
                 </b-row>
               </li>
-            </ul>
+            </ul>-->
           </div>
         </div>
       </div>
@@ -41,10 +44,12 @@
 
 <script>
 import AddCategoryModal from "../../components/category/AddCategoryModal.vue";
+import CategoryItem from "../../components/category/CategoryItem.vue";
 
 export default {
   components: {
     AddCategoryModal,
+    CategoryItem,
   },
   data() {
     return {
@@ -56,7 +61,9 @@ export default {
     getAllCategories() {
       axios
         .get("/categories")
-        .then((response) => (this.categories = response.data))
+        .then((response) => {
+          this.categories = response.data;
+        })
         .catch((error) => console.log(error));
     },
 
@@ -66,6 +73,7 @@ export default {
         .delete("/categories/" + id)
         .then((response) => {
           this.getAllCategories();
+          console.log(response);
         })
         .catch((error) => console.log(error));
     },

@@ -46,7 +46,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://localhost/outil-reservation/resources/categories')
+    axios.get('/categories')
       .then(response => this.categories = response.data)
       .catch(error => console.log(error))
   },
