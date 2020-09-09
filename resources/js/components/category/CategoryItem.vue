@@ -7,7 +7,6 @@
       img-height="256"
       img-width="256"
     >
-        <!-- Delete button -->
         <b-row align-h="end">
           <b-button variant="danger" size="sm" @click="onDelete(category.id)" v-if="imageHovered">
             <i class="fas fa-trash"></i>
