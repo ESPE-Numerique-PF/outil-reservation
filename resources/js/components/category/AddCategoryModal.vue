@@ -13,7 +13,7 @@
       <!-- FORM -->
       <b-form @submit.prevent="onSubmit">
         <b-form-group id="input-group">
-          <b-form-input id="name" placeholder="Nom" v-model="form.name" required></b-form-input>
+          <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
         </b-form-group>
 
         <b-form-group id="input-file-group">

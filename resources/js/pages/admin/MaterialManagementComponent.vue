@@ -14,33 +14,20 @@
     <add-category-modal id="add-category-modal" :add="addCategory"></add-category-modal>
 
     <!-- CATEGORIES -->
-    <div class="row my-3">
-      <div class="col">
-        <div class="card">
-          <div class="card-header">Catégories de matériel</div>
-
-          <div class="card-body">
-            <category-item v-for="category in categories" :key="category.id"
-              :category="category"
-              :delete="deleteCategory"
+    <b-row>
+      <b-col>
+        <b-card header="Catégories de matériel">
+          <b-card-group deck>
+              <category-item
+                v-for="category in categories"
+                :key="category.id"
+                :category="category"
+                :delete="deleteCategory"
               ></category-item>
-            <!-- <ul>
-              <li v-for="(category, idx) in categories" :key="category.id">
-                <b-row>
-                  <b-col class="pb-2">{{ category.name }}</b-col>
-                  <b-col class="pb-2"><b-img :src="category.image_URI" alt=""/></b-col>
-                  <b-col class="pb-2">
-                    <b-button variant="danger" size="sm" @click="deleteCategory(category.id, idx)">
-                      <i class="fas fa-trash"></i>
-                    </b-button>
-                  </b-col>
-                </b-row>
-              </li>
-            </ul>-->
-          </div>
-        </div>
-      </div>
-    </div>
+          </b-card-group>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -74,7 +61,7 @@ export default {
       axios
         .delete("/categories/" + id)
         .then((response) => {
-          console.log('delete')
+          console.log("delete");
           this.getAllCategories();
         })
         .catch((error) => console.log(error));

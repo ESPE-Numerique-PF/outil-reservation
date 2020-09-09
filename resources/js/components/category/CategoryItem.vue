@@ -1,10 +1,20 @@
 <template>
-  <div class="container">
-    <b-card :title="category.name" :img-src="category.image_URI" class="mb-2">
-      <b-button variant="danger" size="sm" @click="onDelete(category.id)">
-        <i class="fas fa-trash"></i>
-      </b-button>
+  <div class="mb-3">
+    <b-card
+      overlay
+      v-b-hover="handleImageHover"
+      :img-src="category.image_URI"
+      img-height="256"
+      img-width="256"
+    >
+        <!-- Delete button -->
+        <b-row align-h="end">
+          <b-button variant="danger" size="sm" @click="onDelete(category.id)" v-if="imageHovered">
+            <i class="fas fa-trash"></i>
+          </b-button>
+        </b-row>
     </b-card>
+    <b-card>{{ category.name }}</b-card>
   </div>
 </template>
 
@@ -15,11 +25,16 @@ export default {
     delete: Function,
   },
   data() {
-    return {};
+    return {
+      imageHovered: false,
+    };
   },
   methods: {
     onDelete() {
       this.delete(this.category.id);
+    },
+    handleImageHover(hovered) {
+      this.imageHovered = hovered;
     },
   },
 };
