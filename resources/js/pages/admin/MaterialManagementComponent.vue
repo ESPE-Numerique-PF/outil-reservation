@@ -21,7 +21,9 @@
 
           <div class="card-body">
             <category-item v-for="category in categories" :key="category.id"
-              v-bind:category="category"></category-item>
+              :category="category"
+              :delete="deleteCategory"
+              ></category-item>
             <!-- <ul>
               <li v-for="(category, idx) in categories" :key="category.id">
                 <b-row>
@@ -68,12 +70,12 @@ export default {
     },
 
     // delete a category from API and the view
-    deleteCategory(id, idx) {
+    deleteCategory(id) {
       axios
         .delete("/categories/" + id)
         .then((response) => {
+          console.log('delete')
           this.getAllCategories();
-          console.log(response);
         })
         .catch((error) => console.log(error));
     },

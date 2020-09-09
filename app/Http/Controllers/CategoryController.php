@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Resources\Category as ResourcesCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -27,7 +28,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $path = $request->image->store('images');
+        $path = $request->image->store('images/category');
         return Category::create(
             [
                 'image_path' => $path,
@@ -69,7 +70,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         $imagePath = $category->image_path;
-        return $imagePath;
-        // Category::destroy($id);
+        Storage::delete($imagePath);
+        Category::destroy($id);
     }
 }
