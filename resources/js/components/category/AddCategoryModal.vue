@@ -57,21 +57,26 @@ export default {
     onSubmit(evt) {
       let formData = new FormData();
       formData.append("name", this.form.name);
-      formData.append("image", this.form.image);
+      if (this.form.image !== null) 
+        formData.append("image", this.form.image);
       this.add(formData, this.hideModal, this.showError);
     },
     hideModal() {
-      this.resetForm();
+      this.reset();
       this.$refs["add-category-modal"].hide();
     },
     showError(error) {
       this.error.show = true;
       this.error.message = error.response.data.message;
     },
-    resetForm() {
+    reset() {
       this.form = {
         name: "",
         image: null,
+      };
+      this.error = {
+        message: "",
+        show: false,
       };
     },
   },

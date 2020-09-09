@@ -28,7 +28,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $path = $request->image->store('images/category');
+        if (isset($request->image))
+            $path = $request->image->store('images/category');
+        else
+            $path = null;
+
         return Category::create(
             [
                 'image_path' => $path,
