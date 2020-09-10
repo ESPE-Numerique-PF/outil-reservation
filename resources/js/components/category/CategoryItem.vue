@@ -1,28 +1,34 @@
 <template>
-  <div class="mb-3">
+  <div>
+    <!-- UPDATE MODAL -->
+    <update-category-modal :id="'update-category-modal-' + category.id" :category="category" :update="update"></update-category-modal>
+
+    <!-- CARD -->
     <b-card
-      overlay
       v-b-hover="handleImageHover"
       :img-src="category.image_URI"
-      img-height="256"
-      img-width="256"
+      img-height="128"
+      img-width="128"
+      img-left
+      :title="category.name"
+      @click="openUpdateCategoryModal"
+      style="cursor: pointer"
     >
-        <!-- Delete button -->
-        <b-row align-h="end">
-          <b-button variant="danger" size="sm" @click="onDelete(category.id)" v-if="imageHovered">
-            <i class="fas fa-trash"></i>
-          </b-button>
-        </b-row>
     </b-card>
-    <b-card>{{ category.name }}</b-card>
   </div>
 </template>
 
 <script>
+import UpdateCategoryModal from "../../components/category/UpdateCategoryModal.vue";
+
 export default {
+  components: {
+    UpdateCategoryModal,
+  },
   props: {
     category: Object,
     delete: Function,
+    update: Function
   },
   data() {
     return {
@@ -35,6 +41,9 @@ export default {
     },
     handleImageHover(hovered) {
       this.imageHovered = hovered;
+    },
+    openUpdateCategoryModal() {
+      this.$bvModal.show("update-category-modal-" + this.category.id);
     },
   },
 };

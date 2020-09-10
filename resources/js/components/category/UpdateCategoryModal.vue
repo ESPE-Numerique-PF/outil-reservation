@@ -1,0 +1,112 @@
+<template>
+  <div>
+    <b-modal
+      :id="id"
+      ref="update-category-modal"
+      cancel-title="Annuler"
+      title="Modification"
+      hide-footer
+      @show="onShowModal"
+    >
+      <!-- ERROR ALERT -->
+      <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
+
+      <div class="mb-3 preview">
+        <b-img class="preview-img" v-if="imageUrl" :src="imageUrl" rounded></b-img>
+      </div>
+
+      <!-- FORM -->
+      <b-form @submit.prevent="onSubmit">
+
+        <b-form-group id="input-group">
+          <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-file-group">
+          <b-form-file
+            v-model="form.image"
+            :state="Boolean(form.image)"
+            placeholder="Rechercher une image ou déposer ici..."
+            accept="image/*"
+            @change="onFileChange"
+          ></b-form-file>
+        </b-form-group>
+
+        <!-- Buttons -->
+        <b-button type="submit" variant="primary">Modifier</b-button>
+        <b-button @click="hideModal" variant="danger">Annuler</b-button>
+      </b-form>
+    </b-modal>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    category: Object,
+    id: String,
+    update: Function,
+  },
+  data() {
+    return {
+      form: {
+        name: this.category.name,
+        image: null,
+        imageHasChanged: false
+      },
+      error: {
+        message: "",
+        show: false,
+      },
+      imageUrl: null
+    };
+  },
+
+  methods: {
+    onSubmit(evt) {
+      let formData = new FormData();
+      formData.append('_method', 'PUT');
+      formData.append("name", this.form.name);
+      formData.append("imageHasChanged", this.form.imageHasChanged)
+      if (this.form.image !== null) formData.append("image", this.form.image);
+      this.update(this.category.id, formData, this.hideModal, this.showError);
+    },
+    onFileChange(evt) {
+      const file = evt.target.files[0];
+      this.imageUrl = URL.createObjectURL(file);
+      this.form.imageHasChanged = true;
+    },
+    hideModal() {
+      this.reset();
+      this.$refs["update-category-modal"].hide();
+    },
+    showError(error) {
+      this.error.show = true;
+      this.error.message = error.response.data.message;
+    },
+    onShowModal() {
+      this.form.name = this.category.name
+      this.imageUrl = this.category.image_URI
+    },
+    reset() {
+      this.error = {
+        message: "",
+        show: false,
+      };
+    },
+  },
+};
+</script>
+
+<style>
+.preview {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.preview-img {
+  max-width: 100%;
+  max-height: 256px;
+}
+</style>

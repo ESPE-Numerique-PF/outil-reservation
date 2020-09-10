@@ -16,15 +16,12 @@
     <!-- CATEGORIES -->
     <b-row>
       <b-col>
-        <b-card header="Catégories de matériel">
-          <b-card-group deck>
-              <category-item
-                v-for="category in categories"
-                :key="category.id"
-                :category="category"
-                :delete="deleteCategory"
-              ></category-item>
-          </b-card-group>
+        <b-card header="Catégories">
+          <b-row>
+            <b-col v-for="category in categories" :key="category.id" class="mb-3" cols="4">
+              <category-item :category="category" :delete="deleteCategory" :update="updateCategory"></category-item>
+            </b-col>
+          </b-row>
         </b-card>
       </b-col>
     </b-row>
@@ -71,6 +68,16 @@ export default {
     addCategory(category, callbackOnSuccess, callbackOnError) {
       axios
         .post("/categories", category)
+        .then((response) => {
+          this.getAllCategories();
+          callbackOnSuccess();
+        })
+        .catch((error) => callbackOnError(error));
+    },
+
+    updateCategory(id, category, callbackOnSuccess, callbackOnError) {
+      axios
+        .post("/categories/" + id, category)
         .then((response) => {
           this.getAllCategories();
           callbackOnSuccess();
