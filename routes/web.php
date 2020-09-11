@@ -1,8 +1,10 @@
 <?php
 
 use App\Category;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Category as CategoryResource;
 use App\Material;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -63,4 +65,9 @@ Route::prefix('resources')->middleware(['auth', 'admin:api'])->group(function ()
         'categories' => 'CategoryController',
         'materials' => 'MaterialController',
     ]);
+
+    // Test route
+    Route::post('/test', function(Request $request) {
+        Controller::debug($request);
+    });
 });

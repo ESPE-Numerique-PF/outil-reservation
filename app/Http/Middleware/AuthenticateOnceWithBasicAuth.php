@@ -9,6 +9,9 @@ class AuthenticateOnceWithBasicAuth
 {
     /**
      * Handle an incoming request.
+     * Basic Authentication without setting a user identifier cookie
+     * in the session.
+     * Particularly useful for API authentication.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\User as UserResource;
 use App\User;
+use Illuminate\Http\Client\Request as ClientRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +37,11 @@ Route::middleware(['auth.basic','admin:api'])->group(function () {
         "categories" => "CategoryController",
         "materials" => "MaterialController",
     ]);
+
+    Route::post('/test', function(Request $request) {
+        Controller::debug('test');
+        Controller::debug($request->all());
+    });
 });
 
 
