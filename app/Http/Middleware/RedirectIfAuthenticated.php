@@ -10,6 +10,7 @@ class RedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
+     * Redirect to HOME view if the user in not authenticated
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

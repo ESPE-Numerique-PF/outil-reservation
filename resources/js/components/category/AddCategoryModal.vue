@@ -10,6 +10,10 @@
       <!-- ERROR ALERT -->
       <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
 
+      <div id="preview" class="mb-3">
+        <b-img v-if="imageUrl" :src="imageUrl" rounded></b-img>
+      </div>
+
       <!-- FORM -->
       <b-form @submit.prevent="onSubmit">
         <b-form-group id="input-group">
@@ -22,6 +26,7 @@
             :state="Boolean(form.image)"
             placeholder="Rechercher une image ou déposer ici..."
             accept="image/*"
+            @change="onFileChange"
           ></b-form-file>
         </b-form-group>
 
@@ -50,6 +55,7 @@ export default {
         message: "",
         show: false,
       },
+      imageUrl: null,
     };
   },
 
@@ -57,9 +63,12 @@ export default {
     onSubmit(evt) {
       let formData = new FormData();
       formData.append("name", this.form.name);
-      if (this.form.image !== null) 
-        formData.append("image", this.form.image);
+      if (this.form.image !== null) formData.append("image", this.form.image);
       this.add(formData, this.hideModal, this.showError);
+    },
+    onFileChange(evt) {
+      const file = evt.target.files[0];
+      this.imageUrl = URL.createObjectURL(file);
     },
     hideModal() {
       this.reset();
@@ -82,3 +91,16 @@ export default {
   },
 };
 </script>
+
+<style>
+#preview {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+#preview b-img {
+  max-width: 100%;
+  max-height: 256px;
+}
+</style>

@@ -7,9 +7,22 @@ use App\Http\Resources\Category as ResourcesCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
+use function Psy\debug;
 
 class CategoryController extends Controller
 {
+
+    const IMAGE_PATH = 'images/category';
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +42,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         if (isset($request->image))
-            $path = $request->image->store('images/category');
+            $path = $request->image->store(self::IMAGE_PATH);
         else
             $path = null;
 
@@ -61,7 +74,26 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+
+        self::debug($request);
+        
+        // change image only if image has changed
+        $imageHasChanged = $request->imageHasChanged ?? false;
+        if ($imageHasChanged && ($category->image_path != self::NO_IMAGE_PATH)) {
+            self::debug('image change');
+            Storage::delete($category->image_path);
+            if (isset($request->image)) {
+                $category->image_path = $request->image->store(self::IMAGE_PATH);
+            }
+        }
+
+        // update name
+        $category->name = $request->name;
+
+        self::debug($category);
+
+        $category->save();
     }
 
     /**
@@ -73,8 +105,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
-        $imagePath = $category->image_path;
-        Storage::delete($imagePath);
+        Storage::delete($category->image_path);
         Category::destroy($id);
     }
 }

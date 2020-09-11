@@ -10,6 +10,7 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     * Should only bind things into the service container
      *
      * @return void
      */
