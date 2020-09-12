@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Resources\Category as ResourcesCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,7 +29,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return ResourcesCategory::collection(Category::all());
+        // return ResourcesCategory::collection(Category::all());
+        return ResourcesCategory::collection(Category::paginate(6));
     }
 
     /**
@@ -41,11 +41,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        // if image exists, store it into public image folder
         if (isset($request->image))
             $path = $request->image->store(self::IMAGE_PATH);
         else
             $path = null;
 
+        // store new category
         return Category::create(
             [
                 'image_path' => $path,
@@ -75,13 +77,10 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = Category::find($id);
-
-        self::debug($request);
         
-        // change image only if image has changed
-        $imageHasChanged = $request->imageHasChanged ?? false;
+        // change image only if image has changed (and delte old image)
+        $imageHasChanged = $request->boolean('imageHasChanged') ?? false;
         if ($imageHasChanged && ($category->image_path != self::NO_IMAGE_PATH)) {
-            self::debug('image change');
             Storage::delete($category->image_path);
             if (isset($request->image)) {
                 $category->image_path = $request->image->store(self::IMAGE_PATH);
@@ -90,8 +89,6 @@ class CategoryController extends Controller
 
         // update name
         $category->name = $request->name;
-
-        self::debug($category);
 
         $category->save();
     }
