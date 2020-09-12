@@ -1,5 +1,6 @@
 <?php
 
+use App\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -19,12 +20,7 @@ class CreateUserRolesTable extends Migration
             $table->string('name');
         });
 
-        DB::table('user_roles')->insert(
-            [
-                ['id' => 1, 'name' => 'admin'],
-                ['id' => 2, 'name' => 'user'],
-            ]
-        );
+        DB::table('user_roles')->insert(UserRole::ROLES);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\UserJob;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -19,13 +20,7 @@ class CreateUserJobsTable extends Migration
             $table->string('name');
         });
 
-        DB::table('user_jobs')->insert(
-            [
-                ['id' => 1, 'name' => 'Enseignant'],
-                ['id' => 2, 'name' => 'Etudiant'],
-                ['id' => 3, 'name' => 'Autre'],
-            ]
-        );
+        DB::table('user_jobs')->insert(UserJob::JOBS);
     }
 
     /**
