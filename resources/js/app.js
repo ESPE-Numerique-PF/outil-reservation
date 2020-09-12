@@ -11,6 +11,9 @@ import BootstrapVue from 'bootstrap-vue'
 
 window.Vue = require('vue');
 
+/**
+ * Register components
+ */
 Vue.use(BootstrapVue);
 
 /**
@@ -23,6 +26,8 @@ Vue.use(BootstrapVue);
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 Vue.component('material-list-component', require('./pages/MaterialListComponent.vue').default);
 Vue.component('admin-material-management-component', require('./pages/admin/MaterialManagementComponent.vue').default);

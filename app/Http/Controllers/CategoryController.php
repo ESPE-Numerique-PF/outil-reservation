@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Resources\Category as ResourcesCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,8 +29,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return ResourcesCategory::collection(Category::all());
-        // return ResourcesCategory::collection(Category::paginate(3));
+        // return ResourcesCategory::collection(Category::all());
+        return ResourcesCategory::collection(Category::paginate(6));
     }
 
     /**

@@ -14,17 +14,34 @@
     <add-category-modal id="add-category-modal" :add="addCategory"></add-category-modal>
 
     <!-- CATEGORIES -->
+
+    <!-- TODO fix error total-rows undefined on component mounted (categories.meta may be undefined at beginning) -->
     <b-row>
       <b-col>
         <b-card header="Catégories">
           <b-row>
-            <b-col v-for="category in categories" :key="category.id" class="mb-3" cols="4">
+            <b-col
+              v-for="category in categories.data"
+              :key="category.id"
+              class="mb-3 text-truncate"
+              md="4"
+              sm="6"
+            >
               <category-item :category="category" :delete="deleteCategory" :update="updateCategory"></category-item>
             </b-col>
           </b-row>
         </b-card>
       </b-col>
     </b-row>
+
+    <!-- B-pagination -->
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="categories.meta.total"
+      :per-page="categories.meta.per_page"
+      limit="3"
+      @change="getAllCategories"
+    ></b-pagination>
   </div>
 </template>
 
@@ -39,14 +56,16 @@ export default {
   },
   data() {
     return {
-      categories: [],
+      categories: {},
+      currentPage: 1,
     };
   },
   methods: {
     // fetch all categories through API
-    getAllCategories() {
+    getAllCategories(page = 1) {
+      console.log("Page " + page);
       axios
-        .get("/categories")
+        .get("/categories?page=" + page)
         .then((response) => {
           this.categories = response.data;
         })
