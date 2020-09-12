@@ -11,9 +11,6 @@
       </div>
     </div>
 
-    <!-- TEST -->
-    <b-button @click="test">Test</b-button>
-
     <add-category-modal id="add-category-modal" :add="addCategory"></add-category-modal>
 
     <!-- CATEGORIES -->
@@ -86,25 +83,6 @@ export default {
           callbackOnSuccess();
         })
         .catch((error) => callbackOnError(error));
-    },
-
-    test() {
-      let formData = new FormData();
-      formData.append("id", 2);
-      formData.append("name", " Test 1");
-      formData.append("value", 200);
-      formData.append("bool", true);
-
-      let data = {
-        id: 2,
-        name: "Test 1",
-        value: 200,
-        bool: true,
-      };
-      axios
-        .post("/test", data)
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
     },
   },
   mounted() {

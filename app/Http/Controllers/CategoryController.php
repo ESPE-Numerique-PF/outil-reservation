@@ -75,13 +75,10 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = Category::find($id);
-
-        self::debug($request);
         
         // change image only if image has changed
-        $imageHasChanged = $request->imageHasChanged ?? false;
+        $imageHasChanged = $request->boolean('imageHasChanged') ?? false;
         if ($imageHasChanged && ($category->image_path != self::NO_IMAGE_PATH)) {
-            self::debug('image change');
             Storage::delete($category->image_path);
             if (isset($request->image)) {
                 $category->image_path = $request->image->store(self::IMAGE_PATH);
@@ -90,8 +87,6 @@ class CategoryController extends Controller
 
         // update name
         $category->name = $request->name;
-
-        self::debug($category);
 
         $category->save();
     }
