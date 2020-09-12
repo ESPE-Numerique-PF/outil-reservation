@@ -31,6 +31,7 @@ class CategoryController extends Controller
     public function index()
     {
         return ResourcesCategory::collection(Category::all());
+        // return ResourcesCategory::collection(Category::paginate(3));
     }
 
     /**
@@ -41,11 +42,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        // if image exists, store it into public image folder
         if (isset($request->image))
             $path = $request->image->store(self::IMAGE_PATH);
         else
             $path = null;
 
+        // store new category
         return Category::create(
             [
                 'image_path' => $path,
@@ -76,7 +79,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         
-        // change image only if image has changed
+        // change image only if image has changed (and delte old image)
         $imageHasChanged = $request->boolean('imageHasChanged') ?? false;
         if ($imageHasChanged && ($category->image_path != self::NO_IMAGE_PATH)) {
             Storage::delete($category->image_path);
