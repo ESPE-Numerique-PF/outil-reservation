@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,7 @@ Route::middleware(['auth.basic','admin:api'])->group(function () {
     Route::apiResources([
         "categories" => "CategoryController",
         "materials" => "MaterialController",
+        "material_instances" => "MaterialInstanceController",
     ]);
 
     Route::post('/test', function(Request $request) {
@@ -51,5 +53,7 @@ Route::middleware(['auth.basic','admin:api'])->group(function () {
 */
 
 Route::middleware('auth.basic')->group(function () {
-
+    Route::get('/me', function () {
+        return Auth::user();
+    });
 });
