@@ -51,14 +51,10 @@ Route::prefix('resources')->middleware('auth')->group(function () {
     });
 
     // categories
-    Route::get('/categories', function () {
-        return Category::all();
-    });
+    Route::get('/categories', 'CategoryController@index');
 
     // materials
-    Route::get('/materials', function () {
-        return Material::all();
-    });
+    Route::get('/materials', 'MaterialController@index');
 });
 
 // Auth and Admin routes

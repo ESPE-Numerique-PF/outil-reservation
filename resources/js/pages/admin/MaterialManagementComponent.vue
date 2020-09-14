@@ -2,34 +2,63 @@
   <div class="container">
     <h1>Gestion du matériel</h1>
 
-    <!-- ADD CATEGORY -->
-    <div class="row my-3">
-      <div class="col">
-        <b-button class="btn btn-primary" v-b-modal.add-category-modal>
-          <span class="fas fa-plus"></span> Ajouter une catégorie
-        </b-button>
-      </div>
-    </div>
+    <!-- ADD CATEGORY MODAL -->
 
     <add-category-modal id="add-category-modal" :add="addCategory"></add-category-modal>
 
     <!-- CATEGORIES -->
-
-    <!-- TODO fix error total-rows undefined on component mounted (categories.meta may be undefined at beginning) -->
     <b-row>
       <b-col>
-        <b-card header="Catégories">
-          <b-row>
-            <b-col
-              v-for="category in categories.data"
-              :key="category.id"
-              class="mb-3 text-truncate"
-              md="4"
-              sm="6"
-            >
-              <category-item :category="category" :delete="deleteCategory" :update="updateCategory"></category-item>
-            </b-col>
-          </b-row>
+        <b-card no-body class="mb-1">
+          <!-- HEADER -->
+          <b-navbar>
+            <!-- LEFT SIDE NAV BAR -->
+            <b-navbar v-b-toggle.collapse-category>
+              <b-navbar-brand>Catégories</b-navbar-brand>
+            </b-navbar>
+
+            <!-- RIGHT SIDE NAV BAR -->
+            <b-navbar class="ml-auto">
+
+              <!-- SEARCH CATEGORY -->
+              <b-nav-form>
+                <b-input-group size="sm">
+                  <template v-slot:prepend>
+                    <b-input-group-text>
+                      <i class="fas fa-search"></i>
+                    </b-input-group-text>
+                  </template>
+                  <b-form-input placeholder="Rechercher" v-model="search.category"></b-form-input>
+                </b-input-group>
+              </b-nav-form>
+
+              <!-- ADD CATEGOTY BUTTON -->
+              <div class="mx-2">
+                <b-button variant="primary" size="sm" v-b-modal.add-category-modal>
+                  <span class="fas fa-plus"></span> Créer
+                </b-button>
+              </div>
+            </b-navbar>
+          </b-navbar>
+
+          <!-- CATEGORY SET -->
+          <b-collapse id="collapse-category" visible>
+            <b-row class="p-2">
+              <b-col
+                v-for="category in categories.data"
+                :key="category.id"
+                class="mb-3 text-truncate"
+                md="4"
+                sm="6"
+              >
+                <category-item
+                  :category="category"
+                  :delete="deleteCategory"
+                  :update="updateCategory"
+                ></category-item>
+              </b-col>
+            </b-row>
+          </b-collapse>
         </b-card>
       </b-col>
     </b-row>
@@ -56,14 +85,19 @@ export default {
   },
   data() {
     return {
-      categories: {},
+      categories: {
+        data: {},
+        meta: {},
+      },
       currentPage: 1,
+      search: {
+        category: "",
+      },
     };
   },
   methods: {
     // fetch all categories through API
-    getAllCategories(page = 1) {
-      console.log("Page " + page);
+    getAllCategories(page = this.currentPage) {
       axios
         .get("/categories?page=" + page)
         .then((response) => {
@@ -77,7 +111,6 @@ export default {
       axios
         .delete("/categories/" + id)
         .then((response) => {
-          console.log("delete");
           this.getAllCategories();
         })
         .catch((error) => console.log(error));

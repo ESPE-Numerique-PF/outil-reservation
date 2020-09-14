@@ -38,11 +38,6 @@ Route::middleware(['auth.basic','admin:api'])->group(function () {
         "materials" => "MaterialController",
         "material_instances" => "MaterialInstanceController",
     ]);
-
-    Route::post('/test', function(Request $request) {
-        Controller::debug('test');
-        Controller::debug($request->all());
-    });
 });
 
 

@@ -8,6 +8,7 @@ require('./bootstrap');
 require('@fortawesome/fontawesome-free/js/all.js');
 
 import BootstrapVue from 'bootstrap-vue'
+import VueNestable from 'vue-nestable'
 
 window.Vue = require('vue');
 
@@ -15,6 +16,7 @@ window.Vue = require('vue');
  * Register components
  */
 Vue.use(BootstrapVue);
+Vue.use(VueNestable);
 
 /**
  * The following block of code may be used to automatically register your
@@ -28,7 +30,8 @@ Vue.use(BootstrapVue);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('material-list-component', require('./pages/MaterialListComponent.vue').default);
-Vue.component('admin-material-management-component', require('./pages/admin/    .vue').default);
+Vue.component('admin-material-management-component', require('./pages/admin/MaterialManagementComponent.vue').default);
+Vue.component('admin-category-management-component', require('./pages/admin/CategoryManagementComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

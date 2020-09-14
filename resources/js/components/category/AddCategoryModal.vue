@@ -87,6 +87,7 @@ export default {
         message: "",
         show: false,
       };
+      this.imageUrl = null;
     },
   },
 };

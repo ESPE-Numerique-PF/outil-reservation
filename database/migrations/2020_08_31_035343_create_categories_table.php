@@ -17,7 +17,11 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('image_path')->nullable();
+            $table->foreignId('parent_category_id')->nullable();
             $table->timestamps();
+
+            // foreign key: parent category
+            $table->foreign('parent_category_id')->references('id')->on('categories');
         });
     }
 

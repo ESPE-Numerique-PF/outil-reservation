@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Material as ResourcesMaterial;
 use App\Material;
 
 class MaterialController extends Controller
@@ -19,6 +20,6 @@ class MaterialController extends Controller
 
     public function index()
     {
-        return Material::all();
+        return []; // TODO
     }
 }

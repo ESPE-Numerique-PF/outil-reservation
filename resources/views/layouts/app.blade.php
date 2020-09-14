@@ -74,20 +74,20 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#">
-                                    Mes informations
+                                <i class="fas fa-user"></i> Mes informations
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                    Mes préférences
+                                <i class="fas fa-cog"></i> Mes préférences
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                    Aide
+                                <i class="far fa-question-circle"></i> Aide
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     A propos
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    Déconnexion
+                                    <i class="fas fa-power-off"></i> Déconnexion
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
