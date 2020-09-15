@@ -6,67 +6,29 @@
 
     <!-- <add-category-modal id="add-category-modal" :add="addCategory"></add-category-modal> -->
 
-    <pre>{{ categories }}</pre>
-    <!-- {{ categories }} -->
-    <pre>{{ nestedCategories }}</pre>
-
     <!-- CATEGORIES -->
-    <!-- <nestable-list :data="nestableItems" item="item">
-      <template v-slot="{ item }">
-        <b-row>
-          <b-col>
-            <i class="fas fa-grip-vertical"></i> {{ item }}
-          </b-col>
-        </b-row>
-      </template>
-    </nestable-list>-->
-
-    <!-- <vue-nestable v-model="nestableItems">
+    <vue-nestable v-model="categories">
       <vue-nestable-handle slot-scope="{ item }" :item="item">
-        <nestable-item :item="item"></nestable-item>
+        <category-list-item :category="item" draggable></category-list-item>
       </vue-nestable-handle>
-    </vue-nestable> -->
+    </vue-nestable>
   </div>
 </template>
 
 <script>
 import AddCategoryModal from "../../components/category/AddCategoryModal.vue";
-import CategoryItem from "../../components/category/CategoryItem.vue";
 import NestableItem from "../../components/category/NestableItem.vue";
+import CategoryListItem from "../../components/category/CategoryListItem.vue";
 
 export default {
   components: {
     AddCategoryModal,
-    CategoryItem,
+    CategoryListItem,
     NestableItem,
   },
   data() {
     return {
-      categories: {},
-      nestedCategories: [],
-      nestableItems: [
-        {
-          id: 0,
-          text: "Andy",
-        },
-        {
-          id: 1,
-          text: "Harry",
-          children: [
-            {
-              id: 2,
-              text: "David",
-            },
-          ],
-        },
-        {
-          id: 3,
-          text: "Lisa",
-        },
-      ],
-      search: {
-        category: "",
-      },
+      categories: [],
     };
   },
   methods: {
@@ -114,12 +76,6 @@ export default {
     log(message) {
       console.log(message);
     },
-  },
-
-  computed: {
-    nestedCategories() {
-      return []
-    }
   },
   mounted() {
     this.getAllCategories();

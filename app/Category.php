@@ -10,6 +10,7 @@ class Category extends Model
 
     public function children()
     {
-        return $this->hasMany('App\Category', 'parent_category_id');
+        // recursive nested categories
+        return $this->hasMany(Category::class, 'parent_category_id')->with('children');
     }
 }

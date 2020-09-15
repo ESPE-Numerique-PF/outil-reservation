@@ -1,6 +1,6 @@
 <template>
-  <div is="draggable">
-    <b-col>{{ item }}</b-col>
+  <div>
+    <b-col>{{ item }} Test</b-col>
   </div>
 </template>
 

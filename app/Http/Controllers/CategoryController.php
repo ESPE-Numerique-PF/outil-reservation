@@ -30,7 +30,11 @@ class CategoryController extends Controller
     public function index()
     {
         // return ResourcesCategory::collection(Category::all());
-        return CategoryResource::collection(Category::all());
+        // return CategoryResource::collection(Category::all());
+        $categories = Category::whereNull('parent_category_id')
+            ->with('children')
+            ->get();
+        return CategoryResource::collection($categories);
     }
 
     /**
