@@ -1,5 +1,21 @@
 # Outil de réservation
 
+## Configuration recommandée
+
+Sur le serveur hébergeant l'outil:
+- PHP 7.3
+- MariaDB 10
+
+Pour le développement:
+- Laravel 7
+- VueJS 2.5
+
+> :warning: **Une mise à niveau des outils peuvent conduire à des anomalies:** les versions plus récentes des outils (notamment Laravel et VueJS)
+ont rendu certaines fonctonnalités obsolètes. Veillez à vérifier qu'une mise à jour des outils garantit le bon fonctionnement de l'application,
+ou effectuez les changements nécessaires dans le code.
+
+Voir [Risque des problème de compatibilités](doc/upgrade_risk.md).
+
 ## Initialisation du projet
 
 ### Base de données
