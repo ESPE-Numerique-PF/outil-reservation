@@ -21,6 +21,7 @@ Cette liste n'est pas exhausitve.
 ```
 
     - Nouvelle version
+
 ```html
 <current-user v-slot="slotProps">
   {{ slotProps.user.firstName }}
