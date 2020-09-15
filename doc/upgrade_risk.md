@@ -11,7 +11,7 @@ Cette liste n'est pas exhausitve.
 
 - la librairie `vue-nestable` utilise une syntaxe des `slot` obsolète dans la version 3 de VueJS (voir la [documentation officelle](https://fr.vuejs.org/v2/guide/components-slots.html#Syntaxe-obsolete)).
 
-Obsolète
+    - Obsolète
 ```html
 <slot-example>
   <template slot="default" slot-scope="slotProps">
@@ -20,7 +20,7 @@ Obsolète
 </slot-example>
 ```
 
-Nouvelle version
+    - Nouvelle version
 ```html
 <current-user v-slot="slotProps">
   {{ slotProps.user.firstName }}
