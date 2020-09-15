@@ -87,7 +87,7 @@ export default {
     return {
       categories: {
         data: {},
-        meta: {},
+        meta: {total: 0},
       },
       currentPage: 1,
       search: {
