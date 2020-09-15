@@ -9,7 +9,8 @@ Cette liste n'est pas exhausitve.
 
 ## VueJS
 
-- la librairie `vue-nestable` utilise une syntaxe des `slot` obsolète dans la version 3 de VueJS (voir la [documentation officelle](https://fr.vuejs.org/v2/guide/components-slots.html#Syntaxe-obsolete))
+- la librairie `vue-nestable` utilise une syntaxe des `slot` obsolète dans la version 3 de VueJS (voir la [documentation officelle](https://fr.vuejs.org/v2/guide/components-slots.html#Syntaxe-obsolete)).
+
 Obsolète
 ```html
 <slot-example>
