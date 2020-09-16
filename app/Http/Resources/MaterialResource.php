@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-class CategoryResource extends JsonResource
+class MaterialResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,12 +21,10 @@ class CategoryResource extends JsonResource
         $imageUri =  env('APP_URL') . '/' . ($exists ? $this->image_path : Controller::NO_IMAGE_PATH);
 
         return [
-            'id'=> $this->id,
-            'name'=> $this->name,
-            'image_path'=> $this->image_path,
+            'id' => $this->id,
+            'name' => $this->name,
+            'image_path' => $this->image_path,
             'image_URI' => $imageUri,
-            'parent_category_id' => $this->parent_category_id,
-            'children' => CategoryResource::collection($this->children),
         ];
     }
 }

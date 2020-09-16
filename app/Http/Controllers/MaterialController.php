@@ -7,6 +7,8 @@ use App\Material;
 
 class MaterialController extends Controller
 {
+
+    const IMAGE_PATH = "images/material";
     
     public function view()
     {
