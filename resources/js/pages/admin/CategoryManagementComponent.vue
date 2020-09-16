@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <b-container>
     <h1>Gestion des catégories</h1>
 
     <!-- ADD CATEGORY MODAL -->
@@ -7,24 +7,27 @@
     <!-- <add-category-modal id="add-category-modal" :add="addCategory"></add-category-modal> -->
 
     <!-- CATEGORIES -->
-    <vue-nestable v-model="categories">
-      <vue-nestable-handle slot-scope="{ item }" :item="item">
-        <category-list-item :category="item" draggable></category-list-item>
-      </vue-nestable-handle>
-    </vue-nestable>
-  </div>
+    <b-row>
+      <b-col>
+        <vue-nestable v-model="categories">
+          <vue-nestable-handle slot-scope="{ item }" :item="item">
+            <category-list-item :category="item" draggable></category-list-item>
+          </vue-nestable-handle>
+        </vue-nestable>
+      </b-col>
+    </b-row>
+    
+  </b-container>
 </template>
 
 <script>
 import AddCategoryModal from "../../components/category/AddCategoryModal.vue";
-import NestableItem from "../../components/category/NestableItem.vue";
 import CategoryListItem from "../../components/category/CategoryListItem.vue";
 
 export default {
   components: {
     AddCategoryModal,
     CategoryListItem,
-    NestableItem,
   },
   data() {
     return {
@@ -71,10 +74,6 @@ export default {
           callbackOnSuccess();
         })
         .catch((error) => callbackOnError(error));
-    },
-
-    log(message) {
-      console.log(message);
     },
   },
   mounted() {
@@ -133,8 +132,8 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(106, 127, 233, 0.274);
-  border: 1px dashed rgb(73, 100, 241);
+  background-color: rgba(0, 0, 0, 0.089);
+  /* border: 1px dashed rgb(73, 100, 241); */
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
@@ -154,13 +153,13 @@ export default {
   top: 0;
   left: 0;
   padding: 0;
-  background-color: rgba(106, 127, 233, 0.274);
+  /* background-color: rgba(106, 127, 233, 0.274); */
 }
 .nestable-rtl .nestable-drag-layer > .nestable-list {
   padding: 0;
 }
 .nestable [draggable="true"] {
-  cursor: move;
+  cursor: grab;
 }
 .nestable-handle {
   display: inline;
