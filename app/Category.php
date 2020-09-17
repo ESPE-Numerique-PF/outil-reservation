@@ -13,4 +13,9 @@ class Category extends Model
         // recursive nested categories
         return $this->hasMany(Category::class, 'parent_category_id')->with('children');
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_category_id');
+    }
 }

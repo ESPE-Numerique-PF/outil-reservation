@@ -20,8 +20,11 @@ class CreateMaterialPackageAssociationsTable extends Migration
             $table->foreignId('material_id');
             $table->foreignId('package_id');
 
+            // constraints
             $table->foreign('material_id')->references('id')->on('materials');
             $table->foreign('package_id')->references('id')->on('packages');
+
+            $table->unique(['material_id', 'package_id']);
         });
     }
 

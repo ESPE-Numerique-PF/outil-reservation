@@ -17,7 +17,7 @@ class CreateMaterialInstancesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('reference')->unique();
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->timestamps();
 
             $table->foreignId('material_id');

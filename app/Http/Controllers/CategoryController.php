@@ -23,14 +23,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Get all categories and there subcategories in nested style
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // return ResourcesCategory::collection(Category::all());
-        // return CategoryResource::collection(Category::all());
         $categories = Category::whereNull('parent_category_id')
             ->with('children')
             ->get();
@@ -50,6 +48,8 @@ class CategoryController extends Controller
             $path = $request->image->store(self::IMAGE_PATH);
         else
             $path = null;
+
+        
 
         // store new category
         return Category::create(
@@ -105,8 +105,19 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        // delete image
         $category = Category::find($id);
-        Storage::delete($category->image_path);
+        $imageToDeletePath = $category->image_path;
+        Storage::delete($imageToDeletePath);
+
+        // if current category has children, give these children the parent of the current category
+        // (if the current category has no parent, his children will have no parent)
+        $parent = $category->parent;
+        foreach ($category->children as $child) {
+            $child->parent()->save($parent);
+        }
+
         Category::destroy($id);
+        Storage::delete($imageToDeletePath);
     }
 }
