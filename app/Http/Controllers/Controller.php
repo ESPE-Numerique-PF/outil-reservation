@@ -14,6 +14,9 @@ class Controller extends BaseController
 
     const NO_IMAGE_PATH = "images/no_image.png";
 
+    /**
+     * Add new log entry in app/logs/debug.log file
+     */
     public static function debug($message)
     {
         Log::channel('debug')->debug($message);
