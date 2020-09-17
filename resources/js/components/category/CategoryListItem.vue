@@ -49,7 +49,7 @@ export default {
     },
 
     onDelete() {
-      console.log("delete " + this.category.id);
+      this.delete(this.category.id);
     },
   },
 };

@@ -105,18 +105,18 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        // delete image
         $category = Category::find($id);
         $imageToDeletePath = $category->image_path;
-        Storage::delete($imageToDeletePath);
 
         // if current category has children, give these children the parent of the current category
         // (if the current category has no parent, his children will have no parent)
         $parent = $category->parent;
         foreach ($category->children as $child) {
-            $child->parent()->save($parent);
+            $child->parent()->associate($parent);
+            $child->save();
         }
 
+        // delete category then image
         Category::destroy($id);
         Storage::delete($imageToDeletePath);
     }
