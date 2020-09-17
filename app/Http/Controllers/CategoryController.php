@@ -23,14 +23,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Get all categories and there subcategories in nested style
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // return ResourcesCategory::collection(Category::all());
-        // return CategoryResource::collection(Category::all());
         $categories = Category::whereNull('parent_category_id')
             ->with('children')
             ->get();
