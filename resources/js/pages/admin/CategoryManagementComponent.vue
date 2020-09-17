@@ -11,12 +11,11 @@
       <b-col>
         <vue-nestable v-model="categories">
           <vue-nestable-handle slot-scope="{ item }" :item="item">
-            <category-list-item :category="item" draggable></category-list-item>
+            <category-list-item :category="item" :update="updateCategory" draggable></category-list-item>
           </vue-nestable-handle>
         </vue-nestable>
       </b-col>
     </b-row>
-    
   </b-container>
 </template>
 

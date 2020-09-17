@@ -49,6 +49,8 @@ class CategoryController extends Controller
         else
             $path = null;
 
+        
+
         // store new category
         return Category::create(
             [
@@ -83,9 +85,12 @@ class CategoryController extends Controller
         // change image only if image has changed (and delte old image)
         $imageHasChanged = $request->boolean('imageHasChanged') ?? false;
         if ($imageHasChanged && ($category->image_path != self::NO_IMAGE_PATH)) {
+            self::debug('delete old image');
             Storage::delete($category->image_path);
+            self::debug('store new image');
             if (isset($request->image)) {
                 $category->image_path = $request->image->store(self::IMAGE_PATH);
+                self::debug($category->image_path);
             }
         }
 
