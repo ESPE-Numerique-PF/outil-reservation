@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMaterialInstancesTable extends Migration
+class CreateMaterialCategoryAssociationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,18 @@ class CreateMaterialInstancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('material_instances', function (Blueprint $table) {
+        Schema::create('material_category_associations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('reference')->unique();
-            $table->text('note')->nullable();
             $table->timestamps();
 
             $table->foreignId('material_id');
+            $table->foreignId('category_id');
+
+            // constraints
             $table->foreign('material_id')->references('id')->on('materials');
+            $table->foreign('category_id')->references('id')->on('categories');
+
+            $table->unique(['material_id', 'category_id']);
         });
     }
 
@@ -32,6 +35,6 @@ class CreateMaterialInstancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_instances');
+        Schema::dropIfExists('material_category_associations');
     }
 }
