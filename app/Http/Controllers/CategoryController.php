@@ -59,7 +59,7 @@ class CategoryController extends Controller
                 'image_path' => $path,
                 'name' => $request->name,
                 'position' => $position,
-                'parent_category_id' => $request->parentId
+                'parent_category_id' => $parentId
             ]
         );
     }

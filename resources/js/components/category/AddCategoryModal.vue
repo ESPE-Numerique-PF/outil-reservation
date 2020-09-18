@@ -10,6 +10,10 @@
       <!-- ERROR ALERT -->
       <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
 
+      <h4 v-if="parentCategory !== undefined">
+        <b-badge pill variant="light" class="px-3 mb-3">{{ parentCategory.name }}</b-badge>
+      </h4>
+
       <div id="preview" class="mb-3">
         <b-img v-if="imageUrl" :src="imageUrl" rounded></b-img>
       </div>
@@ -43,6 +47,7 @@ export default {
   props: {
     id: String,
     add: Function,
+    parentCategory: Object,
   },
 
   data() {
@@ -64,6 +69,8 @@ export default {
       let formData = new FormData();
       formData.append("name", this.form.name);
       if (this.form.image !== null) formData.append("image", this.form.image);
+      if (this.parentCategory !== undefined)
+        formData.append("parent_category_id", this.parentCategory.id);
       this.add(formData, this.hideModal, this.showError);
     },
     onFileChange(evt) {

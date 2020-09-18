@@ -17,7 +17,7 @@
           </b-col>
 
           <!-- TOGGLE EDIT MODE -->
-          <b-col md="auto">
+          <b-col sm="auto">
             <b-form-checkbox v-model="draggable" switch>Mode édition</b-form-checkbox>
           </b-col>
         </b-row>
@@ -30,6 +30,7 @@
             <vue-nestable-handle slot-scope="{ item }" :item="item">
               <category-list-item
                 :category="item"
+                :add="addCategory"
                 :update="updateCategory"
                 :delete="deleteCategory"
                 :draggable="draggable"

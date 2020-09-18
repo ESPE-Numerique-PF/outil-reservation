@@ -7,14 +7,24 @@
       :update="update"
     ></update-category-modal>
 
+    <!-- ADD MODAL -->
+    <add-category-modal
+      :id="'add-category-modal-' + category.id"
+      :parentCategory="category"
+      :add="add"
+    ></add-category-modal>
+
     <!-- CARD -->
     <b-card :img-src="category.image_URI" img-width="40" img-height="40" img-left no-body>
       <b-container>
         <b-row>
           <b-col>{{ category.name }}</b-col>
           <b-col class="m-1">
+              <!-- ADD, UPDATE AND DELETE BUTTON -->
             <div class="float-right">
-              <!-- UPDATE AND DELETE BUTTON -->
+              <b-button pill variant="light" @click="onAdd" size="sm">
+                <i class="fas fa-plus"></i>
+              </b-button>
               <b-button pill variant="light" @click="onUpdate" size="sm">
                 <i class="fas fa-edit"></i>
               </b-button>
@@ -31,13 +41,16 @@
 
 <script>
 import UpdateCategoryModal from "../../components/category/UpdateCategoryModal.vue";
+import AddCategoryModal from "../../components/category/AddCategoryModal.vue";
 
 export default {
   components: {
     UpdateCategoryModal,
+    AddCategoryModal,
   },
   props: {
     category: Object,
+    add: Function,
     update: Function,
     delete: Function,
   },
@@ -45,6 +58,9 @@ export default {
     return {};
   },
   methods: {
+    onAdd() {
+      this.$bvModal.show("add-category-modal-" + this.category.id);
+    },
     onUpdate() {
       this.$bvModal.show("update-category-modal-" + this.category.id);
     },
