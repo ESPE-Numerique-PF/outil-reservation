@@ -59,6 +59,8 @@ Route::prefix('resources')->middleware('auth')->group(function () {
 
 // Auth and Admin routes
 Route::prefix('resources')->middleware(['auth', 'admin:api'])->group(function () {
+    Route::post('categories/move', 'CategoryController@move');
+
     Route::apiResources([
         'categories' => 'CategoryController',
         'materials' => 'MaterialController',

@@ -3,19 +3,43 @@
     <h1>Gestion des catégories</h1>
 
     <!-- ADD CATEGORY MODAL -->
+    <add-category-modal id="add-category-modal" :add="addCategory"></add-category-modal>
 
-    <!-- <add-category-modal id="add-category-modal" :add="addCategory"></add-category-modal> -->
+    <!-- CATEGORIES CARD -->
+    <b-card no-body>
+      <b-card-header>
+        <b-row class="justify-content-md-end">
+          <!-- ADD BUTTON -->
+          <b-col>
+            <b-button pill variant="light" v-b-modal.add-category-modal>
+              <i class="fas fa-plus"></i> Créer
+            </b-button>
+          </b-col>
 
-    <!-- CATEGORIES -->
-    <b-row>
-      <b-col>
-        <vue-nestable v-model="categories">
-          <vue-nestable-handle slot-scope="{ item }" :item="item">
-            <category-list-item :category="item" :update="updateCategory" draggable></category-list-item>
-          </vue-nestable-handle>
-        </vue-nestable>
-      </b-col>
-    </b-row>
+          <!-- TOGGLE EDIT MODE -->
+          <b-col sm="auto">
+            <b-form-checkbox v-model="draggable" switch>Mode édition</b-form-checkbox>
+          </b-col>
+        </b-row>
+      </b-card-header>
+      <b-card-body>
+        <b-row>
+          <b-col>
+            <vue-nestable v-model="categories" @change="onMovement">
+              <vue-nestable-handle :draggable="draggable" slot-scope="{ item }" :item="item">
+                <category-list-item
+                  :category="item"
+                  :add="addCategory"
+                  :update="updateCategory"
+                  :delete="deleteCategory"
+                  :draggable="draggable"
+                ></category-list-item>
+              </vue-nestable-handle>
+            </vue-nestable>
+          </b-col>
+        </b-row>
+      </b-card-body>
+    </b-card>
   </b-container>
 </template>
 
@@ -31,6 +55,7 @@ export default {
   data() {
     return {
       categories: [],
+      draggable: false,
     };
   },
   methods: {
@@ -40,6 +65,7 @@ export default {
         .get("/categories")
         .then((response) => {
           this.categories = response.data;
+          this.initialPositionCategories = response.data;
         })
         .catch((error) => console.log(error));
     },
@@ -73,6 +99,19 @@ export default {
           callbackOnSuccess();
         })
         .catch((error) => callbackOnError(error));
+    },
+
+    onMovement() {
+      // TODO
+      axios
+        .post("/categories/move", this.categories)
+        .then((response) => {
+          // this.getAllCategories()
+          console.log("moved");
+        })
+        .catch((error) => console.log(error));
+
+      console.log("move");
     },
   },
   mounted() {
@@ -159,6 +198,9 @@ export default {
 }
 .nestable [draggable="true"] {
   cursor: grab;
+}
+.nestable [draggable="false"] {
+  cursor: default;
 }
 .nestable-handle {
   display: inline;

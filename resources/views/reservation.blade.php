@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Réservation</h1>
+<div>
+    <!-- <h1>Réservation</h1> -->
+    <!-- TMP -->
+    <test-list-component></test-list-component>
 </div>
 @endsection

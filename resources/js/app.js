@@ -7,6 +7,7 @@
 require('./bootstrap');
 require('@fortawesome/fontawesome-free/js/all.js');
 
+
 import BootstrapVue from 'bootstrap-vue'
 import VueNestable from 'vue-nestable'
 
@@ -32,6 +33,9 @@ Vue.use(VueNestable);
 Vue.component('material-list-component', require('./pages/MaterialListComponent.vue').default);
 Vue.component('admin-material-management-component', require('./pages/admin/MaterialManagementComponent.vue').default);
 Vue.component('admin-category-management-component', require('./pages/admin/CategoryManagementComponent.vue').default);
+
+Vue.component('test-list-component', require('./pages/TestList.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
