@@ -23,22 +23,21 @@
         </b-row>
       </b-card-header>
       <b-card-body>
-
-      <b-row>
-        <b-col>
-          <vue-nestable v-model="categories" @change="onMovement">
-            <vue-nestable-handle slot-scope="{ item }" :item="item">
-              <category-list-item
-                :category="item"
-                :add="addCategory"
-                :update="updateCategory"
-                :delete="deleteCategory"
-                :draggable="draggable"
-              ></category-list-item>
-            </vue-nestable-handle>
-          </vue-nestable>
-        </b-col>
-      </b-row>
+        <b-row>
+          <b-col>
+            <vue-nestable v-model="categories" @change="onMovement">
+              <vue-nestable-handle :draggable="draggable" slot-scope="{ item }" :item="item">
+                <category-list-item
+                  :category="item"
+                  :add="addCategory"
+                  :update="updateCategory"
+                  :delete="deleteCategory"
+                  :draggable="draggable"
+                ></category-list-item>
+              </vue-nestable-handle>
+            </vue-nestable>
+          </b-col>
+        </b-row>
       </b-card-body>
     </b-card>
   </b-container>
@@ -108,10 +107,10 @@ export default {
         .post("/categories/move", this.categories)
         .then((response) => {
           // this.getAllCategories()
-          console.log('moved')
+          console.log("moved");
         })
-        .catch((error) => console.log(error))
-      
+        .catch((error) => console.log(error));
+
       console.log("move");
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-b-hover="hovered">
     <!-- UPDATE MODAL -->
     <update-category-modal
       :id="'update-category-modal-' + category.id"
@@ -19,7 +19,7 @@
       <b-container>
         <b-row>
           <b-col>{{ category.name }}</b-col>
-          <b-col class="m-1">
+          <b-col class="m-1" v-if="isHovered">
               <!-- ADD, UPDATE AND DELETE BUTTON -->
             <div class="float-right">
               <b-button pill variant="light" @click="onAdd" size="sm">
@@ -55,7 +55,9 @@ export default {
     delete: Function,
   },
   data() {
-    return {};
+    return {
+      isHovered: false
+    };
   },
   methods: {
     onAdd() {
@@ -68,6 +70,10 @@ export default {
     onDelete() {
       this.delete(this.category.id);
     },
+
+    hovered(hovered) {
+      this.isHovered = hovered
+    }
   },
 };
 </script>
