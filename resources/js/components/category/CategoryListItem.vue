@@ -14,10 +14,11 @@
           <b-col>{{ category.name }}</b-col>
           <b-col class="m-1">
             <div class="float-right">
-              <b-button @click="onUpdate" size="sm">
+              <!-- UPDATE AND DELETE BUTTON -->
+              <b-button pill variant="light" @click="onUpdate" size="sm">
                 <i class="fas fa-edit"></i>
               </b-button>
-              <b-button variant="danger" @click="onDelete" size="sm">
+              <b-button pill variant="light" @click="onDelete" size="sm">
                 <i class="fas fa-trash"></i>
               </b-button>
             </div>
