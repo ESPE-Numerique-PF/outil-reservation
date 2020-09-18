@@ -34,8 +34,7 @@ Vue.component('material-list-component', require('./pages/MaterialListComponent.
 Vue.component('admin-material-management-component', require('./pages/admin/MaterialManagementComponent.vue').default);
 Vue.component('admin-category-management-component', require('./pages/admin/CategoryManagementComponent.vue').default);
 
-Vue.component('test-list-component', require('./pages/TestList.vue').default);
-
+Vue.component('admin-test-component', require('./pages/admin/TestComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

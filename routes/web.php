@@ -33,6 +33,11 @@ Route::middleware('auth')->group(function () {
 // Auth and Admin routes
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/material', 'MaterialController@adminView');
+
+    // Test route
+    Route::get('/admin/test', function() {
+        return view('admin.test');
+    });
 });
 
 /*
@@ -66,8 +71,5 @@ Route::prefix('resources')->middleware(['auth', 'admin:api'])->group(function ()
         'materials' => 'MaterialController',
     ]);
 
-    // Test route
-    Route::post('/test', function(Request $request) {
-        Controller::debug($request);
-    });
+    
 });

@@ -16,7 +16,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    
+
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -54,6 +54,10 @@
                                 <a class="dropdown-item" href="{{ url('admin/material') }}">
                                     Gestion du matériel
                                 </a>
+
+                                <a class="dropdown-item" href="{{ url('admin/test') }}">
+                                    Page de test
+                                </a>
                             </div>
                         </li>
                         @endif
@@ -74,13 +78,13 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#">
-                                <i class="fas fa-user"></i> Mes informations
+                                    <i class="fas fa-user"></i> Mes informations
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                <i class="fas fa-cog"></i> Mes préférences
+                                    <i class="fas fa-cog"></i> Mes préférences
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                <i class="far fa-question-circle"></i> Aide
+                                    <i class="far fa-question-circle"></i> Aide
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     A propos
@@ -100,7 +104,7 @@
                 </div>
             </div>
         </nav>
-        
+
         <main class="py-4">
             @yield('content')
         </main>
