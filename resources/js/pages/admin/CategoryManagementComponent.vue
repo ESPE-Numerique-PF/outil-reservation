@@ -12,30 +12,32 @@
           <!-- ADD BUTTON -->
           <b-col>
             <b-button pill variant="light" v-b-modal.add-category-modal>
-              <i class="fas fa-plus"></i> Créer
+              <i class="fas fa-plus" /> Créer
             </b-button>
           </b-col>
 
           <!-- TOGGLE EDIT MODE -->
           <b-col sm="auto">
-            <b-form-checkbox v-model="draggable" switch>Mode édition</b-form-checkbox>
+            <b-form-checkbox class="pt-2" v-model="draggable" switch>Mode édition</b-form-checkbox>
           </b-col>
         </b-row>
       </b-card-header>
       <b-card-body>
         <b-row>
           <b-col>
-            <vue-nestable v-model="categories" @change="onMovement">
-              <vue-nestable-handle :draggable="draggable" slot-scope="{ item }" :item="item">
+            <tree v-model="categories" :draggable="draggable">
+              <template v-slot="{node, path, tree}">
                 <category-list-item
-                  :category="item"
+                  :class="{'item-draggable': draggable}"
+                  :tree="tree"
+                  :path="path"
+                  :category="node"
                   :add="addCategory"
                   :update="updateCategory"
                   :delete="deleteCategory"
-                  :draggable="draggable"
                 ></category-list-item>
-              </vue-nestable-handle>
-            </vue-nestable>
+              </template>
+            </tree>
           </b-col>
         </b-row>
       </b-card-body>
@@ -47,18 +49,25 @@
 import AddCategoryModal from "../../components/category/AddCategoryModal.vue";
 import CategoryListItem from "../../components/category/CategoryListItem.vue";
 
+import { Tree, Fold, Draggable } from "he-tree-vue";
+
 export default {
   components: {
     AddCategoryModal,
     CategoryListItem,
+    Tree: Tree.mixPlugins([Fold, Draggable]),
   },
   data() {
     return {
       categories: [],
       draggable: false,
+      show: true,
     };
   },
   methods: {
+    log(obj) {
+      console.log(obj);
+    },
     // fetch all categories through API
     getAllCategories() {
       axios
@@ -121,88 +130,20 @@ export default {
 </script>
 
 <style>
-/*
-* Style for nestable
-*/
-.nestable {
-  position: relative;
+.he-tree--hidden {
+  display: none;
 }
-.nestable-rtl {
+.he-tree--rtl {
   direction: rtl;
 }
-.nestable .nestable-list {
-  margin: 0;
-  padding: 0 0 0 40px;
-  list-style-type: none;
+
+/* .he-tree .tree-placeholder-node {
+} */
+.he-tree .dragging .tree-node-back:hover {
+  background-color: inherit;
 }
-.nestable-rtl .nestable-list {
-  padding: 0 40px 0 0;
-}
-.nestable > .nestable-list {
-  padding: 0;
-}
-.nestable-item,
-.nestable-item-copy {
-  margin: 10px 0 0;
-}
-.nestable-item:first-child,
-.nestable-item-copy:first-child {
-  margin-top: 0;
-}
-.nestable-item .nestable-list,
-.nestable-item-copy .nestable-list {
-  margin-top: 10px;
-}
-.nestable-item {
-  position: relative;
-}
-.nestable-item.is-dragging .nestable-list {
-  pointer-events: none;
-}
-.nestable-item.is-dragging * {
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-.nestable-item.is-dragging:before {
-  content: " ";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.089);
-  /* border: 1px dashed rgb(73, 100, 241); */
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-.nestable-drag-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  pointer-events: none;
-}
-.nestable-rtl .nestable-drag-layer {
-  left: auto;
-  right: 0;
-}
-.nestable-drag-layer > .nestable-list {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 0;
-  /* background-color: rgba(106, 127, 233, 0.274); */
-}
-.nestable-rtl .nestable-drag-layer > .nestable-list {
-  padding: 0;
-}
-.nestable [draggable="true"] {
+
+.item-draggable {
   cursor: grab;
-}
-.nestable [draggable="false"] {
-  cursor: default;
-}
-.nestable-handle {
-  display: inline;
 }
 </style>
