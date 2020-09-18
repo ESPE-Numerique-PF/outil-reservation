@@ -6,42 +6,61 @@
     <add-category-modal id="add-category-modal" :add="addCategory"></add-category-modal>
 
     <!-- CATEGORIES CARD -->
-    <b-card no-body>
-      <b-card-header>
-        <b-row class="justify-content-md-end">
-          <!-- ADD BUTTON -->
-          <b-col>
-            <b-button pill variant="light" v-b-modal.add-category-modal>
-              <i class="fas fa-plus" /> Créer
-            </b-button>
-          </b-col>
+    <b-row>
+      <b-col>
+        <b-card no-body>
+          <b-card-header>
+            <b-row class="justify-content-md-end">
+              <!-- ADD BUTTON -->
+              <b-col>
+                <b-button pill variant="light" v-b-modal.add-category-modal>
+                  <i class="fas fa-plus" /> Créer
+                </b-button>
+              </b-col>
 
-          <!-- TOGGLE EDIT MODE -->
-          <b-col sm="auto">
-            <b-form-checkbox class="pt-2" v-model="draggable" switch>Mode édition</b-form-checkbox>
-          </b-col>
-        </b-row>
-      </b-card-header>
-      <b-card-body>
-        <b-row>
-          <b-col>
-            <tree v-model="categories" :draggable="draggable">
-              <template v-slot="{node, path, tree}">
-                <category-list-item
-                  :class="{'item-draggable': draggable}"
-                  :tree="tree"
-                  :path="path"
-                  :category="node"
-                  :add="addCategory"
-                  :update="updateCategory"
-                  :delete="deleteCategory"
-                ></category-list-item>
-              </template>
-            </tree>
-          </b-col>
-        </b-row>
-      </b-card-body>
-    </b-card>
+              <!-- TOGGLE EDIT MODE -->
+              <b-col sm="auto">
+                <b-form-checkbox class="pt-2" v-model="draggable" switch>Mode édition</b-form-checkbox>
+              </b-col>
+            </b-row>
+          </b-card-header>
+
+          <!-- CATEGORIES TREE -->
+          <b-card-body>
+            <b-row>
+              <b-col>
+                <tree :value="categories" :draggable="draggable" @input="onMove" ref="tree" :foldAllAfterMounted="true">
+                  <template v-slot="{node, path, tree}">
+                    <category-list-item
+                      :class="{'item-draggable': draggable}"
+                      :tree="tree"
+                      :path="path"
+                      :category="node"
+                      :add="addCategory"
+                      :update="updateCategory"
+                      :delete="deleteCategory"
+                    ></category-list-item>
+                  </template>
+                </tree>
+              </b-col>
+            </b-row>
+          </b-card-body>
+
+          <!-- VALIDATE NEW POSITION -->
+          <b-card-footer>
+            <b-row class="justify-content-md-end">
+              <b-col>
+                Enregistrer l'ordre des catégories
+              </b-col>
+              <b-col md="auto">
+                <b-button variant="success" @click="updateCategoriesPosition" :disabled="!hasMoved">Enregistrer</b-button>
+                <b-button variant="danger" @click="resetCategoriesPosition" :disabled="!hasMoved">Annuler</b-button>
+              </b-col>
+            </b-row>
+          </b-card-footer>
+        </b-card>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -49,7 +68,7 @@
 import AddCategoryModal from "../../components/category/AddCategoryModal.vue";
 import CategoryListItem from "../../components/category/CategoryListItem.vue";
 
-import { Tree, Fold, Draggable } from "he-tree-vue";
+import { Tree, Fold, Draggable, foldAll } from "he-tree-vue";
 
 export default {
   components: {
@@ -61,13 +80,11 @@ export default {
     return {
       categories: [],
       draggable: false,
-      show: true,
+      hasMoved: false,
+      treeData: null
     };
   },
   methods: {
-    log(obj) {
-      console.log(obj);
-    },
     // fetch all categories through API
     getAllCategories() {
       axios
@@ -109,19 +126,23 @@ export default {
         })
         .catch((error) => callbackOnError(error));
     },
-
-    onMovement() {
-      // TODO
+    updateCategoriesPosition() {
       axios
-        .post("/categories/move", this.categories)
+        .post("/categories/move", {categories: this.categories})
         .then((response) => {
-          // this.getAllCategories()
-          console.log("moved");
+          this.getAllCategories();
+          this.hasMoved = false
         })
         .catch((error) => console.log(error));
-
-      console.log("move");
     },
+    resetCategoriesPosition() {
+      this.getAllCategories();
+      this.hasMoved = false
+    },
+
+    onMove(tree) {
+      this.hasMoved = true
+    }
   },
   mounted() {
     this.getAllCategories();
@@ -130,16 +151,21 @@ export default {
 </script>
 
 <style>
-.he-tree--hidden {
+.he-tree--hidden{
   display: none;
 }
-.he-tree--rtl {
+.he-tree--rtl{
   direction: rtl;
 }
 
-/* .he-tree .tree-placeholder-node {
+
+/* .he-tree .tree-placeholder{
 } */
-.he-tree .dragging .tree-node-back:hover {
+.he-tree .tree-placeholder-node{
+  background: #0000001c;
+  height: 50px;
+}
+.he-tree .dragging .tree-node-back:hover{
   background-color: inherit;
 }
 
