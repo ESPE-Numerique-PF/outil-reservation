@@ -113,13 +113,35 @@ php artisan route:cache
 cp .env.example .env
 ```
 
-Assurez-vous que qu'Apache ait des accès en écriture dans le projet:
+Assurez-vous qu'Apache ait des accès en écriture dans le projet:
 
 ```
-sudo chgrp -R www-data <chemin/vers/le/projet>
+cd <chemin/vers/le/projet>
+sudo chgrp -R www-data .
+sudo chmod -R g+rw .
 ```
 
-Assurez-vous qu'un alias redirige vers le répertoire public du projet.
+Assurez-vous qu'un alias (défini dans les fichiers de configuration d'Apache) redirige vers le répertoire public du projet `public/`. Par exemple, dans un fichier de configuration apache se trouvant dans `/etc/apache2/conf-available/my-conf.conf`:
+```
+Alias /outil-reservation    /var/www/html/outil-reservation/public
+```
+
+### Mise à jour en production
+
+Pour mettre à jour l'outil sur le serveur de production, exécutez:
+```
+cd <chemin/vers/le/projet>
+git pull
+composer install --optimize-autoloader --no-dev
+php artisan config:cache
+php artisan route:cache
+npm install
+npm run production
+sudo chgrp -R www-data .
+sudo chmod -R g+rw .
+```
+
+Assurez-vous que le fichier `.env` soit à jour avec le fichier `.env.example` (si des champs ont été ajoutés/modifiés dans `.env.example`, ces champs doivent être répliqués dans `.env` et les valeurs doivent être ajustées en fonction de la configuration du serveur).
 
 ## README Laravel
 
