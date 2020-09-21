@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\Controller;
 use App\User;
 use App\UserRole;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,9 +17,8 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $user = factory(User::class)->create(['user_role_id' => UserRole::ADMIN['id']]);
-        // $user = factory(User::class)->create(['user_role_id' => 2]);
-
+        // create a new user but do not store in DB
+        $user = factory(User::class)->make(['user_role_id' => UserRole::ADMIN['id']]);
 
         $response = $this->actingAs($user)
             ->get('/resources/categories');
