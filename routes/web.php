@@ -1,12 +1,5 @@
 <?php
 
-use App\CacheInterface;
-use App\Category;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Category as CategoryResource;
-use App\Material;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 

@@ -20,8 +20,8 @@ Voir [Risque des problème de compatibilités](doc/upgrade_risk.md).
 
 ### Base de données
 
-- Créer une base de données `outil-reservation`
-- Créer un utilisateur `outil-reservation` avec tous les droits sur la base de données précédente
+- Créer une base de données `outil-reservation` et `outil-reservation-test` (cette dernière est optionnelle et ne sert que pour les tests exécutées durant le développement)
+- Créer un utilisateur `outil-reservation` avec tous les droits sur la(les) base(s) de données précédente(s)
 
 ### Installation du projet
 
@@ -39,14 +39,29 @@ php artisan storage:link
 
 ### Configuration du projet
 
+Initialiser le fichier environnement (contient des paramètres propres à l'environnement) en copiant le fichier d'exemple et en renseignant les paramètres (les plus importants sont les champs `APP_NAME`, `APP_URL`, `DB_DATABASE=outil-reservation`, `DB_USERNAME`, `DB_PASSWORD`):
+```
+cp .env.example .env
+```
+Initialiser ensuite la clé de l'application (la clé sera automatiquement ajouter à l'entrée `APP_KEY` dans le fichier `.env`):
+```
+php artisan key:generate
+```
+
 Initialiser les configurations du projet dans les fichiers suivants:
 - `config/app.php`
 - `config/database.php`
-- `.env`
 
 Puis initialiser la base de données:
 ```
 php artisan migrate
+```
+
+#### Configuration pour les tests (optionnel)
+
+Optionnellement, dans le cas où vous effectuerez des tests unitaires, il est conseillé de créer en plus un fichier `.env.testing` qui sera la copie du fichier `.env` avec comme paramètres à modifier le `DB_DATABASE=outil-reservation-test`. Ainsi, les tests n'écriront que dans la base de données de test sans toucher à la base de données principale.
+```
+cp .env .env.testing
 ```
 
 ## Travail en développement
@@ -77,6 +92,15 @@ Ici sont présentés les commandes les plus utilisées pour le projet afin de do
     - commit -m "message"
     - pull (important avant un push)
     - push
+
+## Tests unitaires
+
+Le projet inclut des tests unitaires à l'aide de l'outil `PHPUnit` fournit avec Laravel.
+Les tests se trouvent dans le dossier `tests`.
+Pour exécuter l'ensemble des tests:
+```
+php artisan test
+```
 
 ## Mise en production
 
