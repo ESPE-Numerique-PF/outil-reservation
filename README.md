@@ -107,9 +107,15 @@ php artisan test
 Exécutez les commandes suivantes dans le répertoire du projet:
 
 ```
+cd <chemin/vers/le/projet>
+git pull
 composer install --optimize-autoloader --no-dev
 php artisan config:cache
 php artisan route:cache
+npm install
+npm run production
+sudo chgrp -R www-data .
+sudo chmod -R g+rw .
 cp .env.example .env
 ```
 
