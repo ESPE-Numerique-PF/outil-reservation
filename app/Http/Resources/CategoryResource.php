@@ -18,7 +18,7 @@ class CategoryResource extends JsonResource
     {
         // set image URI (a default image is set if the resource does not have an image)
         $exists = Storage::exists($this->image_path);
-        $imageUri =  env('APP_URL') . '/' . ($exists ? $this->image_path : Controller::NO_IMAGE_PATH);
+        $imageUri =  config('app.url') . '/' . ($exists ? $this->image_path : Controller::NO_IMAGE_PATH);
 
         return [
             'id'=> $this->id,

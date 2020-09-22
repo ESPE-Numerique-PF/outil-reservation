@@ -11,15 +11,15 @@
             <tbody>
                 <tr>
                     <th scope="row">Environnement</th>
-                    <td>{{ env('APP_ENV') }}</td>
+                    <td>{{ config('app.env') }}</td>
                 </tr>
                 <tr>
                     <th scope="row">URL</th>
-                    <td>{{ env('APP_URL') }}</td>
+                    <td>{{ config('app.url') }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Debug mode</th>
-                    <td>{{ env('APP_DEBUG') ? 'True' : 'False'}}</td>
+                    <td>{{ config('app.debug') ? 'True' : 'False'}}</td>
                 </tr>
                 <tr>
                     <th scope="row">PHP version</th>
