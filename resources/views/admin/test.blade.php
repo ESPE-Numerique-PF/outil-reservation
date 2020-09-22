@@ -30,5 +30,5 @@
     </div>
 </div>
 
-<!-- <admin-test-component></admin-test-component> -->
+<admin-test-component></admin-test-component>
 @endsection
