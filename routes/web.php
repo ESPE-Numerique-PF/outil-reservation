@@ -42,7 +42,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 */
 
 // Auth routes
-Route::prefix('resources')->middleware(['auth', 'cors'])->group(function () {
+Route::prefix('resources')->middleware(['auth'])->group(function () {
     // user
     Route::get('/me', function () {
         return Auth::user();
@@ -56,7 +56,7 @@ Route::prefix('resources')->middleware(['auth', 'cors'])->group(function () {
 });
 
 // Auth and Admin routes
-Route::prefix('resources')->middleware(['auth', 'admin:api', 'cors'])->group(function () {
+Route::prefix('resources')->middleware(['auth', 'admin:api'])->group(function () {
     Route::post('categories/move', 'CategoryController@move');
 
     Route::apiResources([
