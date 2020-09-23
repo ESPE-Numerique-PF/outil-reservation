@@ -52,6 +52,7 @@ Route::prefix('resources')->middleware(['auth'])->group(function () {
     });
 
     // categories
+    
     Route::get('/categories', 'CategoryController@index');
 
     // materials

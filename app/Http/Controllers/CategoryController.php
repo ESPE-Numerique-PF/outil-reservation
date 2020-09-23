@@ -139,10 +139,6 @@ class CategoryController extends Controller
     public function move(Request $request)
     {
         $categories = $request->categories;
-        array_walk_recursive($categories, function($k, $v) {
-            // $category = Category::find($v['id']);
-            // self::debug($k . ' -> ' . $category->position);
-            self::debug($k);
-        });
+        self::debug($categories);
     }
 }

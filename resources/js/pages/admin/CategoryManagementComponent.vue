@@ -60,6 +60,9 @@
           </b-card-footer>
         </b-card>
       </b-col>
+      <b-col>
+        <pre>{{ categories }}</pre>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -80,8 +83,7 @@ export default {
     return {
       categories: [],
       draggable: false,
-      hasMoved: false,
-      treeData: null
+      hasMoved: false
     };
   },
   methods: {
@@ -91,7 +93,6 @@ export default {
         .get("/categories")
         .then((response) => {
           this.categories = response.data;
-          this.initialPositionCategories = response.data;
         })
         .catch((error) => console.log(error));
     },
