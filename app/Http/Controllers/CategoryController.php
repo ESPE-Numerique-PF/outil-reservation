@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Resources\CategoryResource;
+use App\Services\NestedService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -139,6 +140,14 @@ class CategoryController extends Controller
     public function move(Request $request)
     {
         $categories = $request->categories;
-        self::debug($categories);
+        $flatCategories = NestedService::flatten($categories);
+
+        foreach ($flatCategories as $flatCategory) {
+            $category = Category::find($flatCategory['id']);
+            $category->position = $flatCategory['position'];
+            $category->parent_category_id = $flatCategory['parent_id'];
+
+            $category->save();
+        }
     }
 }

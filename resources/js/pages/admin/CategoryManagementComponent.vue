@@ -29,7 +29,13 @@
           <b-card-body>
             <b-row>
               <b-col>
-                <tree :value="categories" :draggable="draggable" @input="onMove" ref="tree" :foldAllAfterMounted="true">
+                <tree
+                  :value="categories"
+                  :draggable="draggable"
+                  @input="updateCategoriesPosition"
+                  ref="tree"
+                  foldAllAfterMounted
+                >
                   <template v-slot="{node, path, tree}">
                     <category-list-item
                       :class="{'item-draggable': draggable}"
@@ -45,23 +51,7 @@
               </b-col>
             </b-row>
           </b-card-body>
-
-          <!-- VALIDATE NEW POSITION -->
-          <b-card-footer>
-            <b-row class="justify-content-md-end">
-              <b-col>
-                Enregistrer l'ordre des catégories
-              </b-col>
-              <b-col md="auto">
-                <b-button variant="success" @click="updateCategoriesPosition" :disabled="!hasMoved">Enregistrer</b-button>
-                <b-button variant="danger" @click="resetCategoriesPosition" :disabled="!hasMoved">Annuler</b-button>
-              </b-col>
-            </b-row>
-          </b-card-footer>
         </b-card>
-      </b-col>
-      <b-col>
-        <pre>{{ categories }}</pre>
       </b-col>
     </b-row>
   </b-container>
@@ -83,7 +73,7 @@ export default {
     return {
       categories: [],
       draggable: false,
-      hasMoved: false
+      foldedCategories: [],
     };
   },
   methods: {
@@ -92,7 +82,7 @@ export default {
       axios
         .get("/categories")
         .then((response) => {
-          this.categories = response.data;
+          this.categories = response.data;s
         })
         .catch((error) => console.log(error));
     },
@@ -129,21 +119,16 @@ export default {
     },
     updateCategoriesPosition() {
       axios
-        .post("/categories/move", {categories: this.categories})
+        .post("/categories/move", { categories: this.categories })
         .then((response) => {
-          this.getAllCategories();
-          this.hasMoved = false
+          // show success msg ?
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          // show error msg ?
+          this.getAllCategories();
+          console.log(error);
+        });
     },
-    resetCategoriesPosition() {
-      this.getAllCategories();
-      this.hasMoved = false
-    },
-
-    onMove(tree) {
-      this.hasMoved = true
-    }
   },
   mounted() {
     this.getAllCategories();
@@ -152,21 +137,20 @@ export default {
 </script>
 
 <style>
-.he-tree--hidden{
+.he-tree--hidden {
   display: none;
 }
-.he-tree--rtl{
+.he-tree--rtl {
   direction: rtl;
 }
 
-
 /* .he-tree .tree-placeholder{
 } */
-.he-tree .tree-placeholder-node{
+.he-tree .tree-placeholder-node {
   background: #0000001c;
   height: 50px;
 }
-.he-tree .dragging .tree-node-back:hover{
+.he-tree .dragging .tree-node-back:hover {
   background-color: inherit;
 }
 
