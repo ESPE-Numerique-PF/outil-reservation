@@ -99,13 +99,13 @@ export default {
 
     // add a category through API and the view (+ dismiss add category modal)
     addCategory(category, callbackOnSuccess, callbackOnError) {
-      // axios
-      //   .post("/categories", category)
-      //   .then((response) => {
-      //     this.getAllCategories();
-      //     callbackOnSuccess();
-      //   })
-      //   .catch((error) => callbackOnError(error));
+      axios
+        .post("/categories", category)
+        .then((response) => {
+          this.getAllCategories();
+          callbackOnSuccess();
+        })
+        .catch((error) => callbackOnError(error));
     },
 
     updateCategory(id, category, callbackOnSuccess, callbackOnError) {
