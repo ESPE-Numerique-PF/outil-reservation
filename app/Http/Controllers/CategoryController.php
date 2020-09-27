@@ -55,7 +55,7 @@ class CategoryController extends Controller
         $position = Category::getNextPosition($parentId);
 
         // store new category
-        return Category::create(
+        $category = Category::create(
             [
                 'image_path' => $path,
                 'name' => $request->name,
@@ -63,6 +63,9 @@ class CategoryController extends Controller
                 'parent_category_id' => $parentId
             ]
         );
+
+        // return new category
+        return new CategoryResource($category);
     }
 
     /**

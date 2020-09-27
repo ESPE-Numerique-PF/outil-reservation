@@ -12,6 +12,8 @@
       :id="'add-category-modal-' + category.id"
       :parentCategory="category"
       :add="add"
+      :path="path"
+      :tree="tree"
     ></add-category-modal>
 
     <!-- CARD -->
@@ -69,6 +71,7 @@ export default {
     category: Object,
     tree: Object,
     path: Array,
+    node: Object,
     add: Function,
     update: Function,
     delete: Function,
