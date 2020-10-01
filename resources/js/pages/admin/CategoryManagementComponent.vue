@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <h1>Vuex categories management</h1>
+    <h1>Gestion des catégories</h1>
 
     <!-- Add category modal -->
     <add-category-modal

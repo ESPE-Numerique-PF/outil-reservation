@@ -19,7 +19,12 @@ class CreateMaterialsTable extends Migration
             $table->text('description')->nullable();
             $table->text('note')->nullable();
             $table->string('image_path')->nullable();
+            $table->foreignId('category_id')->nullable();
             $table->timestamps();
+
+            // constraints
+            $table->foreign('category_id')->references('id')->on('categories')
+                ->nullOnDelete();
         });
     }
 
