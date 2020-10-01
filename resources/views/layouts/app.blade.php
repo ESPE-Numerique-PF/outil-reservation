@@ -38,12 +38,17 @@
                     <!-- Left Side Of Navbar -->
                     @auth
                     <ul class="navbar-nav mr-auto">
+                        <!-- Reservation menu -->
                         <li class="nav-item">
                             <a href="{{ url('reservation') }}" class="nav-link">Réservations</a>
                         </li>
+
+                        <!-- Ressources menu -->
                         <li class="nav-item">
                             <a href="{{ url('material') }}" class="nav-link">Ressources</a>
                         </li>
+
+                        <!-- Admin menu -->
                         @if (Auth::user()->isAdmin())
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -51,6 +56,10 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url('admin/category') }}">
+                                    Gestion des catégories
+                                </a>
+
                                 <a class="dropdown-item" href="{{ url('admin/material') }}">
                                     Gestion du matériel
                                 </a>

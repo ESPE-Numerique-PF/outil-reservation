@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 // Auth and Admin routes
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/material', 'MaterialController@adminView');
+    Route::get('/admin/category', 'CategoryController@adminView');
 
     // Test route
     Route::get('/admin/test', function() {

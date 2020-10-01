@@ -4,15 +4,31 @@
     <update-category-modal
       :id="'update-category-modal-' + category.id"
       :category="category"
-      :update="update"
     ></update-category-modal>
 
     <!-- ADD MODAL -->
     <add-category-modal
       :id="'add-category-modal-' + category.id"
-      :parentCategory="category"
-      :add="add"
+      :node="category"
+      :path="path"
     ></add-category-modal>
+
+    <!-- Delete Modal -->
+    <b-modal
+      :id="'delete-category-modal-' + category.id"
+      :title="'Suppression de la catégorie ' + category.name"
+      cancel-title="Annuler"
+      ok-title="Supprimer"
+      ok-variant="danger"
+      @ok="onDelete"
+    >
+      <h3>Attention</h3>
+      <p>
+        Attention: la suppression de cette catégories entraînera la suppression
+        de toutes ses catégories.
+      </p>
+      <p>Etes-vous sûrs de vouloir continuer ?</p>
+    </b-modal>
 
     <!-- CARD -->
     <b-card no-body>
@@ -27,7 +43,10 @@
             @click="tree.toggleFold(category, path)"
           >
             <span :key="category.$folded ? 'right' : 'down'">
-              <i class="fas" :class="[category.$folded ? 'fa-caret-right' : 'fa-caret-down']" />
+              <i
+                class="fas"
+                :class="[category.$folded ? 'fa-caret-right' : 'fa-caret-down']"
+              />
             </span>
           </b-button>
 
@@ -45,7 +64,7 @@
               <b-button pill variant="light" @click="onUpdate">
                 <i class="fas fa-edit"></i>
               </b-button>
-              <b-button pill variant="light" @click="onDelete">
+              <b-button pill variant="light" @click="beforeDelete">
                 <i class="fas fa-trash"></i>
               </b-button>
             </div>
@@ -70,9 +89,6 @@ export default {
     tree: Object,
     path: Array,
     node: Object,
-    add: Function,
-    update: Function,
-    delete: Function,
   },
   data() {
     return {
@@ -86,9 +102,15 @@ export default {
     onUpdate() {
       this.$bvModal.show("update-category-modal-" + this.category.id);
     },
-
+    beforeDelete() {
+      this.$root.$emit('bv::show::modal', 'delete-category-modal-' + this.category.id)
+    },
     onDelete() {
-      this.delete(this.category.id);
+      this.$store.dispatch("deleteCategory", {
+        category: this.category,
+        path: this.path,
+        tree: this.tree,
+      });
     },
 
     hovered(hovered) {
