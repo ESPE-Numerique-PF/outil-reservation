@@ -24,7 +24,7 @@
     >
       <h3>Attention</h3>
       <p>
-        Attention: la suppression de cette catégories entraînera la suppression
+        La suppression de cette catégories entraînera la suppression
         de toutes ses catégories.
       </p>
       <p>Etes-vous sûrs de vouloir continuer ?</p>

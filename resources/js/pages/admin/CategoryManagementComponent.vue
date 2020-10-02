@@ -10,7 +10,7 @@
     <!-- Add button -->
     <b-row class="mb-3">
       <b-col md="auto">
-        <b-button v-b-modal.add-category-modal pill>Créer</b-button>
+        <b-button v-b-modal.add-category-modal>Créer</b-button>
       </b-col>
     </b-row>
 
