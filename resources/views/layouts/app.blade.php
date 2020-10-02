@@ -29,6 +29,7 @@
         <header class="main-header">
             <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
                 <div class="container">
+                    
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
@@ -125,10 +126,15 @@
 
     </div>
 
-    <footer class="main-footer font-small pt-4">
-        <div class="footer-copyright text-center">
-            <p>© Copyright 2020 Ecole supérieur du professorat et de l'éducation de la Polynésie Française
-                (<a href="http://espe.upf.pf">espe.upf.pf</a>)</p>
+    <footer class="main-footer font-small">
+        <div class="footer-copyright text-center container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <p>© Copyright 2020 Ecole supérieur du professorat et de l'éducation de la Polynésie Française
+                        (<a href="http://espe.upf.pf">espe.upf.pf</a>)</p>
+
+                </div>
+            </div>
         </div>
     </footer>
 </body>
