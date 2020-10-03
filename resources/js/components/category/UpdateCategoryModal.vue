@@ -4,7 +4,7 @@
       :id="id"
       ref="update-category-modal"
       cancel-title="Annuler"
-      title="Modification"
+      title="Modifier la catégorie"
       hide-footer
       @show="onShowModal"
     >
