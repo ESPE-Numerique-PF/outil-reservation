@@ -1,13 +1,13 @@
 <template>
   <b-container>
-    <h1>Gestion des catégories</h1>
+    <h2>Gestion des catégories</h2>
 
     <!-- Add category modal -->
     <add-category-modal
       id="add-category-modal"
     ></add-category-modal>
 
-    <b-row class="mb-3">
+    <b-row class="mb-2">
     <!-- Add button -->
       <b-col cols="auto" class="mr-auto">
         <b-button v-b-modal.add-category-modal variant="light"><i class="fas fa-plus"></i> Créer</b-button>
