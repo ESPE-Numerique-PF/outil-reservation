@@ -7,10 +7,14 @@
       id="add-category-modal"
     ></add-category-modal>
 
-    <!-- Add button -->
     <b-row class="mb-3">
-      <b-col md="auto">
-        <b-button v-b-modal.add-category-modal>Créer</b-button>
+    <!-- Add button -->
+      <b-col cols="auto" class="mr-auto">
+        <b-button v-b-modal.add-category-modal variant="light"><i class="fas fa-plus"></i> Créer</b-button>
+      </b-col>
+      <b-col cols="auto">
+        <b-button variant="light" @click="unfoldAll">Tout étendre</b-button>
+        <b-button variant="light" @click="foldAll">Tout réduire</b-button>
       </b-col>
     </b-row>
 
@@ -22,6 +26,7 @@
           foldAllAfterMounted
           :dataFetchedAfterMounted="dataFetchedAfterMounted"
           @drop="moveCategory(categories)"
+          ref="tree"
         >
           <template v-slot="{ node, path, tree }">
             <category-list-item
@@ -60,12 +65,21 @@ export default {
     ...mapGetters({
       categories: "categories",
     }),
+    tree() {
+      return this.$refs.tree
+    }
   },
   methods: {
     ...mapActions({
       fetchCategories: "fetchCategories",
       moveCategory: "moveCategory",
     }),
+    foldAll() {
+      this.tree.foldAll()
+    },
+    unfoldAll() {
+      this.tree.unfoldAll()
+    }
   },
 
   mounted() {

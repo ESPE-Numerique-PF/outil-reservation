@@ -64,7 +64,7 @@
               <b-button pill variant="light" @click="onUpdate">
                 <i class="fas fa-edit"></i>
               </b-button>
-              <b-button pill variant="light" @click="beforeDelete">
+              <b-button pill variant="danger" @click="beforeDelete">
                 <i class="fas fa-trash"></i>
               </b-button>
             </div>

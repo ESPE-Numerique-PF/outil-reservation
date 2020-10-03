@@ -4,7 +4,7 @@
       :id="id"
       ref="add-category-modal"
       cancel-title="Annuler"
-      title="Créer une catégorie"
+      title="Ajouter une catégorie"
       hide-footer
     >
       <!-- ERROR ALERT -->

@@ -1,5 +1,5 @@
 <script>
-import { Tree, Fold, Draggable, walkTreeData } from "he-tree-vue";
+import { Tree, Fold, Draggable, walkTreeDatan } from "he-tree-vue";
 
 export default {
   extends: Tree,
@@ -8,6 +8,7 @@ export default {
     dataFetchedAfterMounted: Boolean,
   },
   computed: {
+    // get all id of folded nodes
     foldedNodesById: function () {
       let foldedNodes = [];
 
