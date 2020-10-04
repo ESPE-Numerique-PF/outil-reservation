@@ -28,8 +28,12 @@ Vue.use(BootstrapVue);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+// public views
 Vue.component('material-list-component', require('./pages/MaterialListComponent.vue').default);
+
+// admin views
 Vue.component('admin-category-management-component', require('./pages/admin/CategoryManagementComponent.vue').default);
+Vue.component('admin-material-management-component', require('./pages/admin/MaterialManagementComponent.vue').default);
 Vue.component('admin-test-component', require('./pages/admin/TestComponent.vue').default);
 
 /**

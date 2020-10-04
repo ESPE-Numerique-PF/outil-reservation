@@ -2,7 +2,6 @@
 
 @section('content')
 <b-container>
-    <h1>Gestion du matériel</h1>
-    <h2>En construction</h2>
+    <admin-material-management-component></admin-material-management-component>
 </b-container>
 @endsection
