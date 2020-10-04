@@ -8,7 +8,9 @@
       hide-footer
     >
       <!-- ERROR ALERT -->
-      <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
+      <b-alert variant="danger" v-model="error.show" dismissible>{{
+        error.message
+      }}</b-alert>
 
       <div id="preview" class="mb-3">
         <b-img v-if="imageUrl" :src="imageUrl" rounded></b-img>
@@ -16,11 +18,36 @@
 
       <!-- FORM -->
       <b-form @submit.prevent="onSubmit">
-        <b-form-group id="input-group">
-          <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
+        <!-- Name -->
+        <b-form-group>
+          <b-form-input
+            id="name"
+            placeholder="Nom"
+            v-model="form.name"
+            required
+            autofocus
+          ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-file-group">
+        <!-- Description -->
+        <b-form-group>
+          <b-form-textarea
+            id="description"
+            placeholder="Description"
+            v-model="form.description"
+          ></b-form-textarea>
+        </b-form-group>
+
+        <!-- Note -->
+        <b-form-group>
+          <b-form-textarea
+            id="note"
+            placeholder="Note"
+            v-model="form.note"
+          ></b-form-textarea>
+        </b-form-group>
+
+        <b-form-group>
           <b-form-file
             v-model="form.image"
             :state="Boolean(form.image)"
@@ -41,13 +68,15 @@
 <script>
 export default {
   props: {
-    id: String
+    id: String,
   },
 
   data() {
     return {
       form: {
         name: "",
+        description: "",
+        note: "",
         image: null,
       },
       error: {
@@ -62,11 +91,14 @@ export default {
     onSubmit(evt) {
       let formData = new FormData();
       formData.append("name", this.form.name);
+      formData.append("description", this.form.description);
+      formData.append("note", this.form.note);
       if (this.form.image !== null) formData.append("image", this.form.image);
-      
-      this.$store.dispatch('createMaterial', {material: formData})
+
+      this.$store
+        .dispatch("createMaterial", { material: formData })
         .then((response) => this.hideModal())
-        .catch((error) => console.log('error'))
+        .catch((error) => console.log("error"));
     },
     onFileChange(evt) {
       const file = evt.target.files[0];
@@ -83,6 +115,8 @@ export default {
     reset() {
       this.form = {
         name: "",
+        description: "",
+        note: "",
         image: null,
       };
       this.error = {

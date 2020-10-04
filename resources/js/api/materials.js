@@ -4,9 +4,9 @@ export default {
     async getAll() {
         return axios.get('/materials')
     },
-    // async post(category) {
-    //     return axios.post('/categories', category)
-    // },
+    async post(material) {
+        return axios.post('/materials', material)
+    },
     // async update(id, category) {
     //     return axios.post("/categories/" + id, category)
     // },

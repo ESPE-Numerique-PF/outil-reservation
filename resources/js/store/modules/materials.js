@@ -14,7 +14,7 @@ const getters = {
 
 // actions
 const actions = {
-    createMaterials({ commit }, material) {
+    createMaterial({ commit }, { material }) {
         api.post(material)
             .then(response => {
                 commit('CREATE_MATERIAL', response.data)
