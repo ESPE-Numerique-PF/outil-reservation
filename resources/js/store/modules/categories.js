@@ -94,7 +94,6 @@ const mutations = {
         return state.categories = categories
     },
     UPDATE_CATEGORY(state, category) {
-        console.log(category)
         let categoryToUpdate = findById(state.categories, category.id);
         Object.assign(categoryToUpdate, category)
     },

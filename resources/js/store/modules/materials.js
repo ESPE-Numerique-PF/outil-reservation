@@ -1,3 +1,4 @@
+import materials from '../../api/materials'
 import api from '../../api/materials'
 
 // state
@@ -54,8 +55,14 @@ const mutations = {
     FETCH_MATERIALS(state, materials) {
         return state.materials = materials
     },
-    UPDATE_MATERIAL(state, material) {},
-    DELETE_MATERIAL(state, material) {},
+    UPDATE_MATERIAL(state, material) { 
+        // TODO
+        let materialToUpdate = state.materials.find(element => element.id === material.id)
+        Object.assign(materialToUpdate, material)
+    },
+    DELETE_MATERIAL(state, material) {
+        // TODO
+    },
 }
 
 export default {

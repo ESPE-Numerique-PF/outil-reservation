@@ -62,7 +62,7 @@
                       <template v-slot:button-content>
                         <i class="fas fa-ellipsis-v" />
                       </template>
-                      <b-dropdown-item>Editer</b-dropdown-item>
+                      <b-dropdown-item @click="onUpdate(row.item)">Editer</b-dropdown-item>
                       <b-dropdown-item>Supprimer</b-dropdown-item>
                     </b-dropdown>
                   </div>
@@ -112,10 +112,12 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import AddMaterialModal from "../../components/material/AddMaterialModal";
+import UpdateMaterialModal from "../../components/material/UpdateMaterialModal";
 
 export default {
   components: {
     AddMaterialModal,
+    UpdateMaterialModal
   },
   data() {
     return {
@@ -144,9 +146,11 @@ export default {
       this.selected = items;
     },
     onUpdate(material) {
+      // TODO open update modal
       console.log("update " + material.name);
     },
     beforeDelete(material) {
+      // TODO open delete confirmation modal
       console.log("delete " + material.name);
     },
   },
