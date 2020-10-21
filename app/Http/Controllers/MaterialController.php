@@ -6,6 +6,7 @@ use App\Http\Resources\Material as ResourcesMaterial;
 use App\Http\Resources\MaterialResource;
 use App\Material;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class MaterialController extends Controller
@@ -71,8 +72,16 @@ class MaterialController extends Controller
         // TODO
     }
 
-    public function destroy()
+    public function destroy($id)
     {
-        // TODO
+        $material = Material::find($id);
+
+        // delete 
+        $material->delete();
+
+        // delete current image from storage
+        if ($material->image_path != MaterialController::NO_IMAGE_PATH) {
+            Storage::delete($material->image_path);
+        }
     }
 }

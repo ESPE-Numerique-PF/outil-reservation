@@ -41,7 +41,6 @@ const actions = {
         api.delete(material.id)
             .then(response => {
                 commit('DELETE_MATERIAL', material)
-                console.log(response)
             })
             .catch(error => console.log(error))
     }
@@ -62,6 +61,11 @@ const mutations = {
     },
     DELETE_MATERIAL(state, material) {
         // TODO
+        let materialIndexToRemove = state.materials.findIndex(element => element.id === material.id)
+        if (materialIndexToRemove > -1)
+            state.materials.splice(materialIndexToRemove, 1)
+            
+        // TODO remove all material instances attached to this material
     },
 }
 

@@ -99,7 +99,6 @@ const mutations = {
     },
     DELETE_CATEGORY(state, { tree, path }) {
         tree.removeNodeByPath(path);
-        console.log('category deleted')
     },
 }
 

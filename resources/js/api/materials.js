@@ -8,10 +8,10 @@ export default {
         return axios.post('/materials', material)
     },
     // async update(id, category) {
-    //     return axios.post("/categories/" + id, category)
+    //     return axios.post("/materials/" + id, category)
     // },
-    // async delete(id) {
-    //     return axios.delete('/categories/' + id)
-    // },
+    async delete(id) {
+        return axios.delete('/materials/' + id)
+    },
 
 }
