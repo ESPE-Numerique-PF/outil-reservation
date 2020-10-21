@@ -105,6 +105,10 @@ return [
             'path' => storage_path('logs/debug.log'),
         ],
 
+        'test' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/test.log'),
+        ],
 
     ],
 

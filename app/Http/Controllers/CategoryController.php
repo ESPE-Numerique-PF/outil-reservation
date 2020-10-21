@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Resources\CategoryResource;
+use App\Services\NestedService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -18,6 +19,11 @@ class CategoryController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
         ]);
+    }
+
+    public function adminView()
+    {
+        return view('admin.category');
     }
 
     /**
@@ -54,7 +60,7 @@ class CategoryController extends Controller
         $position = Category::getNextPosition($parentId);
 
         // store new category
-        return Category::create(
+        $category = Category::create(
             [
                 'image_path' => $path,
                 'name' => $request->name,
@@ -62,6 +68,9 @@ class CategoryController extends Controller
                 'parent_category_id' => $parentId
             ]
         );
+
+        // return new category
+        return new CategoryResource($category);
     }
 
     /**
@@ -99,10 +108,13 @@ class CategoryController extends Controller
         $category->name = $request->name;
 
         $category->save();
+
+        return new CategoryResource($category);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a category and all his children.
+     * First delete images associated to each categories
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -110,39 +122,23 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
-        $imageToDeletePath = $category->image_path;
-
-        // add offset position to siblings (only with superior position)
-        $parent = $category->parent;
-        $siblings = $category->siblings($category->position + 1);
-        $offset = $category->children->count() - 1;
-        foreach ($siblings as $sibling) {
-            $sibling->position += $offset;
-            $sibling->save();
-        }
-
-        // if current category has children, give these children the parent of the current category
-        // (if the current category has no parent, his children will have no parent)
-        $childPosition = 0;
-        foreach ($category->children as $child) {
-            $child->position = $childPosition + $category->position;
-            $child->parent()->associate($parent);
-            $child->save();
-            $childPosition++;
-        }
-
-        // delete category then image
-        Category::destroy($id);
-        Storage::delete($imageToDeletePath);
+        $category->recursiveDelete();
     }
 
     public function move(Request $request)
     {
+        // get nested cageories from request and flatten them
+        // add a position and parent_id field for each item
         $categories = $request->categories;
-        array_walk_recursive($categories, function($k, $v) {
-            // $category = Category::find($v['id']);
-            // self::debug($k . ' -> ' . $category->position);
-            self::debug($k);
-        });
+        $flatCategories = NestedService::flatten($categories);
+
+        // update parent and position for each category in database
+        foreach ($flatCategories as $flatCategory) {
+            $category = Category::find($flatCategory['id']);
+            $category->position = $flatCategory['position'];
+            $category->parent_category_id = $flatCategory['parent_id'];
+
+            $category->save();
+        }
     }
 }

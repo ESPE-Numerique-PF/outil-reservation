@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Auth::routes();
 
 // Auth routes
@@ -26,6 +29,7 @@ Route::middleware('auth')->group(function () {
 // Auth and Admin routes
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/material', 'MaterialController@adminView');
+    Route::get('/admin/category', 'CategoryController@adminView');
 
     // Test route
     Route::get('/admin/test', function() {
@@ -49,6 +53,7 @@ Route::prefix('resources')->middleware(['auth'])->group(function () {
     });
 
     // categories
+    
     Route::get('/categories', 'CategoryController@index');
 
     // materials

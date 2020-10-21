@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Category extends Model
 {
@@ -55,5 +57,22 @@ class Category extends Model
             return 0;
         else
             return $lastPosition + 1;
+    }
+
+    /**
+     * Delete a category and all his children
+     */
+    public function recursiveDelete()
+    {
+        // delete all children
+        foreach ($this->children as $child) {
+            $child->recursiveDelete();
+        }
+
+        // delete current image from storage
+        if ($this->image_path != CategoryController::NO_IMAGE_PATH) {
+            Storage::delete($this->image_path);
+        }
+        $this->delete();
     }
 }

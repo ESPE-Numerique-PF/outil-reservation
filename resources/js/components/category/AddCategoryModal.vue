@@ -4,14 +4,14 @@
       :id="id"
       ref="add-category-modal"
       cancel-title="Annuler"
-      title="Nouvelle catégorie"
+      title="Créer une catégorie"
       hide-footer
     >
       <!-- ERROR ALERT -->
       <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
 
-      <h4 v-if="parentCategory !== undefined">
-        <b-badge pill variant="light" class="px-3 mb-3">{{ parentCategory.name }}</b-badge>
+      <h4 v-if="node !== undefined">
+        <b-badge pill variant="light" class="px-3 mb-3">{{ node.name }}</b-badge>
       </h4>
 
       <div id="preview" class="mb-3">
@@ -46,8 +46,8 @@
 export default {
   props: {
     id: String,
-    add: Function,
-    parentCategory: Object,
+    node: Object,
+    path: Array
   },
 
   data() {
@@ -69,9 +69,12 @@ export default {
       let formData = new FormData();
       formData.append("name", this.form.name);
       if (this.form.image !== null) formData.append("image", this.form.image);
-      if (this.parentCategory !== undefined)
-        formData.append("parent_category_id", this.parentCategory.id);
-      this.add(formData, this.hideModal, this.showError);
+      if (this.node !== undefined)
+        formData.append("parent_category_id", this.node.id);
+      
+      this.$store.dispatch('createCategory', {category: formData, path: this.path})
+        .then((response) => this.hideModal())
+        .catch((error) => console.log('error'))
     },
     onFileChange(evt) {
       const file = evt.target.files[0];

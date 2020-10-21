@@ -45,7 +45,6 @@ export default {
   props: {
     category: Object,
     id: String,
-    update: Function,
   },
   data() {
     return {
@@ -69,7 +68,10 @@ export default {
       formData.append("name", this.form.name);
       formData.append("imageHasChanged", this.form.imageHasChanged)
       if (this.form.image !== null) formData.append("image", this.form.image);
-      this.update(this.category.id, formData, this.hideModal, this.showError);
+      
+      this.$store.dispatch('updateCategory', {categoryId: this.category.id, category: formData})
+        .then((response) => this.hideModal())
+        .catch((error) => console.log(error))
     },
     onFileChange(evt) {
       const file = evt.target.files[0];
