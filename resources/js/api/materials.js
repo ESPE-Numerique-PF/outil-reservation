@@ -7,9 +7,9 @@ export default {
     async post(material) {
         return axios.post('/materials', material)
     },
-    // async update(id, category) {
-    //     return axios.post("/materials/" + id, category)
-    // },
+    async update(id, material) {
+        return axios.post("/materials/" + id, material)
+    },
     async delete(id) {
         return axios.delete('/materials/' + id)
     },

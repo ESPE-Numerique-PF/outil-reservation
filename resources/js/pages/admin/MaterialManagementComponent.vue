@@ -20,9 +20,9 @@
               </b-col>
             </b-row>
           </b-card-header>
-          <!-- Material table -->
           <b-card-body class="py-0">
             <b-row>
+              <!-- Material table -->
               <b-table
                 small
                 responsive
@@ -31,9 +31,30 @@
                 :fields="materialFields"
                 primary-key="id"
               >
-                <!-- Row details button -->
-                <template v-slot:cell(show_details)="row">
+                <!-- Row details button and modals -->
+                <template #cell(show_details)="row">
+                  <!-- Update modal -->
+                  <update-material-modal
+                    :id="'update-material-modal-' + row.item.id"
+                    :material="row.item"
+                  ></update-material-modal>
+
+                  <!-- Delete Modal -->
+                  <b-modal
+                    :id="'delete-material-modal-' + row.item.id"
+                    :title="'Suppression du matériel ' + row.item.name"
+                    cancel-title="Annuler"
+                    ok-title="Supprimer"
+                    ok-variant="danger"
+                    @ok="onDelete(row.item)"
+                  >
+                    <h3>Attention</h3>
+                    <p>La suppression de ce matériel sera définitive.</p>
+                    <p>Etes-vous sûrs de vouloir continuer ?</p>
+                  </b-modal>
+
                   <div class="float-right">
+                    <!-- Toggle row details button -->
                     <b-button size="sm" variant="light" squared @click="row.toggleDetails">
                       <span :key="row.detailsShowing ? 'left' : 'down'">
                         <i
@@ -47,20 +68,6 @@
                       </span>
                     </b-button>
 
-                    <!-- Delete Modal -->
-                    <b-modal
-                      :id="'delete-material-modal-' + row.item.id"
-                      :title="'Suppression du matériel ' + row.item.name"
-                      cancel-title="Annuler"
-                      ok-title="Supprimer"
-                      ok-variant="danger"
-                      @ok="onDelete(row.item)"
-                    >
-                      <h3>Attention</h3>
-                      <p>La suppression de ce matériel sera définitive.</p>
-                      <p>Etes-vous sûrs de vouloir continuer ?</p>
-                    </b-modal>
-
                     <!-- Menu right side -->
                     <b-dropdown
                       class="borderless"
@@ -72,14 +79,18 @@
                       <template v-slot:button-content>
                         <i class="fas fa-ellipsis-v" />
                       </template>
-                      <b-dropdown-item @click="onUpdate(row.item)"><i class="fas fa-edit"></i> Editer</b-dropdown-item>
-                      <b-dropdown-item @click="beforeDelete(row.item)"><i class="fas fa-trash"></i> Supprimer</b-dropdown-item>
+                      <b-dropdown-item @click="onUpdate(row.item)">
+                        <i class="fas fa-edit"></i> Editer
+                      </b-dropdown-item>
+                      <b-dropdown-item @click="beforeDelete(row.item)">
+                        <i class="fas fa-trash"></i> Supprimer
+                      </b-dropdown-item>
                     </b-dropdown>
                   </div>
                 </template>
 
                 <!-- Row details -->
-                <template v-slot:row-details="row">
+                <template #row-details="row">
                   <b-card no-body class="p-2">
                     <b-row>
                       <b-col cols="auto">
@@ -144,6 +155,7 @@ export default {
       materials: "materials",
     }),
     filteredMaterials() {
+      // TODO apply filter
       return this.materials;
     },
   },
@@ -155,12 +167,9 @@ export default {
       this.selected = items;
     },
     onUpdate(material) {
-      // TODO open update modal
-      console.log("update " + material.name);
       this.$bvModal.show("update-material-modal-" + material.id);
     },
     beforeDelete(material) {
-      // TODO open delete confirmation modal
       this.$root.$emit(
         "bv::show::modal",
         "delete-material-modal-" + material.id

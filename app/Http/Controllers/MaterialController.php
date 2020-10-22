@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Material as ResourcesMaterial;
 use App\Http\Resources\MaterialResource;
 use App\Material;
 use Illuminate\Http\Request;
@@ -67,9 +66,27 @@ class MaterialController extends Controller
         return new MaterialResource($material);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
         // TODO
+        $material = Material::find($id);
+
+        // change image only if image has changed (and delte old image)
+        $imageHasChanged = $request->boolean('imageHasChanged') ?? false;
+        if ($imageHasChanged && ($material->image_path != self::NO_IMAGE_PATH)) {
+            Storage::delete($material->image_path);
+            if (isset($request->image)) {
+                $material->image_path = $request->image->store(self::IMAGE_PATH);
+            }
+        }
+
+        $material->name = $request->name;
+        $material->description = $request->description;
+        $material->note = $request->note;
+
+        $material->save();
+
+        return new MaterialResource($material);
     }
 
     public function destroy($id)

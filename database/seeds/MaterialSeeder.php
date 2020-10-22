@@ -24,7 +24,9 @@ class MaterialSeeder extends Seeder
     private static function create($name)
     {
         return Material::create([
-            'name' => $name
+            'name' => $name,
+            'description' => '',
+            'note' => '',
         ]);
     }
 }

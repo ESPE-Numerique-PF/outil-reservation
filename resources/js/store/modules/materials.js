@@ -1,4 +1,3 @@
-import materials from '../../api/materials'
 import api from '../../api/materials'
 
 // state
