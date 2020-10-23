@@ -61,6 +61,8 @@
                 placeholder="Choisissez une catégorie"
                 v-model="form.categoryId"
                 :options="categories"
+                :searchable="true"
+                :normalizer="normalizer"
               >
                 <template v-slot:option-label="{ node }">{{
                   node.raw.name
@@ -134,6 +136,13 @@ export default {
     ...mapActions({
       fetchCategories: "fetchCategories",
     }),
+    normalizer(node) {
+      return {
+        id: node.id,
+        label: node.name,
+        children: node.children
+      }
+    },
     onSubmit(evt) {
       let formData = new FormData();
       formData.append("name", this.form.name);
