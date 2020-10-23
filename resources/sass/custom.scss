@@ -1,5 +1,5 @@
 // Red star mark for required form element in a form
-.form-group.required label::after {
+.required::after {
     content: "*";
     color: red;
 }
