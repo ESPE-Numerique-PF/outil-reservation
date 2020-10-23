@@ -33,7 +33,13 @@
               >
                 <!-- Custom data rendering (category name) -->
                 <template #cell(category_name)="data">
-                  {{ (data.item.category != null) ? data.item.category.name : '' }}
+                  <span v-if="data.item.category != null" class="text-secondary font-italic">
+                    {{ data.item.category.name }}
+                  </span>
+                </template>
+
+                <template #cell(material_instances_count)="data">
+                  <i>{{ data.item.material_instances_count }}</i>
                 </template>
 
                 <!-- Row details button and modals -->
@@ -60,7 +66,12 @@
 
                   <div class="float-right">
                     <!-- Toggle row details button -->
-                    <b-button size="sm" variant="light" squared @click="row.toggleDetails">
+                    <b-button
+                      size="sm"
+                      variant="light"
+                      squared
+                      @click="row.toggleDetails"
+                    >
                       <span :key="row.detailsShowing ? 'left' : 'down'">
                         <i
                           class="fas"
@@ -99,7 +110,11 @@
                   <b-card no-body class="p-2">
                     <b-row>
                       <b-col cols="auto">
-                        <b-img :src="row.item.image_URI" width="100" height="100" />
+                        <b-img
+                          :src="row.item.image_URI"
+                          width="100"
+                          height="100"
+                        />
                       </b-col>
                       <b-col>
                         <h5>Description:</h5>
@@ -123,9 +138,7 @@
         <!-- Material filter -->
         <b-card no-body class="shadow">
           <b-card-header>
-            <h5>
-              <i class="fas fa-filter" /> Filtre
-            </h5>
+            <h5><i class="fas fa-filter" /> Filtre</h5>
           </b-card-header>
           <b-card-body></b-card-body>
         </b-card>
