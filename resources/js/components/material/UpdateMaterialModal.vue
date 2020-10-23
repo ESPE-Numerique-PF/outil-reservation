@@ -21,10 +21,10 @@
         <b-col cols="3">
           <div class="mb-3 preview">
             <b-img
-              class="preview-img"
               v-if="imageUrl"
               :src="imageUrl"
               rounded
+              fluid
             ></b-img>
           </div>
         </b-col>
@@ -33,7 +33,8 @@
         <b-col>
           <b-form @submit.prevent="onSubmit">
             <!-- Name -->
-            <b-form-group label="Nom" label-cols="3">
+            <b-form-group label-cols="3">
+              <template #label>Nom<span class="required"/></template>
               <b-form-input
                 id="name"
                 placeholder="Nom"
@@ -201,16 +202,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.preview {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
-
-.preview-img {
-  max-width: 100%;
-  max-height: 256px;
-}
-</style>

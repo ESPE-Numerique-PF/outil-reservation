@@ -14,13 +14,6 @@
         <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
       </b-row>
 
-      <!-- Show parent category if it exists -->
-      <!-- <b-row>
-        <h4 v-if="category.parent != null">
-          <b-badge pill variant="light" class="px-3 mb-3">{{ category.parent.name }}</b-badge>
-        </h4>
-      </b-row> -->
-
       <b-row>
         <!-- Image preview -->
         <b-col cols="3">
