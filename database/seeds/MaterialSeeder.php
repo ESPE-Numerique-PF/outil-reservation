@@ -25,8 +25,6 @@ class MaterialSeeder extends Seeder
     {
         return Material::create([
             'name' => $name,
-            'description' => '',
-            'note' => '',
         ]);
     }
 }

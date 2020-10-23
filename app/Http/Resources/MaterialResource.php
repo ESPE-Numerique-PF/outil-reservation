@@ -27,6 +27,7 @@ class MaterialResource extends JsonResource
             'material_instances_count'=> count($this->materialInstances),
             'note'=> $this->note,
             'category_id'=> $this->category_id,
+            'category'=> $this->category,
             'image_path'=> $this->image_path,
             'image_URI' => $imageUri,
         ];

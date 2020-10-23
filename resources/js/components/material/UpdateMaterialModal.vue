@@ -18,20 +18,29 @@
       <!-- FORM -->
       <b-form @submit.prevent="onSubmit">
         <!-- Name -->
-        <b-form-group>
+        <b-form-group label="Nom" label-cols="3">
           <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
         </b-form-group>
 
         <!-- Description -->
-        <b-form-group>
+        <b-form-group label="Description" label-cols="3">
           <b-form-textarea id="description" placeholder="Description" v-model="form.description"></b-form-textarea>
         </b-form-group>
 
         <!-- Note -->
-        <b-form-group>
+        <b-form-group label="Note" label-cols="3">
           <b-form-textarea id="note" placeholder="Note" v-model="form.note"></b-form-textarea>
         </b-form-group>
 
+        <!-- Category -->
+        <b-form-group label="Catégorie" label-cols="3">
+          <treeselect placeholder="Choisissez une catégorie" v-model="form.categoryId" :options="categories">
+            <template v-slot:option-label="{node}">{{ node.raw.name }}</template>
+            <template v-slot:value-label="{node}">{{ node.raw.name }}</template>
+          </treeselect>
+        </b-form-group>
+
+        <!-- Image -->
         <b-form-group id="input-file-group">
           <b-form-file
             v-model="form.image"
@@ -51,7 +60,14 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+
 export default {
+  components: {
+    Treeselect,
+  },
   props: {
     material: Object,
     id: String,
@@ -64,6 +80,7 @@ export default {
         note: this.material.note,
         image: null,
         imageHasChanged: false,
+        categoryId: this.material.category_id,
       },
       error: {
         message: "",
@@ -73,15 +90,25 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters({
+      categories: "categories",
+    }),
+  },
+
   methods: {
+    ...mapActions({
+      fetchCategories: "fetchCategories",
+    }),
     onSubmit(evt) {
       let formData = new FormData();
       formData.append("_method", "PUT");
       formData.append("name", this.form.name);
-      formData.append("description", this.form.description);
-      formData.append("note", this.form.note);
+      if (this.form.description !== null) formData.append("description", this.form.description);
+      if (this.form.note !== null) formData.append("note", this.form.note);
       formData.append("imageHasChanged", this.form.imageHasChanged);
       if (this.form.image !== null) formData.append("image", this.form.image);
+      if (this.form.categoryId != null) formData.append("categoryId", this.form.categoryId);
 
       this.$store
         .dispatch("updateMaterial", {
@@ -114,6 +141,9 @@ export default {
         show: false,
       };
     },
+  },
+  mounted() {
+    this.fetchCategories();
   },
 };
 </script>

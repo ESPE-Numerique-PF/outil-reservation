@@ -8,9 +8,11 @@
       hide-footer
     >
       <!-- ERROR ALERT -->
-      <b-alert variant="danger" v-model="error.show" dismissible>{{
+      <b-alert variant="danger" v-model="error.show" dismissible>
+        {{
         error.message
-      }}</b-alert>
+        }}
+      </b-alert>
 
       <div id="preview" class="mb-3">
         <b-img v-if="imageUrl" :src="imageUrl" rounded></b-img>
@@ -19,34 +21,29 @@
       <!-- FORM -->
       <b-form @submit.prevent="onSubmit">
         <!-- Name -->
-        <b-form-group>
-          <b-form-input
-            id="name"
-            placeholder="Nom"
-            v-model="form.name"
-            required
-            autofocus
-          ></b-form-input>
+        <b-form-group label="Nom" label-cols="3">
+          <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
         </b-form-group>
 
         <!-- Description -->
-        <b-form-group>
-          <b-form-textarea
-            id="description"
-            placeholder="Description"
-            v-model="form.description"
-          ></b-form-textarea>
+        <b-form-group label="Description" label-cols="3">
+          <b-form-textarea id="description" placeholder="Description" v-model="form.description"></b-form-textarea>
         </b-form-group>
 
         <!-- Note -->
-        <b-form-group>
-          <b-form-textarea
-            id="note"
-            placeholder="Note"
-            v-model="form.note"
-          ></b-form-textarea>
+        <b-form-group label="Note" label-cols="3">
+          <b-form-textarea id="note" placeholder="Note" v-model="form.note"></b-form-textarea>
         </b-form-group>
 
+        <!-- Category -->
+        <b-form-group label="Catégorie" label-cols="3">
+          <treeselect placeholder="Choisissez une catégorie" v-model="form.categoryId" :options="categories">
+            <template v-slot:option-label="{node}">{{ node.raw.name }}</template>
+            <template v-slot:value-label="{node}">{{ node.raw.name }}</template>
+          </treeselect>
+        </b-form-group>
+
+        <!-- Image -->
         <b-form-group>
           <b-form-file
             v-model="form.image"
@@ -66,7 +63,14 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+
 export default {
+  components: {
+    Treeselect,
+  },
   props: {
     id: String,
   },
@@ -78,6 +82,7 @@ export default {
         description: "",
         note: "",
         image: null,
+        categoryId: null,
       },
       error: {
         message: "",
@@ -86,13 +91,21 @@ export default {
       imageUrl: null,
     };
   },
-
+  computed: {
+    ...mapGetters({
+      categories: "categories",
+    }),
+  },
   methods: {
+    ...mapActions({
+      fetchCategories: "fetchCategories",
+    }),
     onSubmit(evt) {
       let formData = new FormData();
       formData.append("name", this.form.name);
       formData.append("description", this.form.description);
       formData.append("note", this.form.note);
+      if (this.form.categoryId != null) formData.append("categoryId", this.form.categoryId);
       if (this.form.image !== null) formData.append("image", this.form.image);
 
       this.$store
@@ -118,6 +131,7 @@ export default {
         description: "",
         note: "",
         image: null,
+        categoryId: null,
       };
       this.error = {
         message: "",
@@ -125,6 +139,9 @@ export default {
       };
       this.imageUrl = null;
     },
+  },
+  mounted() {
+    this.fetchCategories();
   },
 };
 </script>

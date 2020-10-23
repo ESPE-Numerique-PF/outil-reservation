@@ -31,6 +31,11 @@
                 :fields="materialFields"
                 primary-key="id"
               >
+                <!-- Custom data rendering (category name) -->
+                <template #cell(category_name)="data">
+                  {{ (data.item.category != null) ? data.item.category.name : '' }}
+                </template>
+
                 <!-- Row details button and modals -->
                 <template #cell(show_details)="row">
                   <!-- Update modal -->
@@ -144,7 +149,7 @@ export default {
       materialFields: [
         // TODO image
         { key: "name", label: "Nom" },
-        { key: "category_id", label: "Catégorie" },
+        { key: "category_name", label: "Catégorie" },
         { key: "material_instances_count", label: "Quantité" },
         { key: "show_details", label: "" },
       ],
@@ -153,6 +158,7 @@ export default {
   computed: {
     ...mapGetters({
       materials: "materials",
+      categories: "categories",
     }),
     filteredMaterials() {
       // TODO apply filter
@@ -162,6 +168,7 @@ export default {
   methods: {
     ...mapActions({
       fetchMaterials: "fetchMaterials",
+      fetchCategories: "fetchCategories",
     }),
     onRowSelected(items) {
       this.selected = items;
@@ -182,6 +189,7 @@ export default {
 
   mounted() {
     this.fetchMaterials();
+    this.fetchCategories();
   },
 };
 </script>

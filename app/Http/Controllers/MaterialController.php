@@ -61,6 +61,7 @@ class MaterialController extends Controller
             'image_path' => $path,
             'description' => $request->description,
             'note' => $request->note,
+            'category_id' => $request->categoryId,
         ]);
 
         return new MaterialResource($material);
@@ -80,10 +81,14 @@ class MaterialController extends Controller
             }
         }
 
+        // set attributes
         $material->name = $request->name;
         $material->description = $request->description;
         $material->note = $request->note;
+        $material->category_id = $request->categoryId;
+        
 
+        // save model in DB
         $material->save();
 
         return new MaterialResource($material);
@@ -93,7 +98,7 @@ class MaterialController extends Controller
     {
         $material = Material::find($id);
 
-        // delete 
+        // delete the material (delete automatically all material instances with cascade foreign constraints in material_instances table)
         $material->delete();
 
         // delete current image from storage
