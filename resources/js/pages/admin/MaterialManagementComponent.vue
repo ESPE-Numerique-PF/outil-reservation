@@ -4,6 +4,9 @@
 
     <!-- Add material modal -->
     <add-material-modal id="add-material-modal"></add-material-modal>
+    
+    <!-- TODO menu multi select avec action groupee (suppression) -->
+    {{ selectedMaterialsCount }} élement(s) sélectionné(s)
 
     <b-row>
       <!-- Left side -->
@@ -11,7 +14,6 @@
         <!-- Card left side -->
         <b-card no-body class="shadow">
           <b-card-header class="p-1">
-            <!-- Add button -->
             <b-row>
               <b-col cols="auto" class="mr-auto">
                 <b-button v-b-modal.add-material-modal variant="light">
@@ -24,22 +26,39 @@
             <b-row>
               <!-- Material table -->
               <b-table
+                ref="materialTable"
                 small
                 responsive
                 hover
                 :items="filteredMaterials"
                 :fields="materialFields"
                 primary-key="id"
+                selectable
+                select-mode="range"
+                @row-selected="onRowSelected"
               >
-                <!-- Custom data rendering (category name) -->
-                <template #cell(category_name)="data">
-                  <span v-if="data.item.category != null" class="text-secondary font-italic">
-                    {{ data.item.category.name }}
-                  </span>
+                <!-- Checkbox row selection -->
+                <template #cell(selected)="{ rowSelected }">
+                  <template v-if="rowSelected">
+                    <span aria-hidden="true">&check;</span>
+                    <span class="sr-only">Selected</span>
+                  </template>
+                  <template v-else>
+                    <span aria-hidden="true">&nbsp;</span>
+                    <span class="sr-only">Not selected</span>
+                  </template>
                 </template>
 
-                <template #cell(material_instances_count)="data">
-                  <i>{{ data.item.material_instances_count }}</i>
+                <!-- Custom data rendering (category name) -->
+                <template #cell(category_name)="{ item }">
+                  <span
+                    v-if="item.category != null"
+                    class="text-secondary font-italic"
+                  >{{ item.category.name }}</span>
+                </template>
+
+                <template #cell(material_instances_count)="{ item }">
+                  <i>{{ item.material_instances_count }}</i>
                 </template>
 
                 <!-- Row details button and modals -->
@@ -66,12 +85,7 @@
 
                   <div class="float-right">
                     <!-- Toggle row details button -->
-                    <b-button
-                      size="sm"
-                      variant="light"
-                      squared
-                      @click="row.toggleDetails"
-                    >
+                    <b-button size="sm" variant="light" squared @click="row.toggleDetails">
                       <span :key="row.detailsShowing ? 'left' : 'down'">
                         <i
                           class="fas"
@@ -110,11 +124,7 @@
                   <b-card no-body class="p-2">
                     <b-row>
                       <b-col cols="auto">
-                        <b-img
-                          :src="row.item.image_URI"
-                          width="100"
-                          height="100"
-                        />
+                        <b-img :src="row.item.image_URI" width="100" height="100" />
                       </b-col>
                       <b-col>
                         <h5>Description:</h5>
@@ -138,7 +148,9 @@
         <!-- Material filter -->
         <b-card no-body class="shadow">
           <b-card-header>
-            <h5><i class="fas fa-filter" /> Filtre</h5>
+            <h5>
+              <i class="fas fa-filter" /> Filtre
+            </h5>
           </b-card-header>
           <b-card-body></b-card-body>
         </b-card>
@@ -160,12 +172,13 @@ export default {
   data() {
     return {
       materialFields: [
-        // TODO image
+        { key: "selected", label: "" },
         { key: "name", label: "Nom" },
         { key: "category_name", label: "Catégorie" },
         { key: "material_instances_count", label: "Quantité" },
         { key: "show_details", label: "" },
       ],
+      selectedMaterials: [],
     };
   },
   computed: {
@@ -177,15 +190,27 @@ export default {
       // TODO apply filter
       return this.materials;
     },
+    selectedMaterialsCount() {
+      return this.selectedMaterials.length;
+    }
   },
   methods: {
+    // STORE
     ...mapActions({
       fetchMaterials: "fetchMaterials",
       fetchCategories: "fetchCategories",
     }),
+    // TODO TABLE SELECTION
     onRowSelected(items) {
-      this.selected = items;
+      this.selectedMaterials = items;
     },
+    selectAllRows() {
+      this.$refs.materialTable.selectAllRows();
+    },
+    clearSelected() {
+      this.$refs.materialTable.clearSelected();
+    },
+    // UPDATE / DELETE
     onUpdate(material) {
       this.$bvModal.show("update-material-modal-" + material.id);
     },
