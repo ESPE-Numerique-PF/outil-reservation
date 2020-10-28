@@ -4,11 +4,6 @@
     color: red;
 }
 
-// remove border
-.borderless {
-    border: none;
-}
-
 // Footer fixed bottom
 html {
     height: 100%;
@@ -44,4 +39,5 @@ html * {
  *  Bootstrap extend color (usable with variant colors)
  */
 
-$theme-colors: ( "espe": #407294, "orange": #e6912c);
+ $theme-colors: ( "espe": #407294, "orange": #e6912c);
+ 

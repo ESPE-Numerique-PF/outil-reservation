@@ -85,7 +85,7 @@
         <!-- Description -->
         <b-row>
           <b-form-group label="Description" class="m-3" label-class="form-label">
-            <vueditor ref="editor"></vueditor>
+            <!-- TODO -->
           </b-form-group>
         </b-row>
 
@@ -118,6 +118,7 @@ export default {
     return {
       form: {
         name: "",
+        description: "",
         note: "",
         image: null,
         categoryId: null,
@@ -146,14 +147,10 @@ export default {
       };
     },
     onSubmit(evt) {
-      // get vueditor content
-      let editor = this.$refs['editor'];
-      let description = editor.getContent();
-
       // build formdata and send to server
       let formData = new FormData();
       formData.append("name", this.form.name);
-      formData.append("description", description);
+      formData.append("description", this.form.description);
       formData.append("note", this.form.note);
       if (this.form.categoryId != null)
         formData.append("categoryId", this.form.categoryId);
@@ -179,6 +176,7 @@ export default {
     reset() {
       this.form = {
         name: "",
+        description: "",
         note: "",
         image: null,
         categoryId: null,

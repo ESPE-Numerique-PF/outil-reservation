@@ -2,10 +2,12 @@
  *  Override Bootstrap style
  */
 
+ // increase font weight of bootstrap buttons
 .btn {
     font-weight: 600;
 }
 
+// remove border
 .borderless {
     border: none;
 }
