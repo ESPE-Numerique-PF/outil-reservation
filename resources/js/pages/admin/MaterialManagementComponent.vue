@@ -4,9 +4,6 @@
 
     <!-- Add material modal -->
     <add-material-modal id="add-material-modal"></add-material-modal>
-    
-    <!-- TODO menu multi select avec action groupee (suppression) -->
-    {{ selectedMaterialsCount }} élement(s) sélectionné(s)
 
     <b-row>
       <!-- Left side -->
@@ -33,22 +30,7 @@
                 :items="filteredMaterials"
                 :fields="materialFields"
                 primary-key="id"
-                selectable
-                select-mode="range"
-                @row-selected="onRowSelected"
               >
-                <!-- Checkbox row selection -->
-                <template #cell(selected)="{ rowSelected }">
-                  <template v-if="rowSelected">
-                    <span aria-hidden="true">&check;</span>
-                    <span class="sr-only">Selected</span>
-                  </template>
-                  <template v-else>
-                    <span aria-hidden="true">&nbsp;</span>
-                    <span class="sr-only">Not selected</span>
-                  </template>
-                </template>
-
                 <!-- Custom data rendering (category name) -->
                 <template #cell(category_name)="{ item }">
                   <span
@@ -57,8 +39,9 @@
                   >{{ item.category.name }}</span>
                 </template>
 
+                <!-- Material instances count -->
                 <template #cell(material_instances_count)="{ item }">
-                  <i>{{ item.material_instances_count }}</i>
+                  <span class="font-italic">{{ item.material_instances_count }}</span>
                 </template>
 
                 <!-- Row details button and modals -->
@@ -83,6 +66,7 @@
                     <p>Etes-vous sûrs de vouloir continuer ?</p>
                   </b-modal>
 
+                  <!-- Buttons -->
                   <div class="float-right">
                     <!-- Toggle row details button -->
                     <b-button size="sm" variant="light" squared @click="row.toggleDetails">
@@ -109,6 +93,9 @@
                       <template v-slot:button-content>
                         <i class="fas fa-ellipsis-v" />
                       </template>
+                      <b-dropdown-item @click="onInstance(row.item)">
+                        <i class="fas fa-laptop"></i> Instances
+                      </b-dropdown-item>
                       <b-dropdown-item @click="onUpdate(row.item)">
                         <i class="fas fa-edit"></i> Editer
                       </b-dropdown-item>
@@ -132,7 +119,7 @@
                       </b-col>
                       <b-col>
                         <h5>Note:</h5>
-                        <p>{{ row.item.note }}</p>
+                        <p class="font-italic">{{ row.item.note }}</p>
                       </b-col>
                     </b-row>
                   </b-card>
@@ -178,7 +165,6 @@ export default {
         { key: "material_instances_count", label: "Quantité" },
         { key: "show_details", label: "" },
       ],
-      selectedMaterials: [],
     };
   },
   computed: {
@@ -190,9 +176,6 @@ export default {
       // TODO apply filter
       return this.materials;
     },
-    selectedMaterialsCount() {
-      return this.selectedMaterials.length;
-    }
   },
   methods: {
     // STORE
@@ -200,17 +183,12 @@ export default {
       fetchMaterials: "fetchMaterials",
       fetchCategories: "fetchCategories",
     }),
-    // TODO TABLE SELECTION
-    onRowSelected(items) {
-      this.selectedMaterials = items;
+    // Table item operations
+    onInstance(material) {
+      // TODO show material instances view for material
+      console.log('instance')
+      console.log(material)
     },
-    selectAllRows() {
-      this.$refs.materialTable.selectAllRows();
-    },
-    clearSelected() {
-      this.$refs.materialTable.clearSelected();
-    },
-    // UPDATE / DELETE
     onUpdate(material) {
       this.$bvModal.show("update-material-modal-" + material.id);
     },
