@@ -8,56 +8,47 @@
       hide-footer
       size="xl"
     >
-      <!-- ERROR ALERT -->
-      <b-row>
-        <b-alert variant="danger" v-model="error.show" dismissible>
-          {{ error.message }}
-        </b-alert>
-      </b-row>
+      <b-form @submit.prevent="onSubmit">
+        <!-- ERROR ALERT -->
+        <b-row>
+          <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
+        </b-row>
 
-      <b-row>
-        <!-- Preview image -->
-        <b-col cols="3">
-          <div id="preview" class="mb-3">
-            <b-img v-if="imageUrl" :src="imageUrl" rounded fluid />
-          </div>
-        </b-col>
+        <b-row>
+          <!-- Preview image -->
+          <b-col cols="3">
+            <div id="preview" class="mb-3">
+              <b-img v-if="imageUrl" :src="imageUrl" rounded fluid />
+            </div>
+          </b-col>
 
-        <!-- FORM -->
-        <b-col>
-          <b-form @submit.prevent="onSubmit">
+          <!-- FORM -->
+          <b-col>
             <!-- Name -->
-            <b-form-group label-cols="3">
-              <template #label>Nom<span class="required"/></template>
-              <b-form-input
-                id="name"
-                placeholder="Nom"
-                v-model="form.name"
-                required
-                autofocus
-              ></b-form-input>
+            <b-form-group label-cols="3" label-class="form-label">
+              <template #label>
+                Nom
+                <span class="required" />
+              </template>
+              <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
             </b-form-group>
 
             <!-- Description -->
-            <b-form-group label="Description" label-cols="3">
+            <!-- <b-form-group label="Description" label-cols="3">
               <b-form-textarea
                 id="description"
                 placeholder="Description"
                 v-model="form.description"
               ></b-form-textarea>
-            </b-form-group>
+            </b-form-group>-->
 
             <!-- Note -->
-            <b-form-group label="Note" label-cols="3">
-              <b-form-textarea
-                id="note"
-                placeholder="Note"
-                v-model="form.note"
-              ></b-form-textarea>
+            <b-form-group label="Note" label-cols="3" label-class="form-label">
+              <b-form-textarea id="note" placeholder="Note" v-model="form.note"></b-form-textarea>
             </b-form-group>
 
             <!-- Category -->
-            <b-form-group label="Catégorie" label-cols="3">
+            <b-form-group label="Catégorie" label-cols="3" label-class="form-label">
               <treeselect
                 placeholder="Choisissez une catégorie"
                 v-model="form.categoryId"
@@ -65,17 +56,21 @@
                 :searchable="true"
                 :normalizer="normalizer"
               >
-                <template v-slot:option-label="{ node }">{{
+                <template v-slot:option-label="{ node }">
+                  {{
                   node.raw.name
-                }}</template>
-                <template v-slot:value-label="{ node }">{{
+                  }}
+                </template>
+                <template v-slot:value-label="{ node }">
+                  {{
                   node.raw.name
-                }}</template>
+                  }}
+                </template>
               </treeselect>
             </b-form-group>
 
             <!-- Image -->
-            <b-form-group>
+            <b-form-group label-class="form-label">
               <b-form-file
                 v-model="form.image"
                 :state="Boolean(form.image)"
@@ -84,17 +79,24 @@
                 @change="onFileChange"
               ></b-form-file>
             </b-form-group>
+          </b-col>
+        </b-row>
 
-            <!-- Buttons -->
-            <b-row class="justify-content-end">
-              <b-col cols="auto">
-                <b-button type="submit" variant="primary">Ajouter</b-button>
-                <b-button @click="hideModal" variant="danger">Annuler</b-button>
-              </b-col>
-            </b-row>
-          </b-form>
-        </b-col>
-      </b-row>
+        <!-- Description -->
+        <b-row>
+          <b-form-group label="Description" class="m-3" label-class="form-label">
+            <vueditor ref="editor"></vueditor>
+          </b-form-group>
+        </b-row>
+
+        <!-- Buttons -->
+        <b-row class="justify-content-end">
+          <b-col cols="auto">
+            <b-button type="submit" variant="primary">Ajouter</b-button>
+            <b-button @click="hideModal" variant="danger">Annuler</b-button>
+          </b-col>
+        </b-row>
+      </b-form>
     </b-modal>
   </div>
 </template>
@@ -116,7 +118,6 @@ export default {
     return {
       form: {
         name: "",
-        description: "",
         note: "",
         image: null,
         categoryId: null,
@@ -141,13 +142,18 @@ export default {
       return {
         id: node.id,
         label: node.name,
-        children: node.children
-      }
+        children: node.children,
+      };
     },
     onSubmit(evt) {
+      // get vueditor content
+      let editor = this.$refs['editor'];
+      let description = editor.getContent();
+
+      // build formdata and send to server
       let formData = new FormData();
       formData.append("name", this.form.name);
-      formData.append("description", this.form.description);
+      formData.append("description", description);
       formData.append("note", this.form.note);
       if (this.form.categoryId != null)
         formData.append("categoryId", this.form.categoryId);
@@ -173,7 +179,6 @@ export default {
     reset() {
       this.form = {
         name: "",
-        description: "",
         note: "",
         image: null,
         categoryId: null,

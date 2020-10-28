@@ -9,6 +9,8 @@ require('@fortawesome/fontawesome-free/js/all.js');
 
 
 import BootstrapVue from 'bootstrap-vue'
+import Vueditor from 'vueditor' // text editor component for textarea input
+import 'vueditor/dist/style/vueditor.min.css';
 
 window.Vue = require('vue');
 
@@ -16,6 +18,22 @@ window.Vue = require('vue');
  * Register components
  */
 Vue.use(BootstrapVue);
+
+// Vueditor config
+let vueditorConfig = {
+    toolbar: [
+        'removeFormat', 'undo', '|', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor'
+    ],
+    fontName: [
+        { val: 'arial black' },
+        { val: 'times new roman' },
+        { val: 'Courier New' }
+    ],
+    fontSize: ['12px', '14px', '16px', '18px', '0.8rem', '1.0rem', '1.2rem', '1.5rem', '2.0rem'],
+    uploadUrl: ''
+};
+
+Vue.use(Vueditor);
 
 /**
  * The following block of code may be used to automatically register your
