@@ -25,22 +25,9 @@
 
           <b-col>
             <!-- Name -->
-            <b-form-group label-cols="3" label-class="form-label">
-              <template #label>
-                Nom
-                <span class="required" />
-              </template>
+            <b-form-group label-cols="3" label="Nom" label-class="form-label required">
               <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
             </b-form-group>
-
-            <!-- Description -->
-            <!-- <b-form-group label="Description" label-cols="3">
-              <b-form-textarea
-                id="description"
-                placeholder="Description"
-                v-model="form.description"
-              ></b-form-textarea>
-            </b-form-group>-->
 
             <!-- Note -->
             <b-form-group label="Note" label-cols="3" label-class="form-label">
@@ -84,10 +71,11 @@
 
         <!-- Description -->
         <b-row>
-          <b-form-group label="Description" class="m-3" label-class="form-label">
-            <!-- TODO -->
-            <text-editor v-model="form.description"></text-editor>
-          </b-form-group>
+          <b-col>
+            <b-form-group label="Description" class="m-3" label-class="form-label">
+              <text-editor v-model="form.description"></text-editor>
+            </b-form-group>
+          </b-col>
         </b-row>
 
         <!-- Buttons -->
@@ -111,7 +99,7 @@ import TextEditor from "../../components/TextEditor";
 export default {
   components: {
     Treeselect,
-    TextEditor
+    TextEditor,
   },
   props: {
     id: String,

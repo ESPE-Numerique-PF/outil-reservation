@@ -31,11 +31,7 @@
           <!-- FORM -->
           <b-col>
             <!-- Name -->
-            <b-form-group label-cols="3">
-              <template #label>
-                Nom
-                <span class="required" />
-              </template>
+            <b-form-group label-cols="3" label="Nom" label-class="required">
               <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
             </b-form-group>
 
@@ -81,10 +77,11 @@
 
         <!-- Description -->
         <b-row>
-          <b-form-group label="Description" class="m-3" label-class="form-label">
-            <!-- TODO -->
-            <vue-editor v-model="form.description"></vue-editor>
-          </b-form-group>
+          <b-col>
+            <b-form-group label="Description" class="m-3" label-class="form-label">
+              <text-editor v-model="form.description"></text-editor>
+            </b-form-group>
+          </b-col>
         </b-row>
 
         <!-- Buttons -->
@@ -103,12 +100,12 @@
 import { mapGetters, mapActions } from "vuex";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-import { VueEditor } from "vue2-editor";
+import TextEditor from "../../components/TextEditor";
 
 export default {
   components: {
     Treeselect,
-    VueEditor,
+    TextEditor,
   },
   props: {
     material: Object,

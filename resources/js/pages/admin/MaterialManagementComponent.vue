@@ -10,12 +10,17 @@
       <b-col md="9" class="mb-3">
         <!-- Card left side -->
         <b-card no-body class="shadow">
+          <!-- Header table menu -->
           <b-card-header class="p-1">
             <b-row>
               <b-col cols="auto" class="mr-auto">
                 <b-button v-b-modal.add-material-modal variant="light">
                   <i class="fas fa-plus"></i> Créer
                 </b-button>
+              </b-col>
+              <b-col cols="auto">
+                <b-button variant="light">Tout étendre</b-button>
+                <b-button variant="light">Tout réduire</b-button>
               </b-col>
             </b-row>
           </b-card-header>
@@ -186,8 +191,8 @@ export default {
     // Table item operations
     onInstance(material) {
       // TODO show material instances view for material
-      console.log('instance')
-      console.log(material)
+      console.log("instance");
+      console.log(material);
     },
     onUpdate(material) {
       this.$bvModal.show("update-material-modal-" + material.id);

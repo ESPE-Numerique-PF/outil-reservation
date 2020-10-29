@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <vue-editor :value="value" @input="update" />
-    <!-- <b-form-textarea :value="value" @input="update($event.target.value)"></b-form-textarea> -->
-    <!-- <b-form-textarea v-model="value" /> -->
+  <div class="editor">
+    <vue-editor :value="value" @input="update" :editorToolbar="toolbar" />
   </div>
 </template>
 
@@ -14,6 +12,21 @@ export default {
     VueEditor,
   },
   props: ["value"],
+  data() {
+    return {
+      toolbar: [
+        [{ header: [false, 1, 2, 3] }],
+        ["bold", "italic", "underline", "strike"],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+          { align: "justify" },
+        ],
+        [{ list: "ordered" }, { list: "bullet" }],
+      ],
+    };
+  },
   methods: {
     update(value) {
       this.$emit("input", value);
