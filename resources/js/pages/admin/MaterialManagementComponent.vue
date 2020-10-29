@@ -1,9 +1,9 @@
 <template>
-  <b-container>
+  <b-container fluid>
     <h2>Gestion du matériel</h2>
 
     <!-- Add material modal -->
-    <add-material-modal id="add-material-modal"></add-material-modal>
+    <add-material-modal id="add-material-modal" static lazy></add-material-modal>
 
     <b-row>
       <!-- Left side -->
@@ -107,19 +107,19 @@
                 </template>
 
                 <!-- Row details -->
-                <template #row-details="row">
+                <template #row-details="{ item }">
                   <b-card no-body class="p-2">
                     <b-row>
                       <b-col cols="auto">
-                        <b-img :src="row.item.image_URI" width="100" height="100" />
+                        <b-img :src="item.image_URI" width="100" height="100" />
                       </b-col>
                       <b-col>
                         <h5>Description:</h5>
-                        <p>{{ row.item.description }}</p>
+                        <span v-html="item.description"></span>
                       </b-col>
                       <b-col>
                         <h5>Note:</h5>
-                        <p class="font-italic">{{ row.item.note }}</p>
+                        <span v-html="item.note"></span>
                       </b-col>
                     </b-row>
                   </b-card>

@@ -8,6 +8,7 @@
       hide-footer
       size="xl"
     >
+      <!-- FORM -->
       <b-form @submit.prevent="onSubmit">
         <!-- ERROR ALERT -->
         <b-row>
@@ -22,7 +23,6 @@
             </div>
           </b-col>
 
-          <!-- FORM -->
           <b-col>
             <!-- Name -->
             <b-form-group label-cols="3" label-class="form-label">
@@ -86,6 +86,7 @@
         <b-row>
           <b-form-group label="Description" class="m-3" label-class="form-label">
             <!-- TODO -->
+            <text-editor v-model="form.description"></text-editor>
           </b-form-group>
         </b-row>
 
@@ -105,10 +106,12 @@
 import { mapGetters, mapActions } from "vuex";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import TextEditor from "../../components/TextEditor";
 
 export default {
   components: {
     Treeselect,
+    TextEditor
   },
   props: {
     id: String,

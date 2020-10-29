@@ -10,6 +10,7 @@ require('@fortawesome/fontawesome-free/js/all.js');
 
 import BootstrapVue from 'bootstrap-vue'
 
+
 window.Vue = require('vue');
 
 /**

@@ -9,57 +9,39 @@
       @show="onShowModal"
       size="xl"
     >
-      <!-- ERROR ALERT -->
-      <b-row>
-        <b-alert variant="danger" v-model="error.show" dismissible>{{
-          error.message
-        }}</b-alert>
-      </b-row>
+      <!-- FORM -->
+      <b-form @submit.prevent="onSubmit">
+        <!-- ERROR ALERT -->
+        <b-row>
+          <b-alert variant="danger" v-model="error.show" dismissible>
+            {{
+            error.message
+            }}
+          </b-alert>
+        </b-row>
 
-      <b-row>
-        <!-- Preview image -->
-        <b-col cols="3">
-          <div class="mb-3 preview">
-            <b-img
-              v-if="imageUrl"
-              :src="imageUrl"
-              rounded
-              fluid
-            ></b-img>
-          </div>
-        </b-col>
+        <b-row>
+          <!-- Preview image -->
+          <b-col cols="3">
+            <div class="mb-3 preview">
+              <b-img v-if="imageUrl" :src="imageUrl" rounded fluid></b-img>
+            </div>
+          </b-col>
 
-        <!-- FORM -->
-        <b-col>
-          <b-form @submit.prevent="onSubmit">
+          <!-- FORM -->
+          <b-col>
             <!-- Name -->
             <b-form-group label-cols="3">
-              <template #label>Nom<span class="required"/></template>
-              <b-form-input
-                id="name"
-                placeholder="Nom"
-                v-model="form.name"
-                required
-                autofocus
-              ></b-form-input>
-            </b-form-group>
-
-            <!-- Description -->
-            <b-form-group label="Description" label-cols="3">
-              <b-form-textarea
-                id="description"
-                placeholder="Description"
-                v-model="form.description"
-              ></b-form-textarea>
+              <template #label>
+                Nom
+                <span class="required" />
+              </template>
+              <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
             </b-form-group>
 
             <!-- Note -->
             <b-form-group label="Note" label-cols="3">
-              <b-form-textarea
-                id="note"
-                placeholder="Note"
-                v-model="form.note"
-              ></b-form-textarea>
+              <b-form-textarea id="note" placeholder="Note" v-model="form.note"></b-form-textarea>
             </b-form-group>
 
             <!-- Category -->
@@ -71,12 +53,16 @@
                 :searchable="true"
                 :normalizer="normalizer"
               >
-                <template v-slot:option-label="{ node }">{{
+                <template v-slot:option-label="{ node }">
+                  {{
                   node.raw.name
-                }}</template>
-                <template v-slot:value-label="{ node }">{{
+                  }}
+                </template>
+                <template v-slot:value-label="{ node }">
+                  {{
                   node.raw.name
-                }}</template>
+                  }}
+                </template>
               </treeselect>
             </b-form-group>
 
@@ -90,17 +76,25 @@
                 @change="onFileChange"
               ></b-form-file>
             </b-form-group>
+          </b-col>
+        </b-row>
 
-            <!-- Buttons -->
-            <b-row class="justify-content-end">
-              <b-col cols="auto">
-                <b-button type="submit" variant="primary">Modifier</b-button>
-                <b-button @click="hideModal" variant="danger">Annuler</b-button>
-              </b-col>
-            </b-row>
-          </b-form>
-        </b-col>
-      </b-row>
+        <!-- Description -->
+        <b-row>
+          <b-form-group label="Description" class="m-3" label-class="form-label">
+            <!-- TODO -->
+            <vue-editor v-model="form.description"></vue-editor>
+          </b-form-group>
+        </b-row>
+
+        <!-- Buttons -->
+        <b-row class="justify-content-end">
+          <b-col cols="auto">
+            <b-button type="submit" variant="primary">Modifier</b-button>
+            <b-button @click="hideModal" variant="danger">Annuler</b-button>
+          </b-col>
+        </b-row>
+      </b-form>
     </b-modal>
   </div>
 </template>
@@ -109,10 +103,12 @@
 import { mapGetters, mapActions } from "vuex";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import { VueEditor } from "vue2-editor";
 
 export default {
   components: {
     Treeselect,
+    VueEditor,
   },
   props: {
     material: Object,
@@ -150,8 +146,8 @@ export default {
       return {
         id: node.id,
         label: node.name,
-        children: node.children
-      }
+        children: node.children,
+      };
     },
     onSubmit(evt) {
       let formData = new FormData();
