@@ -19,7 +19,7 @@ class MaterialController extends Controller
             'name' => ['required', 'string', 'max:255'],
         ]);
     }
-    
+
     public function view()
     {
         return view('material');
@@ -33,12 +33,21 @@ class MaterialController extends Controller
     /**
      * Get all materials with instances
      */
-    public function index()
+    public function index(Request $request)
     {
+        $categoriesId = $request->categories_id;
+
+        // prepare query
+        $query = Material::orderBy('category_id')
+            ->orderBy('name');
+
+        // apply filters
+        if (isset($categoriesId))
+            $query->filterByCategoriesId($categoriesId);
+
+        // send filtered materials
         return MaterialResource::collection(
-            Material::orderBy('category_id')
-            ->orderBy('name')
-            ->get()
+            $query->get()
         );
     }
 
@@ -86,7 +95,7 @@ class MaterialController extends Controller
         $material->description = $request->description;
         $material->note = $request->note;
         $material->category_id = $request->categoryId;
-        
+
 
         // save model in DB
         $material->save();
