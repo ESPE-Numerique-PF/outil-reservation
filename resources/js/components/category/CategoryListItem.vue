@@ -51,7 +51,7 @@
           </b-button>
 
           <!-- IMAGE -->
-          <b-img class="p-1" :src="category.image_URI" width="50" height="50" />
+          <b-img class="p-1" :src="category.image_URI" height="50" width="50"/>
           <b-col>
             <h5 class="pt-3 pl-2">{{ category.name }}</h5>
           </b-col>

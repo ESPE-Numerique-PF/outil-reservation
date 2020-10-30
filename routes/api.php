@@ -1,7 +1,11 @@
 <?php
 
+use App\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\UserResource;
+use App\Material;
+use App\Services\NestedService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +42,22 @@ Route::middleware(['auth.basic','admin:api'])->group(function () {
         "materials" => "MaterialController",
         "material_instances" => "MaterialInstanceController",
     ]);
+
+    // tmp
+    Route::get('/test', function (Request $request) {
+        $categoryId = $request->category_id;
+
+        // flaten categories
+        $category = new CategoryResource(Category::find($categoryId));
+        $flat = NestedService::flatten([$category]);
+
+        // get filtered materials
+        $materials = Material::select(['id', 'name', 'category_id'])
+            ->with('category:id,name')
+            ->get();
+
+        return $category;
+    });
 });
 
 
