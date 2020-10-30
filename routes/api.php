@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth.basic','admin:api'])->group(function () {
+Route::middleware(['auth.basic', 'admin:api'])->group(function () {
     // User
     Route::get('/users', function () {
         return UserResource::collection(User::paginate());
@@ -45,18 +45,15 @@ Route::middleware(['auth.basic','admin:api'])->group(function () {
 
     // tmp
     Route::get('/test', function (Request $request) {
-        $categoryId = $request->category_id;
-
-        // flaten categories
-        $category = new CategoryResource(Category::find($categoryId));
-        $flat = NestedService::flatten([$category]);
+        // TODO handle empty / null categories parameter
+        $categoriesId = [4];
 
         // get filtered materials
-        $materials = Material::select(['id', 'name', 'category_id'])
-            ->with('category:id,name')
+        $materials = Material::select('id', 'name')
+            ->filterByCategoriesId($categoriesId)
             ->get();
 
-        return $category;
+        return $materials;
     });
 });
 
