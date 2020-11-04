@@ -35,14 +35,14 @@ class MaterialController extends Controller
      */
     public function index(Request $request)
     {
-        $categoriesId = $request->categories_id;
+        $categoriesId = $request->categoriesId;
 
         // prepare query
         $query = Material::orderBy('category_id')
             ->orderBy('name');
 
         // apply filters
-        if (isset($categoriesId))
+        if (!empty($categoriesId))
             $query->filterByCategoriesId($categoriesId);
 
         // send filtered materials

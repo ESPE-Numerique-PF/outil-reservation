@@ -61,6 +61,7 @@ Route::prefix('resources')->middleware(['auth', 'admin:api'])->group(function ()
 
     // additionnal routes that Route::apiResources() does not include (see below)
     Route::post('categories/move', 'CategoryController@move');
+    Route::post('materials/filter', 'MaterialController@index');
 
     // routes including controller methods index, store, show, update and destroy
     Route::apiResources([

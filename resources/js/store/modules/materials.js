@@ -29,6 +29,13 @@ const actions = {
             .catch(error => console.log(error))
 
     },
+    filterMaterials({ commit }, { filters }) {
+        api.filter(filters)
+            .then((response) => {
+                commit('FETCH_MATERIALS', response.data)
+            })
+            .catch(error => console.log(error))
+    },
     updateMaterial({ commit }, { materialId, material }) {
         api.update(materialId, material)
             .then((response) => {
@@ -53,7 +60,7 @@ const mutations = {
     FETCH_MATERIALS(state, materials) {
         return state.materials = materials
     },
-    UPDATE_MATERIAL(state, material) { 
+    UPDATE_MATERIAL(state, material) {
         // TODO
         let materialToUpdate = state.materials.find(element => element.id === material.id)
         Object.assign(materialToUpdate, material)
@@ -63,7 +70,7 @@ const mutations = {
         let materialIndexToRemove = state.materials.findIndex(element => element.id === material.id)
         if (materialIndexToRemove > -1)
             state.materials.splice(materialIndexToRemove, 1)
-            
+
         // TODO remove all material instances attached to this material
     },
 }

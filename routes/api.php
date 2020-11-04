@@ -37,24 +37,15 @@ Route::middleware(['auth.basic', 'admin:api'])->group(function () {
         return new UserResource(User::find($id));
     });
 
+    // additionnal routes
+    Route::post('/materials/filter', 'MaterialController@index');
+
+    // api resource routes
     Route::apiResources([
         "categories" => "CategoryController",
         "materials" => "MaterialController",
         "material_instances" => "MaterialInstanceController",
     ]);
-
-    // tmp
-    Route::get('/test', function (Request $request) {
-        // TODO handle empty / null categories parameter
-        $categoriesId = [4];
-
-        // get filtered materials
-        $materials = Material::select('id', 'name')
-            ->filterByCategoriesId($categoriesId)
-            ->get();
-
-        return $materials;
-    });
 });
 
 

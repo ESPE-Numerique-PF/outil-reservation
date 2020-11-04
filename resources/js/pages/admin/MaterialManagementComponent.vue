@@ -32,7 +32,7 @@
                 small
                 responsive
                 hover
-                :items="filteredMaterials"
+                :items="materials"
                 :fields="materialFields"
                 primary-key="id"
               >
@@ -144,7 +144,39 @@
               <i class="fas fa-filter" /> Filtre
             </h5>
           </b-card-header>
-          <b-card-body></b-card-body>
+          <b-card-body>
+            <!-- Filter by category -->
+            <b-row class="px-3">
+              <b-form-group label="Par catégorie" label-class="form-label">
+                <treeselect
+                  placeholder="Choisissez une catégorie"
+                  v-model="filter.categoriesId"
+                  :options="categories"
+                  :searchable="true"
+                  :normalizer="normalizer"
+                  :multiple="true"
+                >
+                  <template v-slot:option-label="{ node }">
+                    {{
+                    node.raw.name
+                    }}
+                  </template>
+                  <template v-slot:value-label="{ node }">
+                    {{
+                    node.raw.name
+                    }}
+                  </template>
+                </treeselect>
+              </b-form-group>
+            </b-row>
+
+            <!-- FILTER button -->
+            <b-row>
+              <b-col>
+                <b-button size="lg" @click="onFilter">Filtrer</b-button>
+              </b-col>
+            </b-row>
+          </b-card-body>
         </b-card>
       </b-col>
     </b-row>
@@ -156,10 +188,14 @@ import { mapGetters, mapActions } from "vuex";
 import AddMaterialModal from "../../components/material/AddMaterialModal";
 import UpdateMaterialModal from "../../components/material/UpdateMaterialModal";
 
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+
 export default {
   components: {
     AddMaterialModal,
     UpdateMaterialModal,
+    Treeselect,
   },
   data() {
     return {
@@ -170,6 +206,9 @@ export default {
         { key: "material_instances_count", label: "Quantité" },
         { key: "show_details", label: "" },
       ],
+      filter: {
+        categoriesId: [],
+      },
     };
   },
   computed: {
@@ -177,17 +216,26 @@ export default {
       materials: "materials",
       categories: "categories",
     }),
-    filteredMaterials() {
-      // TODO apply filter
-      return this.materials;
-    },
   },
   methods: {
     // STORE
     ...mapActions({
       fetchMaterials: "fetchMaterials",
+      filterMaterials: "filterMaterials",
       fetchCategories: "fetchCategories",
     }),
+    // TREESELECT
+    normalizer(node) {
+      return {
+        id: node.id,
+        label: node.name,
+        children: node.children,
+      };
+    },
+    // FILTER
+    onFilter() {
+      this.filterMaterials({ filters: this.filter });
+    },
     // Table item operations
     onInstance(material) {
       // TODO show material instances view for material
