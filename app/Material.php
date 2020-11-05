@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\Controller;
 use App\Services\NestedService;
 use App\Utilities\Filters\FilterBuilder;
 use Illuminate\Database\Eloquent\Model;
@@ -50,5 +51,19 @@ class Material extends Model
         
         // apply filter
         return $query->whereIn('category_id', $categoriesDistinctId);
+    }
+
+    public function scopeSortBy($query, $fieldName = "name", $isDesc = false)
+    {
+        if ($fieldName === "name") {
+            $query->orderBy('name', ($isDesc ? 'DESC' : 'ASC'));
+        }
+        else {
+            // TODO order by category name
+            $query->orderBy('category_id', ($isDesc ? 'DESC' : 'ASC'))
+            ->orderBy('name', ($isDesc ? 'DESC' : 'ASC'));
+        }
+
+        return $query;
     }
 }

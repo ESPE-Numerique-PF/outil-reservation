@@ -35,6 +35,7 @@
                 :items="materials"
                 :fields="materialFields"
                 primary-key="id"
+                no-local-sorting
               >
                 <!-- Custom data rendering (category name) -->
                 <template #cell(category_name)="{ item }">
@@ -145,29 +146,47 @@
             </h5>
           </b-card-header>
           <b-card-body>
+            <b-row>
+              <!-- Sort by -->
+              <b-col>
+                <b-form-group label="Trier par" label-class="form-label">
+                  <b-form-select v-model="filter.sortBy" :options="filterData.sortBy" />
+                </b-form-group>
+              </b-col>
+
+              <!-- Asc / Desc order -->
+              <b-col md="6">
+                <b-form-group label="Ordre" label-class="form-label">
+                  <b-form-select v-model="filter.sortDesc" :options="filterData.sortDesc" />
+                </b-form-group>
+              </b-col>
+            </b-row>
+
             <!-- Filter by category -->
-            <b-row class="px-3">
-              <b-form-group label="Par catégorie" label-class="form-label">
-                <treeselect
-                  placeholder="Choisissez une catégorie"
-                  v-model="filter.categoriesId"
-                  :options="categories"
-                  :searchable="true"
-                  :normalizer="normalizer"
-                  :multiple="true"
-                >
-                  <template v-slot:option-label="{ node }">
-                    {{
-                    node.raw.name
-                    }}
-                  </template>
-                  <template v-slot:value-label="{ node }">
-                    {{
-                    node.raw.name
-                    }}
-                  </template>
-                </treeselect>
-              </b-form-group>
+            <b-row>
+              <b-col>
+                <b-form-group label="Par catégorie" label-class="form-label">
+                  <treeselect
+                    placeholder="Choisissez une catégorie"
+                    v-model="filter.categoriesId"
+                    :options="categories"
+                    :searchable="true"
+                    :normalizer="normalizer"
+                    :multiple="true"
+                  >
+                    <template v-slot:option-label="{ node }">
+                      {{
+                      node.raw.name
+                      }}
+                    </template>
+                    <template v-slot:value-label="{ node }">
+                      {{
+                      node.raw.name
+                      }}
+                    </template>
+                  </treeselect>
+                </b-form-group>
+              </b-col>
             </b-row>
 
             <!-- FILTER button -->
@@ -206,8 +225,21 @@ export default {
         { key: "material_instances_count", label: "Quantité" },
         { key: "show_details", label: "" },
       ],
+      filterData: {
+        sortBy: [
+          { value: null, text: "Sélectionner un champs", disabled: true },
+          { value: "name", text: "Nom" },
+          { value: "category_id", text: "Catégorie" },
+        ],
+        sortDesc: [
+          { value: false, text: "Croissant" },
+          { value: true, text: "Décroissant" },
+        ],
+      },
       filter: {
         categoriesId: [],
+        sortBy: null,
+        sortDesc: false,
       },
     };
   },
