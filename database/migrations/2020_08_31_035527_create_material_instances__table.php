@@ -21,7 +21,7 @@ class CreateMaterialInstancesTable extends Migration
             $table->timestamps();
 
             $table->foreignId('material_id');
-            $table->foreign('material_id')->references('id')->on('materials');
+            $table->foreign('material_id')->references('id')->on('materials')->cascadeOnDelete();
         });
     }
 

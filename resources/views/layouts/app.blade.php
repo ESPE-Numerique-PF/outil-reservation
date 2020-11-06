@@ -27,7 +27,7 @@
 
         <!-- Header -->
         <header class="main-header">
-            <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+            <nav class="navbar navbar-expand-md navbar-dark bg-espe shadow-sm">
                 <div class="container">
                     
                     <a class="navbar-brand" href="{{ url('/') }}">
@@ -120,7 +120,7 @@
         </header>
 
         <!-- Main frame -->
-        <main class="py-4 content">
+        <main class="py-3">
             @yield('content')
         </main>
 

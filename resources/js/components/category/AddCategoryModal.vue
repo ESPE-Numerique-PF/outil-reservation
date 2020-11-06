@@ -4,40 +4,54 @@
       :id="id"
       ref="add-category-modal"
       cancel-title="Annuler"
-      title="Créer une catégorie"
+      title="Ajouter une catégorie"
       hide-footer
+      size="lg"
     >
       <!-- ERROR ALERT -->
-      <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
+      <b-row>
+        <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
+      </b-row>
 
-      <h4 v-if="node !== undefined">
-        <b-badge pill variant="light" class="px-3 mb-3">{{ node.name }}</b-badge>
-      </h4>
+      <!-- Show parent category if it exists -->
+      <b-row>
+        <h4 v-if="node !== undefined">
+          <b-badge pill variant="light" class="px-3 mb-3">{{ node.name }}</b-badge>
+        </h4>
+      </b-row>
 
-      <div id="preview" class="mb-3">
-        <b-img v-if="imageUrl" :src="imageUrl" rounded></b-img>
-      </div>
+      <b-row>
+        <!-- Image preview -->
+        <b-col cols="3">
+          <div class="mb-3">
+            <b-img v-if="imageUrl" :src="imageUrl" rounded fluid></b-img>
+          </div>
+        </b-col>
 
-      <!-- FORM -->
-      <b-form @submit.prevent="onSubmit">
-        <b-form-group id="input-group">
-          <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
-        </b-form-group>
+        <!-- FORM -->
+        <b-col>
+          <b-form @submit.prevent="onSubmit">
+            <b-form-group id="input-group" label-cols="3">
+              <template #label>Nom<span class="required"/></template>
+              <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
+            </b-form-group>
 
-        <b-form-group id="input-file-group">
-          <b-form-file
-            v-model="form.image"
-            :state="Boolean(form.image)"
-            placeholder="Rechercher une image ou déposer ici..."
-            accept="image/*"
-            @change="onFileChange"
-          ></b-form-file>
-        </b-form-group>
+            <b-form-group id="input-file-group">
+              <b-form-file
+                v-model="form.image"
+                :state="Boolean(form.image)"
+                placeholder="Rechercher une image ou déposer ici..."
+                accept="image/*"
+                @change="onFileChange"
+              ></b-form-file>
+            </b-form-group>
 
-        <!-- Buttons -->
-        <b-button type="submit" variant="primary">Ajouter</b-button>
-        <b-button @click="hideModal" variant="danger">Annuler</b-button>
-      </b-form>
+            <!-- Buttons -->
+            <b-button type="submit" variant="primary">Ajouter</b-button>
+            <b-button @click="hideModal" variant="danger">Annuler</b-button>
+          </b-form>
+        </b-col>
+      </b-row>
     </b-modal>
   </div>
 </template>
@@ -47,7 +61,7 @@ export default {
   props: {
     id: String,
     node: Object,
-    path: Array
+    path: Array,
   },
 
   data() {
@@ -71,10 +85,11 @@ export default {
       if (this.form.image !== null) formData.append("image", this.form.image);
       if (this.node !== undefined)
         formData.append("parent_category_id", this.node.id);
-      
-      this.$store.dispatch('createCategory', {category: formData, path: this.path})
+
+      this.$store
+        .dispatch("createCategory", { category: formData, path: this.path })
         .then((response) => this.hideModal())
-        .catch((error) => console.log('error'))
+        .catch((error) => console.log("error"));
     },
     onFileChange(evt) {
       const file = evt.target.files[0];
@@ -102,16 +117,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#preview {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
-
-#preview b-img {
-  max-width: 100%;
-  max-height: 256px;
-}
-</style>

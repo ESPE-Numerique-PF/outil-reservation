@@ -1,7 +1,11 @@
 <?php
 
+use App\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\UserResource;
+use App\Material;
+use App\Services\NestedService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth.basic','admin:api'])->group(function () {
+Route::middleware(['auth.basic', 'admin:api'])->group(function () {
     // User
     Route::get('/users', function () {
         return UserResource::collection(User::paginate());
@@ -33,6 +37,10 @@ Route::middleware(['auth.basic','admin:api'])->group(function () {
         return new UserResource(User::find($id));
     });
 
+    // additionnal routes
+    Route::post('/materials/filter', 'MaterialController@index');
+
+    // api resource routes
     Route::apiResources([
         "categories" => "CategoryController",
         "materials" => "MaterialController",

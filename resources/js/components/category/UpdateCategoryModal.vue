@@ -4,45 +4,55 @@
       :id="id"
       ref="update-category-modal"
       cancel-title="Annuler"
-      title="Modification"
+      title="Modifier la catégorie"
       hide-footer
       @show="onShowModal"
+      size="lg"
     >
       <!-- ERROR ALERT -->
-      <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
+      <b-row>
+        <b-alert variant="danger" v-model="error.show" dismissible>{{ error.message }}</b-alert>
+      </b-row>
 
-      <div class="mb-3 preview">
-        <b-img class="preview-img" v-if="imageUrl" :src="imageUrl" rounded></b-img>
-      </div>
+      <b-row>
+        <!-- Image preview -->
+        <b-col cols="3">
+          <div class="mb-3 preview">
+            <b-img class="preview-img" v-if="imageUrl" :src="imageUrl" rounded fluid></b-img>
+          </div>
+        </b-col>
 
-      <!-- FORM -->
-      <b-form @submit.prevent="onSubmit">
+        <!-- FORM -->
+        <b-col>
+          <b-form @submit.prevent="onSubmit">
+            <b-form-group id="input-group" label-cols="3">
+              <template #label>Nom<span class="required"/></template>
+              <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
+            </b-form-group>
 
-        <b-form-group id="input-group">
-          <b-form-input id="name" placeholder="Nom" v-model="form.name" required autofocus></b-form-input>
-        </b-form-group>
+            <b-form-group id="input-file-group">
+              <b-form-file
+                v-model="form.image"
+                :state="Boolean(form.image)"
+                placeholder="Rechercher une image ou déposer ici..."
+                accept="image/*"
+                @change="onFileChange"
+              ></b-form-file>
+            </b-form-group>
 
-        <b-form-group id="input-file-group">
-          <b-form-file
-            v-model="form.image"
-            :state="Boolean(form.image)"
-            placeholder="Rechercher une image ou déposer ici..."
-            accept="image/*"
-            @change="onFileChange"
-          ></b-form-file>
-        </b-form-group>
-
-        <!-- Buttons -->
-        <b-button type="submit" variant="primary">Modifier</b-button>
-        <b-button @click="hideModal" variant="danger">Annuler</b-button>
-      </b-form>
+            <!-- Buttons -->
+            <b-button type="submit" variant="primary">Modifier</b-button>
+            <b-button @click="hideModal" variant="danger">Annuler</b-button>
+          </b-form>
+        </b-col>
+      </b-row>
     </b-modal>
   </div>
 </template>
 
 <script>
 export default {
-  props: {
+  props: {  
     category: Object,
     id: String,
   },
@@ -51,27 +61,31 @@ export default {
       form: {
         name: this.category.name,
         image: null,
-        imageHasChanged: false
+        imageHasChanged: false,
       },
       error: {
         message: "",
         show: false,
       },
-      imageUrl: null
+      imageUrl: null,
     };
   },
 
   methods: {
     onSubmit(evt) {
       let formData = new FormData();
-      formData.append('_method', 'PUT');
+      formData.append("_method", "PUT");
       formData.append("name", this.form.name);
-      formData.append("imageHasChanged", this.form.imageHasChanged)
+      formData.append("imageHasChanged", this.form.imageHasChanged);
       if (this.form.image !== null) formData.append("image", this.form.image);
-      
-      this.$store.dispatch('updateCategory', {categoryId: this.category.id, category: formData})
+
+      this.$store
+        .dispatch("updateCategory", {
+          categoryId: this.category.id,
+          category: formData,
+        })
         .then((response) => this.hideModal())
-        .catch((error) => console.log(error))
+        .catch((error) => console.log(error));
     },
     onFileChange(evt) {
       const file = evt.target.files[0];
@@ -87,8 +101,8 @@ export default {
       this.error.message = error.response.data.message;
     },
     onShowModal() {
-      this.form.name = this.category.name
-      this.imageUrl = this.category.image_URI
+      this.form.name = this.category.name;
+      this.imageUrl = this.category.image_URI;
     },
     reset() {
       this.error = {
@@ -99,16 +113,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.preview {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
-
-.preview-img {
-  max-width: 100%;
-  max-height: 256px;
-}
-</style>

@@ -52,22 +52,20 @@ Route::prefix('resources')->middleware(['auth'])->group(function () {
         return Auth::user();
     });
 
-    // categories
-    
     Route::get('/categories', 'CategoryController@index');
-
-    // materials
     Route::get('/materials', 'MaterialController@index');
 });
 
-// Auth and Admin routes
+// Auth and Admin routes    
 Route::prefix('resources')->middleware(['auth', 'admin:api'])->group(function () {
-    Route::post('categories/move', 'CategoryController@move');
 
+    // additionnal routes that Route::apiResources() does not include (see below)
+    Route::post('categories/move', 'CategoryController@move');
+    Route::post('materials/filter', 'MaterialController@index');
+
+    // routes including controller methods index, store, show, update and destroy
     Route::apiResources([
         'categories' => 'CategoryController',
         'materials' => 'MaterialController',
     ]);
-
-    
 });
