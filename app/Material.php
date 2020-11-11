@@ -53,9 +53,9 @@ class Material extends Model
         return $query->whereIn('category_id', $categoriesDistinctId);
     }
 
-    public function scopeSortBy($query, $fieldName = "name", $isDesc = false)
+    public function scopeSortBy($query, $fieldName, $isDesc)
     {
-        if ($fieldName === "name") {
+        if ($fieldName === 'name') {
             $query->orderBy('name', ($isDesc ? 'DESC' : 'ASC'));
         }
         else {

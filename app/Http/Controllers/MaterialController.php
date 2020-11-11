@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\MaterialResource;
 use App\Material;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -38,7 +37,7 @@ class MaterialController extends Controller
     {
         $categoriesId = $request->categoriesId;
         $sortBy = $request->sortBy;
-        $sortDesc = $request->sortDesc;
+        $sortDesc = $request->sortDesc ?? false;
 
         // prepare query
         $query = Material::query();

@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <h2>Gestion du matériel</h2>
+    <h2>Matériel</h2>
 
     <!-- Add material modal -->
     <add-material-modal id="add-material-modal" static lazy></add-material-modal>

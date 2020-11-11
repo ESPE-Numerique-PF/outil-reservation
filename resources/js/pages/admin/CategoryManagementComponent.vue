@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <h2>Gestion des catégories</h2>
+    <h2>Catégories de matériel</h2>
 
     <!-- Add category modal -->
     <add-category-modal
