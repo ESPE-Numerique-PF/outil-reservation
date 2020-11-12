@@ -23,6 +23,11 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_category_id');
     }
 
+    public function materials()
+    {
+        return $this->hasMany(Material::class, 'category_id');
+    }
+
     /**
      * Get all siblings of the current category (including the category itself)
      * orderd by 'position' field.
