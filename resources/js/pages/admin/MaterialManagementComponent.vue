@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <h2>Matériel</h2>
-
+    
     <!-- Add material modal -->
     <add-material-modal id="add-material-modal" static lazy></add-material-modal>
 
@@ -14,14 +14,14 @@
           <b-card-header class="p-1">
             <b-row>
               <!-- Create material button -->
-              <b-col cols="auto" class="mr-auto">
+              <b-col cols="auto">
                 <b-button v-b-modal.add-material-modal variant="light">
                   <i class="fas fa-plus"></i> Créer
                 </b-button>
               </b-col>
               <!-- Filter buttons -->
-              <b-col cols="auto">
-                
+              <b-col cols="5" class="ml-auto">
+                <category-tree-select v-model="filter.categoriesId" :options="categories" />
               </b-col>
               <!-- Fold / Unfold buttons -->
               <b-col cols="auto">
@@ -172,10 +172,7 @@
             <b-row>
               <b-col>
                 <b-form-group label="Par catégorie" label-class="form-label">
-                  <category-tree-select 
-                    v-model="filter.categoriesId"
-                    :options="categories"
-                  />
+                  <category-tree-select v-model="filter.categoriesId" :options="categories" />
                 </b-form-group>
               </b-col>
             </b-row>
@@ -199,8 +196,13 @@ import AddMaterialModal from "../../components/material/AddMaterialModal";
 import UpdateMaterialModal from "../../components/material/UpdateMaterialModal";
 import CategoryTreeSelect from "../../components/category/CategoryTreeSelect";
 
+
+import TreeSelect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+
 export default {
   components: {
+    TreeSelect,
     AddMaterialModal,
     UpdateMaterialModal,
     CategoryTreeSelect,

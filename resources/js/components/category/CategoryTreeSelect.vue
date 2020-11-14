@@ -9,16 +9,8 @@
       :normalizer="normalizer"
       :multiple="true"
     >
-      <template v-slot:option-label="{ node }">
-        {{
-        node.raw.name
-        }}
-      </template>
-      <template v-slot:value-label="{ node }">
-        {{
-        node.raw.name
-        }}
-      </template>
+      <template v-slot:option-label="{ node }">{{ node.raw.name }}</template>
+      <template v-slot:value-label="{ node }">{{ node.raw.name }}</template>
     </treeselect>
   </div>
 </template>
@@ -66,3 +58,20 @@ export default {
   },
 };
 </script>
+
+<style>
+
+/** 
+ * Override TreeSelect CSS
+ */
+
+.vue-treeselect__multi-value-item {
+  color: grey;
+  background: #f8f9fa;
+}
+
+.vue-treeselect__value-remove {
+  color: grey;
+}
+
+</style>
