@@ -13,11 +13,17 @@
           <!-- Header table menu -->
           <b-card-header class="p-1">
             <b-row>
+              <!-- Create material button -->
               <b-col cols="auto" class="mr-auto">
                 <b-button v-b-modal.add-material-modal variant="light">
                   <i class="fas fa-plus"></i> Créer
                 </b-button>
               </b-col>
+              <!-- Filter buttons -->
+              <b-col cols="auto">
+                
+              </b-col>
+              <!-- Fold / Unfold buttons -->
               <b-col cols="auto">
                 <b-button variant="light">Tout étendre</b-button>
                 <b-button variant="light">Tout réduire</b-button>
@@ -166,25 +172,10 @@
             <b-row>
               <b-col>
                 <b-form-group label="Par catégorie" label-class="form-label">
-                  <treeselect
-                    placeholder="Choisissez une catégorie"
+                  <category-tree-select 
                     v-model="filter.categoriesId"
                     :options="categories"
-                    :searchable="true"
-                    :normalizer="normalizer"
-                    :multiple="true"
-                  >
-                    <template v-slot:option-label="{ node }">
-                      {{
-                      node.raw.name
-                      }}
-                    </template>
-                    <template v-slot:value-label="{ node }">
-                      {{
-                      node.raw.name
-                      }}
-                    </template>
-                  </treeselect>
+                  />
                 </b-form-group>
               </b-col>
             </b-row>
@@ -206,15 +197,13 @@
 import { mapGetters, mapActions } from "vuex";
 import AddMaterialModal from "../../components/material/AddMaterialModal";
 import UpdateMaterialModal from "../../components/material/UpdateMaterialModal";
-
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import CategoryTreeSelect from "../../components/category/CategoryTreeSelect";
 
 export default {
   components: {
     AddMaterialModal,
     UpdateMaterialModal,
-    Treeselect,
+    CategoryTreeSelect,
   },
   data() {
     return {
@@ -256,14 +245,6 @@ export default {
       filterMaterials: "filterMaterials",
       fetchCategories: "fetchCategories",
     }),
-    // TREESELECT
-    normalizer(node) {
-      return {
-        id: node.id,
-        label: node.name,
-        children: node.children,
-      };
-    },
     // FILTER
     onFilter() {
       this.filterMaterials({ filters: this.filter });
