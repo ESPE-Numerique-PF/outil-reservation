@@ -29,18 +29,24 @@ class Category extends Model
     }
 
     /**
-     * Get all siblings of the current category (including the category itself)
-     * orderd by 'position' field.
-     * The parameter $minPos will allow to retrieve only siblings with position >= $minPos.
+     * Get all siblings of the current category
+     * ordered by 'position'.
+     * 
+     * @param int $minPos first position where the siblings are returned
+     * @return array all siblings (may include the current category)
      */
     public function siblings($minPos = 0)
     {
+        // if the current category is a top level category
+        // get all top level category
         if (is_null($this->parent)) {
             return Category::whereNull('parent_category_id')
                 ->orderBy('position')
                 ->where('position', '>=', $minPos)
                 ->get();
-        } else {
+        }
+        // else get all siblings
+        else {
             return $this->parent->children()
                 ->orderBy('position')
                 ->where('position', '>=', $minPos)
@@ -49,8 +55,10 @@ class Category extends Model
     }
 
     /**
-     * Return the next position of a set of categories with the same parent.
-     * Return by default 0 if the parent has no child.
+     * Get the next position of category children.
+     * If the category has no child, it will return 0 by default.
+     * 
+     * @return int the next children position
      */
     public static function getNextPosition($parentId = null)
     {
