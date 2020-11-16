@@ -29,7 +29,7 @@
         <header class="main-header">
             <nav class="navbar navbar-expand-md navbar-dark bg-espe shadow-sm">
                 <div class="container">
-                    
+
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
@@ -69,6 +69,10 @@
 
                                     <a class="dropdown-item" href="{{ url('admin/test') }}">
                                         Page de test
+                                    
+                                    </a>
+                                    <a class="dropdown-item" href="{{ url('admin/info') }}">
+                                        Informations serveur
                                     </a>
                                 </div>
                             </li>

@@ -1,13 +1,16 @@
 <template>
   <b-container fluid>
     <h2>Matériel</h2>
-    
+
     <!-- Add material modal -->
-    <add-material-modal id="add-material-modal" static lazy></add-material-modal>
+    <add-material-modal
+      id="add-material-modal"
+      static
+      lazy
+    ></add-material-modal>
 
     <b-row>
-      <!-- Left side -->
-      <b-col md="9" class="mb-3">
+      <b-col>
         <!-- Card left side -->
         <b-card no-body class="shadow">
           <!-- Header table menu -->
@@ -21,7 +24,13 @@
               </b-col>
               <!-- Filter buttons -->
               <b-col cols="5" class="ml-auto">
-                <category-tree-select v-model="filter.categoriesId" :options="categories" />
+                <category-tree-select
+                  v-model="filter.categoriesId"
+                  :options="categories"
+                />
+              </b-col>
+              <b-col cols="auto">
+                <b-button @click="filteringByCategory">Rechercher</b-button>
               </b-col>
               <!-- Fold / Unfold buttons -->
               <b-col cols="auto">
@@ -34,13 +43,15 @@
             <b-row>
               <!-- Material table -->
               <b-table
+                primary-key="id"
                 ref="materialTable"
+                :items="materials"
+                :fields="materialFields"
+                :busy.sync="table.isBusy"
+                @sort-changed="sortingChanged"
                 small
                 responsive
                 hover
-                :items="materials"
-                :fields="materialFields"
-                primary-key="id"
                 no-local-sorting
               >
                 <!-- Custom data rendering (category name) -->
@@ -48,12 +59,15 @@
                   <span
                     v-if="item.category != null"
                     class="text-secondary font-italic"
-                  >{{ item.category.name }}</span>
+                    >{{ item.category.name }}</span
+                  >
                 </template>
 
                 <!-- Material instances count -->
                 <template #cell(material_instances_count)="{ item }">
-                  <span class="font-italic">{{ item.material_instances_count }}</span>
+                  <span class="font-italic">{{
+                    item.material_instances_count
+                  }}</span>
                 </template>
 
                 <!-- Row details button and modals -->
@@ -81,7 +95,12 @@
                   <!-- Buttons -->
                   <div class="float-right">
                     <!-- Toggle row details button -->
-                    <b-button size="sm" variant="light" squared @click="row.toggleDetails">
+                    <b-button
+                      size="sm"
+                      variant="light"
+                      squared
+                      @click="row.toggleDetails"
+                    >
                       <span :key="row.detailsShowing ? 'left' : 'down'">
                         <i
                           class="fas"
@@ -141,51 +160,6 @@
           </b-card-body>
         </b-card>
       </b-col>
-
-      <!-- Right side -->
-      <b-col>
-        <!-- Material filter -->
-        <b-card no-body class="shadow">
-          <b-card-header>
-            <h5>
-              <i class="fas fa-filter" /> Filtre
-            </h5>
-          </b-card-header>
-          <b-card-body>
-            <b-row>
-              <!-- Sort by -->
-              <b-col>
-                <b-form-group label="Trier par" label-class="form-label">
-                  <b-form-select v-model="filter.sortBy" :options="filterData.sortBy" />
-                </b-form-group>
-              </b-col>
-
-              <!-- Asc / Desc order -->
-              <b-col md="6">
-                <b-form-group label="Ordre" label-class="form-label">
-                  <b-form-select v-model="filter.sortDesc" :options="filterData.sortDesc" />
-                </b-form-group>
-              </b-col>
-            </b-row>
-
-            <!-- Filter by category -->
-            <b-row>
-              <b-col>
-                <b-form-group label="Par catégorie" label-class="form-label">
-                  <category-tree-select v-model="filter.categoriesId" :options="categories" />
-                </b-form-group>
-              </b-col>
-            </b-row>
-
-            <!-- FILTER button -->
-            <b-row>
-              <b-col>
-                <b-button size="lg" @click="onFilter">Filtrer</b-button>
-              </b-col>
-            </b-row>
-          </b-card-body>
-        </b-card>
-      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -195,7 +169,6 @@ import { mapGetters, mapActions } from "vuex";
 import AddMaterialModal from "../../components/material/AddMaterialModal";
 import UpdateMaterialModal from "../../components/material/UpdateMaterialModal";
 import CategoryTreeSelect from "../../components/category/CategoryTreeSelect";
-
 
 import TreeSelect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
@@ -210,9 +183,9 @@ export default {
   data() {
     return {
       materialFields: [
-        { key: "selected", label: "" },
-        { key: "name", label: "Nom" },
-        { key: "category_name", label: "Catégorie" },
+        { key: "selected", label: "" }, // TODO grouped actions on selected items
+        { key: "name", label: "Nom", sortable: true },
+        { key: "category_name", label: "Catégorie", sortable: true },
         { key: "material_instances_count", label: "Quantité" },
         { key: "show_details", label: "" },
       ],
@@ -229,8 +202,9 @@ export default {
       },
       filter: {
         categoriesId: [],
-        sortBy: null,
-        sortDesc: false,
+      },
+      table: {
+        isBusy: false,
       },
     };
   },
@@ -248,8 +222,37 @@ export default {
       fetchCategories: "fetchCategories",
     }),
     // FILTER
-    onFilter() {
-      this.filterMaterials({ filters: this.filter });
+    filteringByCategory() {
+      this.table.isBusy = true;
+      this.filterMaterials({
+        filters: {
+          categoriesId: this.filter.categoriesId
+        },
+      })
+        .then((response) => {
+          this.table.isBusy = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.table.isBusy = false;
+        });
+    },
+    sortingChanged(ctx) {
+      this.table.isBusy = true;
+      this.filterMaterials({
+        filters: {
+          sortBy: ctx.sortBy,
+          sortDesc: ctx.sortDesc,
+          categoriesId: this.filter.categoriesId
+        },
+      })
+        .then((response) => {
+          this.table.isBusy = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.table.isBusy = false;
+        });
     },
     // Table item operations
     onInstance(material) {

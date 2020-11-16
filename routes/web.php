@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -31,8 +32,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/category', 'CategoryController@adminView');
 
     // Test route
-    Route::get('/admin/test', function() {
+    Route::get('/admin/test', function () {
         return view('admin.test');
+    });
+    Route::get('/admin/info', function () {
+        return view('admin.info');
     });
 });
 
