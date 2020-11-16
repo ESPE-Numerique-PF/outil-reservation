@@ -29,13 +29,8 @@
                   :options="categories"
                 />
               </b-col>
-              <b-col cols="auto">
-                <b-button @click="filteringByCategory">Rechercher</b-button>
-              </b-col>
-              <!-- Fold / Unfold buttons -->
-              <b-col cols="auto">
-                <b-button variant="light">Tout étendre</b-button>
-                <b-button variant="light">Tout réduire</b-button>
+              <b-col cols="auto" class="mr-3">
+                <b-button @click="filteringByCategory" squared>Rechercher</b-button>
               </b-col>
             </b-row>
           </b-card-header>
@@ -189,17 +184,6 @@ export default {
         { key: "material_instances_count", label: "Quantité" },
         { key: "show_details", label: "" },
       ],
-      filterData: {
-        sortBy: [
-          { value: null, text: "Sélectionner un champs", disabled: true },
-          { value: "name", text: "Nom" },
-          { value: "category_id", text: "Catégorie" },
-        ],
-        sortDesc: [
-          { value: false, text: "Croissant" },
-          { value: true, text: "Décroissant" },
-        ],
-      },
       filter: {
         categoriesId: [],
       },
