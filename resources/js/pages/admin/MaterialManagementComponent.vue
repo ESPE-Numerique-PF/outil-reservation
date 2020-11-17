@@ -3,11 +3,7 @@
     <h2>Matériel</h2>
 
     <!-- Add material modal -->
-    <add-material-modal
-      id="add-material-modal"
-      static
-      lazy
-    ></add-material-modal>
+    <add-material-modal id="add-material-modal" static lazy></add-material-modal>
 
     <b-row>
       <b-col>
@@ -24,10 +20,7 @@
               </b-col>
               <!-- Filter buttons -->
               <b-col cols="5" class="ml-auto">
-                <category-tree-select
-                  v-model="filter.categoriesId"
-                  :options="categories"
-                />
+                <category-tree-select v-model="filter.categoriesId" :options="categories" />
               </b-col>
               <b-col cols="auto" class="mr-3">
                 <b-button @click="filteringByCategory" squared>Rechercher</b-button>
@@ -48,21 +41,23 @@
                 responsive
                 hover
                 no-local-sorting
+                class="px-1"
               >
                 <!-- Custom data rendering (category name) -->
                 <template #cell(category_name)="{ item }">
                   <span
                     v-if="item.category != null"
                     class="text-secondary font-italic"
-                    >{{ item.category.name }}</span
-                  >
+                  >{{ item.category.name }}</span>
                 </template>
 
                 <!-- Material instances count -->
                 <template #cell(material_instances_count)="{ item }">
-                  <span class="font-italic">{{
+                  <span class="font-italic">
+                    {{
                     item.material_instances_count
-                  }}</span>
+                    }}
+                  </span>
                 </template>
 
                 <!-- Row details button and modals -->
@@ -89,13 +84,17 @@
 
                   <!-- Buttons -->
                   <div class="float-right">
+                    <b-button size="sm" variant="light" squared @click="onInstance(row.item)">
+                      <i class="fas fa-laptop" />
+                    </b-button>
+                    <b-button size="sm" variant="light" squared @click="onUpdate(row.item)">
+                      <i class="fas fa-edit" />
+                    </b-button>
+                    <b-button size="sm" variant="danger" squared @click="beforeDelete(row.item)">
+                      <i class="fas fa-trash" />
+                    </b-button>
                     <!-- Toggle row details button -->
-                    <b-button
-                      size="sm"
-                      variant="light"
-                      squared
-                      @click="row.toggleDetails"
-                    >
+                    <b-button size="sm" variant="light" squared @click="row.toggleDetails">
                       <span :key="row.detailsShowing ? 'left' : 'down'">
                         <i
                           class="fas"
@@ -109,7 +108,7 @@
                     </b-button>
 
                     <!-- Menu right side -->
-                    <b-dropdown
+                    <!-- <b-dropdown
                       class="borderless"
                       variant="light"
                       size="sm"
@@ -128,7 +127,7 @@
                       <b-dropdown-item @click="beforeDelete(row.item)">
                         <i class="fas fa-trash"></i> Supprimer
                       </b-dropdown-item>
-                    </b-dropdown>
+                    </b-dropdown>-->
                   </div>
                 </template>
 
@@ -178,7 +177,7 @@ export default {
   data() {
     return {
       materialFields: [
-        { key: "selected", label: "" }, // TODO grouped actions on selected items
+        // { key: "selected", label: "" }, // TODO grouped actions on selected items
         { key: "name", label: "Nom", sortable: true },
         { key: "category_name", label: "Catégorie", sortable: true },
         { key: "material_instances_count", label: "Quantité" },
@@ -210,7 +209,7 @@ export default {
       this.table.isBusy = true;
       this.filterMaterials({
         filters: {
-          categoriesId: this.filter.categoriesId
+          categoriesId: this.filter.categoriesId,
         },
       })
         .then((response) => {
@@ -227,7 +226,7 @@ export default {
         filters: {
           sortBy: ctx.sortBy,
           sortDesc: ctx.sortDesc,
-          categoriesId: this.filter.categoriesId
+          categoriesId: this.filter.categoriesId,
         },
       })
         .then((response) => {
