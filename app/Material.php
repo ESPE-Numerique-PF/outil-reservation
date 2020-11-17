@@ -35,7 +35,6 @@ class Material extends Model
 
     public function scopeFilterByCategoriesId($query, $categoriesId)
     {
-        // TODO refactor for multiple filters
         // flaten categories
         $category = Category::select('id', 'name')
             ->whereIn('id', $categoriesId)
@@ -48,21 +47,16 @@ class Material extends Model
         foreach ($flat as $item) {
             $categoriesDistinctId[$item['id']] = $item['id'];
         }
-        
+
         // apply filter
         return $query->whereIn('category_id', $categoriesDistinctId);
     }
 
     public function scopeSortBy($query, $fieldName, $isDesc)
     {
-        if ($fieldName === 'name') {
-            $query->orderBy('name', ($isDesc ? 'DESC' : 'ASC'));
-        }
-        else {
-            // TODO order by category name
-            $query->orderBy('category_id', ($isDesc ? 'DESC' : 'ASC'))
-            ->orderBy('name', ($isDesc ? 'DESC' : 'ASC'));
-        }
+        $orderDesc = $isDesc ? 'DESC' : 'ASC';
+
+        $query->orderBy($fieldName, $orderDesc);
 
         return $query;
     }
