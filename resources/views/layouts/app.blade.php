@@ -124,7 +124,7 @@
         </header>
 
         <!-- Main frame -->
-        <main class="py-3">
+        <main>
             @yield('content')
         </main>
 

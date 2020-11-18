@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="py-3">
     <h2>Catégories de matériel</h2>
 
     <!-- Add category modal -->

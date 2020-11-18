@@ -1,159 +1,126 @@
 <template>
   <b-container fluid>
-    <h2>Matériel</h2>
+    <!-- <h2>Matériel</h2> -->
 
     <!-- Add material modal -->
     <add-material-modal id="add-material-modal" static lazy></add-material-modal>
 
-    <b-row>
-      <b-col>
-        <!-- Card left side -->
-        <b-card no-body class="shadow">
-          <!-- Header table menu -->
-          <b-card-header class="p-1">
-            <b-row>
-              <!-- Create material button -->
-              <b-col cols="auto">
-                <b-button v-b-modal.add-material-modal variant="light">
-                  <i class="fas fa-plus"></i> Créer
-                </b-button>
-              </b-col>
-              <!-- Filter buttons -->
-              <b-col cols="5" class="ml-auto">
-                <category-tree-select v-model="filter.categoriesId" :options="categories" />
-              </b-col>
-              <b-col cols="auto" class="mr-3">
-                <b-button @click="filteringByCategory" squared>Rechercher</b-button>
-              </b-col>
-            </b-row>
-          </b-card-header>
-          <b-card-body class="py-0">
-            <b-row>
-              <!-- Material table -->
-              <b-table
-                primary-key="id"
-                ref="materialTable"
-                :items="materials"
-                :fields="materialFields"
-                :busy.sync="table.isBusy"
-                @sort-changed="sortingChanged"
-                small
-                responsive
-                hover
-                no-local-sorting
-                class="px-1"
-              >
-                <!-- Custom data rendering (category name) -->
-                <template #cell(category_name)="{ item }">
-                  <span
-                    v-if="item.category != null"
-                    class="text-secondary font-italic"
-                  >{{ item.category.name }}</span>
-                </template>
-
-                <!-- Material instances count -->
-                <template #cell(material_instances_count)="{ item }">
-                  <span class="font-italic">
-                    {{
-                    item.material_instances_count
-                    }}
-                  </span>
-                </template>
-
-                <!-- Row details button and modals -->
-                <template #cell(show_details)="row">
-                  <!-- Update modal -->
-                  <update-material-modal
-                    :id="'update-material-modal-' + row.item.id"
-                    :material="row.item"
-                  ></update-material-modal>
-
-                  <!-- Delete Modal -->
-                  <b-modal
-                    :id="'delete-material-modal-' + row.item.id"
-                    :title="'Suppression du matériel ' + row.item.name"
-                    cancel-title="Annuler"
-                    ok-title="Supprimer"
-                    ok-variant="danger"
-                    @ok="onDelete(row.item)"
-                  >
-                    <h3>Attention</h3>
-                    <p>La suppression de ce matériel sera définitive.</p>
-                    <p>Etes-vous sûrs de vouloir continuer ?</p>
-                  </b-modal>
-
-                  <!-- Buttons -->
-                  <div class="float-right">
-                    <b-button size="sm" variant="light" squared @click="onInstance(row.item)">
-                      <i class="fas fa-laptop" />
-                    </b-button>
-                    <b-button size="sm" variant="light" squared @click="onUpdate(row.item)">
-                      <i class="fas fa-edit" />
-                    </b-button>
-                    <b-button size="sm" variant="danger" squared @click="beforeDelete(row.item)">
-                      <i class="fas fa-trash" />
-                    </b-button>
-                    <!-- Toggle row details button -->
-                    <b-button size="sm" variant="light" squared @click="row.toggleDetails">
-                      <span :key="row.detailsShowing ? 'left' : 'down'">
-                        <i
-                          class="fas"
-                          :class="[
-                            row.detailsShowing
-                              ? 'fa-caret-left'
-                              : 'fa-caret-down',
-                          ]"
-                        />
-                      </span>
-                    </b-button>
-
-                    <!-- Menu right side -->
-                    <!-- <b-dropdown
-                      class="borderless"
-                      variant="light"
-                      size="sm"
-                      :id="'dropdown-' + row.item.id"
-                      no-caret
-                    >
-                      <template v-slot:button-content>
-                        <i class="fas fa-ellipsis-v" />
-                      </template>
-                      <b-dropdown-item @click="onInstance(row.item)">
-                        <i class="fas fa-laptop"></i> Instances
-                      </b-dropdown-item>
-                      <b-dropdown-item @click="onUpdate(row.item)">
-                        <i class="fas fa-edit"></i> Editer
-                      </b-dropdown-item>
-                      <b-dropdown-item @click="beforeDelete(row.item)">
-                        <i class="fas fa-trash"></i> Supprimer
-                      </b-dropdown-item>
-                    </b-dropdown>-->
-                  </div>
-                </template>
-
-                <!-- Row details -->
-                <template #row-details="{ item }">
-                  <b-card no-body class="p-2">
-                    <b-row>
-                      <b-col cols="auto">
-                        <b-img :src="item.image_URI" width="100" height="100" />
-                      </b-col>
-                      <b-col>
-                        <h5>Description:</h5>
-                        <span v-html="item.description"></span>
-                      </b-col>
-                      <b-col>
-                        <h5>Note:</h5>
-                        <span v-html="item.note"></span>
-                      </b-col>
-                    </b-row>
-                  </b-card>
-                </template>
-              </b-table>
-            </b-row>
-          </b-card-body>
-        </b-card>
+    <!-- Header -->
+    <b-row class="py-3" id="material-table-row-header">
+      <!-- Create material button -->
+      <b-col cols="auto">
+        <b-button v-b-modal.add-material-modal variant="success" squared>
+          <i class="fas fa-plus"></i> Créer
+        </b-button>
       </b-col>
+      <!-- Filter buttons -->
+      <b-col cols="5" class="ml-auto">
+        <category-tree-select v-model="filter.categoriesId" :options="categories" />
+      </b-col>
+      <b-col cols="auto" class="mr-3">
+        <b-button @click="filteringByCategory" squared>Rechercher</b-button>
+      </b-col>
+    </b-row>
+
+    <!-- Materials table -->
+    <b-row>
+      <b-table
+        id="material-table"
+        class="px-3"
+        primary-key="id"
+        ref="materialTable"
+        :items="materials"
+        :fields="materialFields"
+        :busy.sync="table.isBusy"
+        @sort-changed="sortingChanged"
+        sort-icon-left
+        responsive
+        hover
+        no-local-sorting
+        striped
+        outlined
+      >
+        <!-- Custom header rendering -->
+        <template #head(show_details)>
+          <div class="d-flex justify-content-end">
+            <b-button size="lg" variant="secondary" squared @click="toggleFoldAll" class="header-btn">
+              <span :key="table.isFolded ? 'up' : 'down'">
+                <i class="fas" :class="[table.isFolded ? 'fa-caret-up' : 'fa-caret-down']" />
+              </span>
+            </b-button>
+          </div>
+        </template>
+
+        <!-- Custom data rendering (category name) -->
+        <template #cell(category_name)="{ item }">
+          <span
+            v-if="item.category != null"
+            class="text-secondary font-italic"
+          >{{ item.category.name }}</span>
+        </template>
+
+        <!-- Material instances count -->
+        <template #cell(material_instances_count)="{ item }">
+          <span class="font-italic">{{ item.material_instances_count }}</span>
+        </template>
+
+        <!-- Row details button and modals -->
+        <template #cell(show_details)="row">
+          <!-- Update modal -->
+          <update-material-modal :id="'update-material-modal-' + row.item.id" :material="row.item"></update-material-modal>
+
+          <!-- Delete Modal -->
+          <b-modal
+            :id="'delete-material-modal-' + row.item.id"
+            :title="'Suppression du matériel ' + row.item.name"
+            cancel-title="Annuler"
+            ok-title="Supprimer"
+            ok-variant="danger"
+            @ok="onDelete(row.item)"
+          >
+            <h3>Attention</h3>
+            <p>La suppression de ce matériel sera définitive.</p>
+            <p>Etes-vous sûrs de vouloir continuer ?</p>
+          </b-modal>
+
+          <!-- Buttons -->
+          <div class="float-right">
+            <b-button size="sm" variant="light" squared @click="onInstance(row.item)">
+              <i class="fas fa-laptop" />
+            </b-button>
+            <b-button size="sm" variant="light" squared @click="onUpdate(row.item)">
+              <i class="fas fa-edit" />
+            </b-button>
+            <b-button size="sm" variant="danger" squared @click="beforeDelete(row.item)">
+              <i class="fas fa-trash" />
+            </b-button>
+            <b-button size="sm" variant="light" squared @click="row.toggleDetails">
+              <span :key="row.detailsShowing ? 'up' : 'down'">
+                <i class="fas" :class="[row.detailsShowing ? 'fa-caret-up' : 'fa-caret-down']" />
+              </span>
+            </b-button>
+          </div>
+        </template>
+
+        <!-- Row details -->
+        <template #row-details="{ item }">
+          <b-card no-body class="p-2">
+            <b-row>
+              <b-col cols="auto">
+                <b-img :src="item.image_URI" width="100" height="100" />
+              </b-col>
+              <b-col>
+                <h5>Description:</h5>
+                <span v-html="item.description"></span>
+              </b-col>
+              <b-col>
+                <h5>Note:</h5>
+                <span v-html="item.note"></span>
+              </b-col>
+            </b-row>
+          </b-card>
+        </template>
+      </b-table>
     </b-row>
   </b-container>
 </template>
@@ -181,13 +148,14 @@ export default {
         { key: "name", label: "Nom", sortable: true },
         { key: "category_name", label: "Catégorie", sortable: true },
         { key: "material_instances_count", label: "Quantité" },
-        { key: "show_details", label: "" },
+        { key: "show_details", label: "", thClass: "fold-header align" },
       ],
       filter: {
         categoriesId: [],
       },
       table: {
         isBusy: false,
+        isFolded: false,
       },
     };
   },
@@ -238,6 +206,10 @@ export default {
         });
     },
     // Table item operations
+    toggleFoldAll() {
+      console.log("fold table");
+      this.table.isFolded = !this.table.isFolded;
+    },
     onInstance(material) {
       // TODO show material instances view for material
       console.log("instance");
@@ -263,3 +235,20 @@ export default {
   },
 };
 </script>
+
+<style>
+/* Table styling */
+#material-table-row-header {
+  background: #f2f2f2;
+}
+
+#material-table th {
+  padding-top: 0;
+  padding-bottom: 0;
+  vertical-align: middle;
+}
+
+#material-table .fold-header {
+  padding: 0;
+}
+</style>
