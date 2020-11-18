@@ -6,7 +6,7 @@
     <add-material-modal id="add-material-modal" static lazy></add-material-modal>
 
     <!-- Header -->
-    <b-row class="py-3" id="material-table-row-header">
+    <b-row class="py-3" id="material-options-row">
       <!-- Create material button -->
       <b-col cols="auto">
         <b-button v-b-modal.add-material-modal variant="success" squared>
@@ -17,7 +17,7 @@
       <b-col cols="5" class="ml-auto">
         <category-tree-select v-model="filter.categoriesId" :options="categories" />
       </b-col>
-      <b-col cols="auto" class="mr-3">
+      <b-col cols="auto">
         <b-button @click="filteringByCategory" squared>Rechercher</b-button>
       </b-col>
     </b-row>
@@ -240,8 +240,8 @@ export default {
 
 <style>
 /* Table styling */
-#material-table-row-header {
-  background: #f2f2f2;
+#material-options-row {
+  /* background: #f2f2f2; */
 }
 
 #material-table th {
