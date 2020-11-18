@@ -207,8 +207,10 @@ export default {
     },
     // Table item operations
     toggleFoldAll() {
-      console.log("fold table");
+      // get material table and iterate on all rows to toggle details
       this.table.isFolded = !this.table.isFolded;
+      this.materials.forEach(material => material._showDetails = this.table.isFolded);
+
     },
     onInstance(material) {
       // TODO show material instances view for material
