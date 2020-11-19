@@ -26,6 +26,21 @@ class InfoController extends Controller
      */
     public function index()
     {
+        $info = [
+            'OS' => php_uname('v'),
+            'Environnement' => config('app.env'),
+            'URL' => config('app.url'),
+            'Debug mode' => config('app.debug') ? 'True' : 'False',
+            'PHP' => phpversion(),
+            'Laravel' => App::version(),
+            'Database' => $this->getDatabaseInfo(),
+        ];
+
+        return view('admin.info', ['info' => $info]);
+    }
+
+    private function getDatabaseInfo()
+    {
         if (config('database.default') === 'mysql') {
             $results = DB::select(DB::raw("select version()"));
             $dbVersion =  $results[0]->{'version()'};
@@ -34,22 +49,12 @@ class InfoController extends Controller
             if (strpos($dbVersion, 'Maria') !== false) {
                 $db = 'MariaDB';
             };
-            
+
             $dbInfo = $db . ' ' . $dbVersion;
-        }
-        else {
+        } else {
             $dbInfo = config('datbase.default');
         }
 
-        $info = [
-            'Environnement' => config('app.env'),
-            'URL' => config('app.url'),
-            'Debug mode' => config('app.debug') ? 'True' : 'False',
-            'PHP' => phpversion(),
-            'Laravel' => App::version(),
-            'Database' => $dbInfo,
-        ];
-
-        return view('admin.info', ['info' => $info]);
+        return $dbInfo;
     }
 }
