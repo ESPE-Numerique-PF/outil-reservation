@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div>
+<b-container class="py-3">
     
-</div>
+</b-container>
 @endsection

@@ -1,30 +1,11 @@
 <template>
-  <div class="container">
+  <b-container class="py-3">
     <h1>Matériel</h1>
-    <ul>
-      <li v-for="category in categories" :key="category.id">
-          {{ category.name }}
-      </li>
-    </ul>
-  </div>
+    <p>Page en construction.</p>
+  </b-container>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-
 export default {
-  computed: {
-    ...mapGetters({
-      categories: "categories",
-    }),
-  },
-  methods: {
-    ...mapActions({
-      fetchCategories: "fetchCategories"
-    })
-  },
-  mounted() {
-    this.fetchCategories();
-  }
  };
 </script>

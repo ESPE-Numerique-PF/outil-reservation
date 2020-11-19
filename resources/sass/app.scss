@@ -1,11 +1,16 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+
 // Variables
 @import 'variables';
+
 // Custom style
 @import 'custom.scss';
+@import 'server-info.scss';
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
+
 // override bootstrap
 @import 'custom-bootstrap.scss';

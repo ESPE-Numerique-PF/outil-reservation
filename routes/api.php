@@ -1,13 +1,7 @@
 <?php
 
-use App\Category;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
 use App\Http\Resources\UserResource;
-use App\Material;
-use App\Services\NestedService;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +33,7 @@ Route::middleware(['auth.basic', 'admin:api'])->group(function () {
 
     // additionnal routes
     Route::post('/materials/filter', 'MaterialController@index');
+    Route::post('/material_instances/filter', 'MaterialInstanceController@index');
 
     // api resource routes
     Route::apiResources([

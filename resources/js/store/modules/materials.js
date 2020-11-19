@@ -30,11 +30,14 @@ const actions = {
 
     },
     filterMaterials({ commit }, { filters }) {
-        api.filter(filters)
-            .then((response) => {
-                commit('FETCH_MATERIALS', response.data)
-            })
-            .catch(error => console.log(error))
+        return new Promise((resolve, reject) => {
+            api.filter(filters)
+                .then((response) => {
+                    commit('FETCH_MATERIALS', response.data);
+                    resolve('filtering complete')
+                })
+                .catch(error => reject(error));
+        })
     },
     updateMaterial({ commit }, { materialId, material }) {
         api.update(materialId, material)

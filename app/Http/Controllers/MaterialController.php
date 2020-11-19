@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\MaterialResource;
 use App\Material;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -37,11 +36,12 @@ class MaterialController extends Controller
     public function index(Request $request)
     {
         $categoriesId = $request->categoriesId;
-        $sortBy = $request->sortBy;
-        $sortDesc = $request->sortDesc;
+        $sortBy = $request->sortBy ?? 'category_name';
+        $sortDesc = $request->sortDesc ?? false;
 
         // prepare query
-        $query = Material::query();
+        $query = Material::select('materials.*', 'categories.name as category_name')
+            ->leftJoin('categories', 'categories.id', '=', 'materials.category_id');
 
         // apply filters
         if (!empty($categoriesId))
