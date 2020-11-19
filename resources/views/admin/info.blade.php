@@ -7,24 +7,14 @@
         <h1>Info</h1>
     </div>
     <div class="row">
-        <table class="table table-bordered">
+        <table id="server-info-table" class="table table-bordered">
             <tbody>
+                @foreach ($info as $key => $value)
                 <tr>
-                    <th scope="row">Environnement</th>
-                    <td>{{ config('app.env') }}</td>
+                    <th scope="row">{{ $key }}</th>
+                    <td>{{ $value }}</td>
                 </tr>
-                <tr>
-                    <th scope="row">URL</th>
-                    <td>{{ config('app.url') }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Debug mode</th>
-                    <td>{{ config('app.debug') ? 'True' : 'False'}}</td>
-                </tr>
-                <tr>
-                    <th scope="row">PHP version</th>
-                    <td>{{ phpversion() }}</td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

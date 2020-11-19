@@ -35,9 +35,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/test', function () {
         return view('admin.test');
     });
-    Route::get('/admin/info', function () {
-        return view('admin.info');
-    });
+    Route::get('/admin/info', 'InfoController@index');
 });
 
 /*
