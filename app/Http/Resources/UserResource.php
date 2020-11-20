@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\User;
-use App\UserJob;
+use App\Models\User;
+use App\Models\UserJob;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 

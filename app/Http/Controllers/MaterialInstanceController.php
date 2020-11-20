@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\MaterialInstanceResource;
-use App\MaterialInstance;
+use App\Models\MaterialInstance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Resources\UserResource;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 

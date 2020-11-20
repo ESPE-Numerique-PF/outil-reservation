@@ -1,6 +1,6 @@
 <?php
 
-use App\UserJob;
+use App\Models\UserJob;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;

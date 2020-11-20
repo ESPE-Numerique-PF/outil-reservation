@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Material;
-use App\MaterialInstance;
+use App\Models\Material;
+use App\Models\MaterialInstance;
 use Illuminate\Database\Seeder;
 
 class MaterialInstanceSeeder extends Seeder
