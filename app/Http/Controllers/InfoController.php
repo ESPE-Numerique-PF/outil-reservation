@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
  */
 class InfoController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -19,6 +18,11 @@ class InfoController extends Controller
     public function __construct()
     {
         $this->middleware(['auth', 'admin']);
+    }
+
+    public function view()
+    {
+        return view('admin.info');
     }
 
     /**
@@ -50,7 +54,7 @@ class InfoController extends Controller
         if ($code === 0)
             $info['NPM'] = $npmVersion;
 
-        return view('admin.info', ['info' => $info]);
+        return response($info);
     }
 
     /**

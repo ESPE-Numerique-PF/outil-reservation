@@ -36,6 +36,7 @@ Vue.component('material-list-component', require('./pages/MaterialListComponent.
 Vue.component('admin-category-management-component', require('./pages/admin/CategoryManagementComponent.vue').default);
 Vue.component('admin-material-management-component', require('./pages/admin/MaterialManagementComponent.vue').default);
 Vue.component('admin-test-component', require('./pages/admin/TestComponent.vue').default);
+Vue.component('admin-info-component', require('./pages/admin/InfoComponent.vue').default);
 
 /**
  * Import Vuex store

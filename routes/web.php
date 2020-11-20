@@ -35,7 +35,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/test', function () {
         return view('admin.test');
     });
-    Route::get('/admin/info', 'InfoController@index');
+    Route::get('/admin/info', 'InfoController@view');
 });
 
 /*
@@ -72,4 +72,7 @@ Route::prefix('resources')->middleware(['auth', 'admin:api'])->group(function ()
         'materials' => 'MaterialController',
         'material_instances' => 'MaterialInstanceController',
     ]);
+
+    // server info route
+    Route::get('info', 'InfoController@index');
 });
