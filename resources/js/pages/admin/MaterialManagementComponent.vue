@@ -39,11 +39,18 @@
         no-local-sorting
         striped
         outlined
+        details-td-class="p-0"
       >
         <!-- Custom header rendering -->
         <template #head(show_details)>
           <div class="d-flex justify-content-end">
-            <b-button size="lg" variant="secondary" squared @click="toggleFoldAll" class="header-btn">
+            <b-button
+              size="lg"
+              variant="secondary"
+              squared
+              @click="toggleFoldAll"
+              class="header-btn"
+            >
               <span :key="table.isFolded ? 'up' : 'down'">
                 <i class="fas" :class="[table.isFolded ? 'fa-caret-up' : 'fa-caret-down']" />
               </span>
@@ -103,22 +110,20 @@
         </template>
 
         <!-- Row details -->
-        <template #row-details="{ item }">
-          <b-card no-body class="p-2">
-            <b-row>
-              <b-col cols="auto">
-                <b-img :src="item.image_URI" width="100" height="100" />
-              </b-col>
-              <b-col>
-                <h5>Description:</h5>
-                <span v-html="item.description"></span>
-              </b-col>
-              <b-col>
-                <h5>Note:</h5>
-                <span v-html="item.note"></span>
-              </b-col>
-            </b-row>
-          </b-card>
+        <template #row-details="{ item }" class="p-0">
+          <b-row class="p-3 bg-white">
+            <b-col cols="auto">
+              <b-img :src="item.image_URI" width="100" height="100" />
+            </b-col>
+            <b-col>
+              <h5>Description:</h5>
+              <span v-html="item.description"></span>
+            </b-col>
+            <b-col>
+              <h5>Note:</h5>
+              <span v-html="item.note"></span>
+            </b-col>
+          </b-row>
         </template>
       </b-table>
     </b-row>
@@ -209,8 +214,9 @@ export default {
     toggleFoldAll() {
       // get material table and iterate on all rows to toggle details
       this.table.isFolded = !this.table.isFolded;
-      this.materials.forEach(material => material._showDetails = this.table.isFolded);
-
+      this.materials.forEach(
+        (material) => (material._showDetails = this.table.isFolded)
+      );
     },
     onInstance(material) {
       // TODO show material instances view for material
@@ -240,10 +246,6 @@ export default {
 
 <style>
 /* Table styling */
-#material-options-row {
-  /* background: #f2f2f2; */
-}
-
 #material-table th {
   padding-top: 0;
   padding-bottom: 0;
@@ -253,4 +255,5 @@ export default {
 #material-table .fold-header {
   padding: 0;
 }
+
 </style>
