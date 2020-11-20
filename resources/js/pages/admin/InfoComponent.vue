@@ -17,18 +17,19 @@
 export default {
   data() {
     return {
-      info: []
+      info: {}
     };
   },
   methods: {
     getInfo() {
       axios.get('info')
-        .then(response => this.info = response.data)
+        .then(response => this.info = Object.assign({}, response.data, this.info))
         .catch(error => console.log(error));
     }
   },
   mounted() {
     this.getInfo();
+    this.info['VueJS'] = Vue.version;
   }
 };
 </script>
