@@ -4,7 +4,6 @@ namespace App\Http;
 
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\AuthenticateOnceWithBasicAuth;
-use App\Http\Middleware\CorsMiddleware;
 use Fruitcake\Cors\HandleCors;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
