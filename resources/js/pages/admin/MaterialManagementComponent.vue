@@ -1,7 +1,5 @@
 <template>
   <b-container fluid>
-    <!-- <h2>Matériel</h2> -->
-
     <!-- Add material modal -->
     <add-material-modal id="add-material-modal" static lazy></add-material-modal>
 
@@ -24,7 +22,9 @@
 
     <!-- Materials table -->
     <b-row>
-      <material-table :materials="materials" @sort-changed="sortingChanged"></material-table>
+      <b-col>
+        <material-table :materials="materials" @sort-changed="sortingChanged"></material-table>
+      </b-col>
     </b-row>
   </b-container>
 </template>

@@ -1,10 +1,10 @@
 /**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
+ * Load dependencies and vue components
  */
 
 require('./bootstrap');
+require('./components')
+
 require('@fortawesome/fontawesome-free/js/all.js');
 
 
@@ -13,9 +13,6 @@ import BootstrapVue from 'bootstrap-vue'
 
 window.Vue = require('vue');
 
-/**
- * Register components
- */
 Vue.use(BootstrapVue);
 
 /**
@@ -30,13 +27,14 @@ Vue.use(BootstrapVue);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 // public views
-Vue.component('material-list-component', require('./pages/MaterialListComponent.vue').default);
+// Vue.component('material-list-component', require('./pages/MaterialListComponent.vue').default);
 
-// admin views
-Vue.component('admin-category-management-component', require('./pages/admin/CategoryManagementComponent.vue').default);
-Vue.component('admin-material-management-component', require('./pages/admin/MaterialManagementComponent.vue').default);
-Vue.component('admin-test-component', require('./pages/admin/TestComponent.vue').default);
-Vue.component('admin-info-component', require('./pages/admin/InfoComponent.vue').default);
+// // admin views
+// Vue.component('admin-category-management-component', require('./pages/admin/CategoryManagementComponent.vue').default);
+// Vue.component('admin-material-management-component', require('./pages/admin/MaterialManagementComponent.vue').default);
+// Vue.component('admin-material-instance-management-component', require('./pages/admin/MaterialInstanceManagementComponent.vue').default);
+// Vue.component('admin-test-component', require('./pages/admin/TestComponent.vue').default);
+// Vue.component('admin-info-component', require('./pages/admin/InfoComponent.vue').default);
 
 /**
  * Import Vuex store

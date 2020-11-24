@@ -22,13 +22,14 @@ Auth::routes();
 // Auth routes
 Route::middleware('auth')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/reservation', 'ReservationController@view');
     Route::get('/material', 'MaterialController@view');
+    Route::get('/booking', 'BookingController@view');
 });
 
 // Auth and Admin routes
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/material', 'MaterialController@adminView');
+    Route::get('/admin/material_instance', 'MaterialInstanceController@adminView');
     Route::get('/admin/category', 'CategoryController@adminView');
 
     // Test route

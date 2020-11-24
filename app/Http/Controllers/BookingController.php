@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ReservationController extends Controller
+class BookingController extends Controller
 {
-    
+
     public function view()
     {
-        return view('reservation');
+        return view('booking');
     }
-
 }

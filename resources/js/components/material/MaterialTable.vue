@@ -1,7 +1,6 @@
 <template>
   <b-table
     id="material-table"
-    class="px-3"
     primary-key="id"
     :items="materials"
     :fields="fields"
@@ -107,18 +106,20 @@ export default {
     materials: {
       type: Array,
       default: function () {
-        return []},
+        return [];
+      },
     },
     fields: {
       type: Array,
       default: function () {
         return [
-        // { key: "selected", label: "" }, // TODO grouped actions on selected items
-        { key: "name", label: "Nom", sortable: true },
-        { key: "category_name", label: "Catégorie", sortable: true },
-        { key: "material_instances_count", label: "Quantité" },
-        { key: "show_details", label: "", thClass: "fold-header align" },
-      ]},
+          // { key: "selected", label: "" }, // TODO grouped actions on selected items
+          { key: "name", label: "Nom", sortable: true },
+          { key: "category_name", label: "Catégorie", sortable: true },
+          { key: "material_instances_count", label: "Quantité" },
+          { key: "show_details", label: "", thClass: "fold-header align" },
+        ];
+      },
     },
     sortingChanged: {
       type: Function,
@@ -135,17 +136,20 @@ export default {
   methods: {
     // Events
     emitSortChangedEvent(ctx) {
-      this.$emit('sort-changed', ctx);
+      this.$emit("sort-changed", ctx);
     },
 
+    // actions
     toggleFoldAll() {
       // add / set _showDetails property to each material respecting VueJS Reactivity in Depth
       this.table.isFolded = !this.table.isFolded;
-      this.materials.forEach(
-        (material) => (Vue.set(material, '_showDetails', this.table.isFolded))
+      this.materials.forEach((material) =>
+        Vue.set(material, "_showDetails", this.table.isFolded)
       );
     },
-
+    onInstance(material) {
+        console.log(material.id)
+    },
     onUpdate(material) {
       this.$bvModal.show("update-material-modal-" + material.id);
     },
@@ -164,7 +168,7 @@ export default {
 };
 </script>
 
-<style> 
+<style>
 /* Table styling */
 #material-table th {
   padding-top: 0;

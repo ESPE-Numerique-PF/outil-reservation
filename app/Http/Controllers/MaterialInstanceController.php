@@ -27,7 +27,7 @@ class MaterialInstanceController extends Controller
     public function adminView()
     {
         // TODO view all material instance admin
-        // return view('admin.material_instance');
+        return view('admin.material_instance');
     }
 
     /**

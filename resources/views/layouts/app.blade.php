@@ -42,37 +42,40 @@
                         @auth
                         <ul class="navbar-nav mr-auto">
                             <!-- Reservation menu -->
-                            <li class="nav-item">
-                                <a href="{{ url('reservation') }}" class="nav-link">Réservations</a>
+                            <li class="nav-item mr-3">
+                                <a href="{{ url('booking') }}" class="nav-link"><i class="fas fa-calendar-day"></i> Réservations</a>
                             </li>
 
                             <!-- Ressources menu -->
-                            <li class="nav-item">
-                                <a href="{{ url('material') }}" class="nav-link">Ressources</a>
+                            <li class="nav-item mr-3">
+                                <a href="{{ url('material') }}" class="nav-link"><i class="fas fa-cube"></i> Ressources</a>
                             </li>
 
                             <!-- Admin menu -->
                             @if (Auth::user()->isAdmin())
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown mr-3">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    Administration
+                                    <i class="fas fa-unlock"></i> Administration
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ url('admin/category') }}">
-                                        Gestion des catégories
+                                        <i class="fas fa-project-diagram"></i> Catégories
                                     </a>
 
                                     <a class="dropdown-item" href="{{ url('admin/material') }}">
-                                        Gestion du matériel
+                                        <i class="fas fa-box"></i> Matériel
+                                    </a>
+
+                                    <a class="dropdown-item" href="{{ url('admin/material_instance') }}">
+                                        <i class="fas fa-boxes"></i> Instances de matériel
                                     </a>
 
                                     <a class="dropdown-item" href="{{ url('admin/test') }}">
-                                        Page de test
-                                    
+                                        <i class="fas fa-bug"></i> Test
                                     </a>
                                     <a class="dropdown-item" href="{{ url('admin/info') }}">
-                                        Informations serveur
+                                        <i class="fas fa-server"></i> Informations serveur
                                     </a>
                                 </div>
                             </li>
@@ -89,7 +92,7 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}
                                     @if (Auth::user()->isAdmin())
-                                    (admin)
+                                    <i class="fas fa-star"></i>
                                     @endif
                                 </a>
 
