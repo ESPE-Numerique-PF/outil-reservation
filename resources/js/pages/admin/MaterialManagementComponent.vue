@@ -8,8 +8,8 @@
 
       <!-- Create material button -->
       <b-col cols="auto">
-        <b-button v-b-modal.add-material-modal variant="success" squared>
-          <i class="fas fa-plus"></i> Créer
+        <b-button v-b-modal.add-material-modal variant="validation" squared>
+          <i class="fas fa-plus"></i> Ajouter
         </b-button>
       </b-col>
 
@@ -39,12 +39,8 @@ import MaterialTable from "@/components/material/MaterialTable";
 import AddMaterialModal from "@/components/material/AddMaterialModal";
 import CategoryTreeSelect from "@/components/category/CategoryTreeSelect";
 
-import TreeSelect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-
 export default {
   components: {
-    TreeSelect,
     MaterialTable,
     AddMaterialModal,
     CategoryTreeSelect,

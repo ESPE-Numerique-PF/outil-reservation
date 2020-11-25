@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function () {
 
 // Auth and Admin routes
 Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/resource', function () {
+        return view('admin.resource');
+    });
     Route::get('/admin/material', 'MaterialController@adminView');
     Route::get('/admin/material_instance', 'MaterialInstanceController@adminView');
     Route::get('/admin/category', 'CategoryController@adminView');

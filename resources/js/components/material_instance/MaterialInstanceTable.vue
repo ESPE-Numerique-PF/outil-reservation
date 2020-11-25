@@ -27,10 +27,11 @@ export default {
       type: Array,
       default: function () {
         return [
-          { key: "name", label: "Nom", sortable: true },
           { key: "reference", label: "Référence", sortable: true },
+          { key: "name", label: "Nom", sortable: true },
           { key: "category_name", label: "Catégorie", sortable: true },
           { key: "material_name", label: "Matériel", sortable: true },
+          { key: "options", label: "" },
         ];
       },
     },
@@ -43,11 +44,13 @@ export default {
 };
 </script>
 
-<style>
-/* Table styling */
+<style lang="scss">
+
+$paddingHeader: 0.25rem;
+
 #material-instance-table th {
-  padding-top: 0;
-  padding-bottom: 0;
+  padding-top: $paddingHeader;
+  padding-bottom: $paddingHeader;
   vertical-align: middle;
 }
 

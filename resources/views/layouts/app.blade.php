@@ -27,7 +27,7 @@
 
         <!-- Header -->
         <header class="main-header">
-            <nav class="navbar navbar-expand-md navbar-dark bg-espe shadow-sm py-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-espe shadow-sm py-0">
                 <div class="container-fluid">
 
                     <a class="navbar-brand" href="{{ url('/') }}">
@@ -59,7 +59,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ url('admin/category') }}">
+                                    <a class="dropdown-item" href="{{ url('admin/resource') }}">
+                                        <i class="fas fa-boxes"></i> Ressources
+                                    </a>
+
+                                    <!-- <a class="dropdown-item" href="{{ url('admin/category') }}">
                                         <i class="fas fa-project-diagram"></i> Catégories
                                     </a>
 
@@ -69,7 +73,7 @@
 
                                     <a class="dropdown-item" href="{{ url('admin/material_instance') }}">
                                         <i class="fas fa-boxes"></i> Instances de matériel
-                                    </a>
+                                    </a> -->
 
                                     <a class="dropdown-item" href="{{ url('admin/test') }}">
                                         <i class="fas fa-bug"></i> Test

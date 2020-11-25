@@ -1,6 +1,5 @@
 <template>
   <b-container class="py-3">
-    <h2>Catégories de matériel</h2>
 
     <!-- Add category modal -->
     <add-category-modal
@@ -10,11 +9,11 @@
     <b-row class="mb-2">
     <!-- Add button -->
       <b-col cols="auto" class="mr-auto">
-        <b-button v-b-modal.add-category-modal variant="light"><i class="fas fa-plus"></i> Créer</b-button>
+        <b-button v-b-modal.add-category-modal variant="validation" squared><i class="fas fa-plus"></i> Ajouter</b-button>
       </b-col>
       <b-col cols="auto">
-        <b-button variant="light" @click="unfoldAll">Tout étendre</b-button>
-        <b-button variant="light" @click="foldAll">Tout réduire</b-button>
+        <b-button variant="light" @click="unfoldAll"><i class="fas fa-plus-square"></i></b-button>
+        <b-button variant="light" @click="foldAll"><i class="fas fa-minus-square"></i></b-button>
       </b-col>
     </b-row>
 
@@ -84,6 +83,7 @@ export default {
 
   mounted() {
     // sync call
+    console.log('category mounted')
     this.fetchCategories(() => {
       this.dataFetchedAfterMounted = true; // help to fold all item when tree is mounted
     });

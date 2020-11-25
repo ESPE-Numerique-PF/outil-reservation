@@ -113,11 +113,10 @@ export default {
       type: Array,
       default: function () {
         return [
-          // { key: "selected", label: "" }, // TODO grouped actions on selected items
           { key: "name", label: "Nom", sortable: true },
           { key: "category_name", label: "Catégorie", sortable: true },
           { key: "material_instances_count", label: "Quantité" },
-          { key: "show_details", label: "", thClass: "fold-header align" },
+          { key: "show_details", label: "", thClass: "fold-header" },
         ];
       },
     },
@@ -138,7 +137,6 @@ export default {
     emitSortChangedEvent(ctx) {
       this.$emit("sort-changed", ctx);
     },
-
     // actions
     toggleFoldAll() {
       // add / set _showDetails property to each material respecting VueJS Reactivity in Depth
@@ -148,7 +146,7 @@ export default {
       );
     },
     onInstance(material) {
-        console.log(material.id)
+      console.log(material.id);
     },
     onUpdate(material) {
       this.$bvModal.show("update-material-modal-" + material.id);
@@ -168,15 +166,17 @@ export default {
 };
 </script>
 
-<style>
-/* Table styling */
-#material-table th {
-  padding-top: 0;
-  padding-bottom: 0;
-  vertical-align: middle;
+<style lang="scss">
+#material-table {
+  th {
+    padding-top: 0;
+    padding-bottom: 0;
+    vertical-align: middle;
+  }
+
+  .fold-header {
+    padding: 0;
+  }
 }
 
-#material-table .fold-header {
-  padding: 0;
-}
 </style>

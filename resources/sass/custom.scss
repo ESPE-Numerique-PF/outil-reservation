@@ -35,5 +35,6 @@ html * {
  *  Bootstrap extend color (usable with variant colors)
  */
 
- $theme-colors: ( "espe": #407294, "orange": #e6912c);
- 
+$theme-colors: ("espe": #407294,
+    "orange": #e6912c,
+    "validation": #50a73f);

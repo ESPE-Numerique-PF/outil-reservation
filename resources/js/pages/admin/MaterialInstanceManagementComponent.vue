@@ -4,8 +4,8 @@
     <!-- Header -->
     <b-row class="py-3">
       <b-col>
-        <b-button>
-          <i class="fas fa-plus"></i> Créer
+        <b-button variant="validation" squared>
+          <i class="fas fa-plus"></i> Ajouter
         </b-button>
       </b-col>
     </b-row>
