@@ -5,12 +5,14 @@
 
     <!-- Header -->
     <b-row class="py-3" id="material-options-row">
+
       <!-- Create material button -->
       <b-col cols="auto">
         <b-button v-b-modal.add-material-modal variant="success" squared>
           <i class="fas fa-plus"></i> Créer
         </b-button>
       </b-col>
+
       <!-- Filter buttons -->
       <b-col cols="5" class="ml-auto">
         <category-tree-select v-model="filter.categoriesId" :options="categories" />
@@ -19,6 +21,7 @@
         <b-button @click="filteringByCategory" squared>Rechercher</b-button>
       </b-col>
     </b-row>
+    <!-- End header -->
 
     <!-- Materials table -->
     <b-row>
@@ -26,14 +29,15 @@
         <material-table :materials="materials" @sort-changed="sortingChanged"></material-table>
       </b-col>
     </b-row>
+    <!-- End materials table -->
   </b-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import MaterialTable from "../../components/material/MaterialTable";
-import AddMaterialModal from "../../components/material/AddMaterialModal";
-import CategoryTreeSelect from "../../components/category/CategoryTreeSelect";
+import MaterialTable from "@/components/material/MaterialTable";
+import AddMaterialModal from "@/components/material/AddMaterialModal";
+import CategoryTreeSelect from "@/components/category/CategoryTreeSelect";
 
 import TreeSelect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";

@@ -76,8 +76,8 @@
 </template>
 
 <script>
-import UpdateCategoryModal from "../../components/category/UpdateCategoryModal.vue";
-import AddCategoryModal from "../../components/category/AddCategoryModal.vue";
+import UpdateCategoryModal from "@/components/category/UpdateCategoryModal.vue";
+import AddCategoryModal from "@/components/category/AddCategoryModal.vue";
 
 export default {
   components: {

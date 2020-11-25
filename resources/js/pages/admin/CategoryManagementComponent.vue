@@ -45,9 +45,9 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { cloneTreeData } from "he-tree-vue";
-import CategoryTree from "../../components/category/CategoryTree";
-import CategoryListItem from "../../components/category/CategoryListItem";
-import AddCategoryModal from "../../components/category/AddCategoryModal";
+import CategoryTree from "@/components/category/CategoryTree";
+import CategoryListItem from "@/components/category/CategoryListItem";
+import AddCategoryModal from "@/components/category/AddCategoryModal";
 
 export default {
   components: {
